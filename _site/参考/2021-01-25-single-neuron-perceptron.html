@@ -7,9 +7,9 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>羽落天青 | Uke's Blog</title>
-	<link rel="canonical" href="http://localhost:4000/page2/">
-	<meta name="description" content="Life at NJU & Beyond. Documenting the daily grinds and joys of Tianyi Yu.">
+	<title>Single Neuron Perceptron - 羽落天青 | Uke's Blog</title>
+	<link rel="canonical" href="http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html">
+	<meta name="description" content="Single neuron perceptron that classifies elements learning quite quickly.">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 <script type="application/ld+json">
@@ -19,16 +19,16 @@
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": "http://localhost:4000"},
-  "headline": "羽落天青 | Uke's Blog",
-  "abstract": "",
-    "keywords": "",
-    "wordcount": "26",
-    "image": ["http://localhost:4000/assets/img"],
-  "datePublished": "",
-  "dateModified": "",
+  "headline": "Single Neuron Perceptron",
+  "abstract": "Single neuron perceptron that classifies elements learning quite quickly.",
+    "keywords": "machine learning, coding, neural networks",
+    "wordcount": "1026",
+    "image": ["http://localhost:4000/assets/imgassets/img/posts/20210125/Perceptron.jpg"],
+  "datePublished": "2021-01-25 13:32:20 -0600",
+  "dateModified": "2021-01-25 13:32:20 -0600",
   "author": {
     "@type": "Person",
-    "name": ""},
+    "name": "Armando Maynez"},
   "publisher": {
     "@type":  "Organization",
     "logo": {
@@ -40,30 +40,30 @@
 }
 </script>
 <!-- Open Graph data -->
-<meta property="og:url" content="http://localhost:4000/page2/"/>
+<meta property="og:url" content="http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html"/>
 <meta property="og:type" content="article"/>
-<meta property="og:title" content="羽落天青 | Uke's Blog"/>
-<meta property="og:description" content=""/>
-<meta property="og:image" content="http://localhost:4000/assets/img"/>
-<meta property="og:image:alt" content=""/>
+<meta property="og:title" content="Single Neuron Perceptron"/>
+<meta property="og:description" content="Single neuron perceptron that classifies elements learning quite quickly."/>
+<meta property="og:image" content="http://localhost:4000/assets/imgassets/img/posts/20210125/Perceptron.jpg"/>
+<meta property="og:image:alt" content="Single Neuron Perceptron"/>
 <meta property="og:site_name" content="羽落天青 | Uke's Blog" />
-<meta property="article:published_time" content="" />
-<meta property="article:modified_time" content="" />
-<meta property="article:tag" content="" />
+<meta property="article:published_time" content="2021-01-25 13:32:20 -0600" />
+<meta property="article:modified_time" content="2021-01-25 13:32:20 -0600" />
+<meta property="article:tag" content="machine learning, coding, neural networks" />
 <meta property="fb:admins" content="ar.maybach" />
 <!-- Schema.org markup for Google -->
-<meta itemprop="name" content="羽落天青 | Uke's Blog">
-<meta itemprop="description" content="">
-<meta itemprop="image" content="http://localhost:4000/assets/img">
+<meta itemprop="name" content="Single Neuron Perceptron">
+<meta itemprop="description" content="Single neuron perceptron that classifies elements learning quite quickly.">
+<meta itemprop="image" content="http://localhost:4000/assets/imgassets/img/posts/20210125/Perceptron.jpg">
 <!-- Twitter Card data -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="">
-<meta name="twitter:title" content="羽落天青 | Uke's Blog">
-<meta name="twitter:description" content="">
+<meta name="twitter:title" content="Single Neuron Perceptron">
+<meta name="twitter:description" content="Single neuron perceptron that classifies elements learning quite quickly.">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="26"/>
-<meta name="twitter:image:src" content="http://localhost:4000/assets/img/">
+<meta data-rh="true" name="twitter:data1" content="1026"/>
+<meta name="twitter:image:src" content="http://localhost:4000/assets/img/assets/img/posts/20210125/Perceptron.jpg">
 	<!-- Windows Phone -->
 	<meta name="msapplication-navbutton-color" content="#311e3e">
 	<!-- iOS Safari -->
@@ -127,10 +127,55 @@
 <link rel="apple-touch-icon" sizes="72x72" href="../assets/img/favicon/favicon.ico">
 <link rel="apple-touch-icon" sizes="114x114" href="../assets/img/favicon/favicon.ico">
 	
+	<link rel="stylesheet" href="../assets/css/highlighter/syntax-base16.monokai.dark.css">
+	
 </head>
 
   <body>
-    <div class="flex-container transparent">
+    
+
+
+
+
+<section class="hidden">
+  <div class="post">
+      <a  class="post-list-title" href="../%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html">Single Neuron Perceptron</a>
+      
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2021-01-26T03:32:20+08:00">January 25, 2021</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    <span class="page_meta-readtime">
+      
+        5 minute read
+      
+    </span>
+  
+  
+  </span>
+
+        <div class="post-excerpt">
+            <p>As an entry point to learning python and getting into Machine Learning, I decided to code from scratch the Hello World! of the field, a single neuron perceptron.</p><h2 id="what-is-a-perceptron">What is a perceptron?</h2><p>A perceptron is the basic building block of a neural network, it can be compared to a neuron, And its conception is what detonated the vast field of Artificial Intelligence nowadays.</p><p>Back in the late 1950’s, a young <a href="https://en.wikipedia.org/wiki/Frank_Rosenblatt">Frank Rosenblatt</a> devised a very simple algorithm as a foundation to construct a machine that could learn to perform different tasks.</p><p>In its essence, a perceptron is nothing more than a collection...<a class="read-more" href="../%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html"> read more</a>
+        </div>
+  </div>
+</section>
+<div class="flex-container transparent">
   
 
 
@@ -221,69 +266,35 @@
   </div>
 </header> <!-- End Header -->
 
-  <div class="content wrapper">
-    
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Single Neuron Perceptron">
+<meta itemprop="description" content="Single neuron perceptron that classifies elements learning quite quickly.">
+<meta itemprop="datePublished" content="2021-01-26T03:32:20+08:00">
 
-
-
-<ol class="post-card-box clearfix">
-  
-  
-
-  <li>
-    <div class="post-card">
-      <a href="../conways-game-of-life.html" title="Conway's Game of Life" class="post-card-image" style="background: url('../assets/img/posts/20210210/Game_of_Life.jpg') center no-repeat; background-size: cover;">
-      </a>
-      <div class="post-card-body">
-        <p class="post-card-title-and-meta">
-          
-          <a href="../conways-game-of-life.html" class="post-card-link">
-          Conway's Game of Life
-          </a>
-          
-
-  <span class = "post-card-meta">
-  
-  
-    <span class="meta-pre"></span>
-  
-  
-  
-    
-    
-    <span class="page_meta-readtime">
-      
-        3 minute read
-      
-    </span>
-  
-  
-  </span>
-
-        </p>
-      </div>
+    <div class="page-image">
+      <div class="cover-image" style="background: url('../assets/img/assets/img/posts/20210125/Perceptron.jpg') center no-repeat; background-size: cover;"></div>
     </div>
-  </li>
-  
-  
-
-  <li>
-    <div class="post-card">
-      <a href="../single-neuron-perceptron.html" title="Single Neuron Perceptron" class="post-card-image" style="background: url('../assets/img/assets/img/posts/20210125/Perceptron.jpg') center no-repeat; background-size: cover;">
-      </a>
-      <div class="post-card-body">
-        <p class="post-card-title-and-meta">
-          
-          <a href="../single-neuron-perceptron.html" class="post-card-link">
-          Single Neuron Perceptron
-          </a>
+    <div class="wrapper">
+      <div class="page-content">
+        <div class="header-page">
+          <h1 class="page-title">Single Neuron Perceptron</h1>
           
 
-  <span class = "post-card-meta">
+  <span class = "post-page-meta">
+  
+    <p class="page_meta">
   
   
-    <span class="meta-pre"></span>
   
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2021-01-26T03:32:20+08:00">January 25, 2021</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
   
   
     
@@ -295,16 +306,282 @@
     </span>
   
   
+    </p>
+  
   </span>
 
-        </p>
-      </div>
-    </div>
-  </li>
-  
-</ol>
+        </div>
+        <aside class="sidebar side" id="sidebar">
+    
 
-    <div class="search-box">
+
+
+<div class="tag-cloud">
+    
+        <ul class="tags side">
+            
+                <li><a href="../tag.html?tag=machine+learning" class="tag side">machine learning</a></li>
+            
+                <li><a href="../tag.html?tag=coding" class="tag side">coding</a></li>
+            
+                <li><a href="../tag.html?tag=neural+networks" class="tag side">neural networks</a></li>
+            
+    
+        </ul>
+</div>
+    <div class="share-options side">
+    <div class="share-hover side">
+        <span class="share-button side"><svg fill="currentColor" width="25" height="25" class="side"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg></span>
+        <div class="share-icons side" id="sidebar-icons">
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=Single Neuron Perceptron&url=http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html&title=Single Neuron Perceptron" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
+            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html&title=Single Neuron Perceptron&summary=Single neuron perceptron that classifies elements learning quite quickly.&source=http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a class="email" href="mailto:?subject=Single Neuron Perceptron&body=Single neuron perceptron that classifies elements learning quite quickly.%0A%0ARead more here: http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+            <a class="copy-link" onclick="copyToClipboard()" title="Copy to clipboard" rel="nofollow" target="_blank"><svg width="20px" fill="currentColor" class="side" viewBox="0 0 18 18"><path d="M16.94 1.1A3.7 3.7 0 0 0 14.3 0c-1 0-1.94.39-2.64 1.1L7.43 5.3c-.91.92-2.09 3.2 0 5.27a.75.75 0 0 0 .82.16c.09-.03.17-.09.24-.15a.74.74 0 0 0 0-1.06c-1.16-1.15-.77-2.39-.02-3.16l4.24-4.22a2.2 2.2 0 0 1 1.58-.65c.6 0 1.16.23 1.58.65.86.87.86 2.29 0 3.16L12.7 8.47a.74.74 0 0 0 1.04 1.05l3.17-3.16a3.73 3.73 0 0 0 0-5.27h.03zM9.54 7.4a.74.74 0 0 0 0 1.06c1.16 1.15.76 2.39 0 3.16l-4.22 4.22c-.42.42-.99.65-1.59.65a2.23 2.23 0 0 1-1.58-3.82l3.17-3.16A.73.73 0 0 0 5.54 9a.78.78 0 0 0-.22-.52.77.77 0 0 0-1.05 0L1.1 11.64A3.72 3.72 0 0 0 3.74 18c1 0 1.94-.39 2.65-1.1l4.23-4.2c.21-.22.94-1.02 1.13-2.2.18-1.12-.2-2.15-1.12-3.07-.27-.27-.78-.27-1.06 0l-.02-.02z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></a>
+        </div>
+    </div>
+    <div class='alert' style='font-size:.6em;color:var(--accent);text-align:center;'></div>
+</div>
+</aside>
+
+        
+        
+<div class="center-container">
+  <div class="github-button">
+    <span class="button-icon" aria-hidden="true"><svg aria-hidden="true" focusable="false" role="img" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,2.2467A10.00042,10.00042,0,0,0,8.83752,21.73419c.5.08752.6875-.21247.6875-.475,0-.23749-.01251-1.025-.01251-1.86249C7,19.85919,6.35,18.78423,6.15,18.22173A3.636,3.636,0,0,0,5.125,16.8092c-.35-.1875-.85-.65-.01251-.66248A2.00117,2.00117,0,0,1,6.65,17.17169a2.13742,2.13742,0,0,0,2.91248.825A2.10376,2.10376,0,0,1,10.2,16.65923c-2.225-.25-4.55-1.11254-4.55-4.9375a3.89187,3.89187,0,0,1,1.025-2.6875,3.59373,3.59373,0,0,1,.1-2.65s.83747-.26251,2.75,1.025a9.42747,9.42747,0,0,1,5,0c1.91248-1.3,2.75-1.025,2.75-1.025a3.59323,3.59323,0,0,1,.1,2.65,3.869,3.869,0,0,1,1.025,2.6875c0,3.83747-2.33752,4.6875-4.5625,4.9375a2.36814,2.36814,0,0,1,.675,1.85c0,1.33752-.01251,2.41248-.01251,2.75,0,.26251.1875.575.6875.475A10.0053,10.0053,0,0,0,12,2.2467Z"/></svg></span>
+    <a class="button-text" href="https://github.com/amaynez/Perceptron/" target="_blank" aria-label="Open on GitHub">view on <b>GitHub</b></a>
+  </div>
+</div>
+
+        <p>As an entry point to learning python and getting into Machine Learning, I decided to code from scratch the Hello World! of the field, a single neuron perceptron.</p>
+
+<h2 id="what-is-a-perceptron">What is a perceptron?</h2>
+
+<p>A perceptron is the basic building block of a neural network, it can be compared to a neuron, And its conception is what detonated the vast field of Artificial Intelligence nowadays.</p>
+
+<p>Back in the late 1950’s, a young <a href="https://en.wikipedia.org/wiki/Frank_Rosenblatt">Frank Rosenblatt</a> devised a very simple algorithm as a foundation to construct a machine that could learn to perform different tasks.</p>
+
+<p>In its essence, a perceptron is nothing more than a collection of values and rules for passing information through them, but in its simplicity lies its power.</p>
+
+<center><img src="./assets/img/posts/20210125/Perceptron.png" /></center>
+
+<p>Imagine you have a ‘neuron’ and to ‘activate’ it, you pass through several input signals, each signal connects to the neuron through a synapse, once the signal is aggregated in the perceptron, it is then passed on to one or as many outputs as defined. A perceptron is but a neuron and its collection of synapses to get a signal into it and to modify a signal to pass on.</p>
+
+<p>In more mathematical terms, a perceptron is an array of values (let’s call them weights), and the rules to apply such values to an input signal.</p>
+
+<p>For instance a perceptron could get 3 different inputs as in the image, lets pretend that the inputs it receives as signal are: $x_1 = 1, \; x_2 = 2\; and \; x_3 = 3$, if it’s weights are $w_1 = 0.5,\; w_2 = 1\; and \; w_3 = -1$ respectively, then what the perceptron will do when the signal is received is to multiply each input value by its corresponding weight, then add them up.</p>
+
+<p style="text-align:center">\(<br />
+\begin{align}
+\begin{split}
+\left(x_1 * w_1\right) + \left(x_2 * w_2\right) + \left(x_3 * w_3\right)
+\end{split}
+\end{align}
+\)</p>
+
+<p style="text-align:center">\(<br />
+\begin{align}<br />
+\begin{split}<br />
+\left(0.5 * 1\right) + \left(1 * 2\right) + \left(-1 * 3\right) = 0.5 + 2 - 3 = -0.5
+\end{split}<br />
+\end{align}<br />
+\)</p>
+
+<p>Typically when this value is obtained, we need to apply an “activation” function to smooth the output, but let’s say that our activation function is linear, meaning that we keep the value as it is, then that’s it, that is the output of the perceptron, -0.5.</p>
+
+<p>In a practical application, the output means something, perhaps we want our perceptron to classify a set of data and if the perceptron outputs a negative number, then we know the data is of type A, and if it is a positive number then it is of type B.</p>
+
+<p>Once we understand this, the magic starts to happen through a process called backpropagation, where we “educate” our tiny one neuron brain to have it learn how to do its job.</p>
+
+<tweet>The magic starts to happen through a process called backpropagation, where we "educate" our tiny one neuron brain to have it learn how to do its job.</tweet>
+
+<p>For this we need a set of data that it is already classified, we call this a training set. This data has inputs and their corresponding correct output. So we can tell the little brain when it misses in its prediction, and by doing so, we also adjust the weights a bit in the direction where we know the perceptron committed the mistake hoping that after many iterations like this the weights will be so that most of the predictions will be correct.</p>
+
+<p>After the model trains successfully we can have it classify data it has never seen before, and we have a fairly high confidence that it will do so correctly.</p>
+
+<p>The math behind this magical property of the perceptron is called gradient descent, and is just a bit of differential calculus that helps us convert the error the brain is having into tiny nudges of value of the weights towards their optimum. <a href="https://www.youtube.com/watch?v=aircAruvnKk&amp;list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi">This video series by 3 blue 1 brown explains it wonderfuly.</a></p>
+
+<p>My program creates a single neuron neural network tuned to guess if a point is above or below a randomly generated line and generates a visualization based on graphs to see how the neural network is learning through time.</p>
+
+<p>The neuron has 3 inputs and weights to calculate its output:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>input 1 is the X coordinate of the point,
+Input 2 is the y coordinate of the point,
+Input 3 is the bias and it is always 1
+
+Input 3 or the bias is required for lines that do not cross the origin (0,0)
+</code></pre></div></div>
+
+<p>The Perceptron starts with weights all set to zero and learns by using 1,000 random points per each iteration.</p>
+
+<p>The output of the perceptron is calculated with the following activation function:
+    if x * weight_x + y weight_y + weight_bias is positive then 1 else 0</p>
+
+<p>The error for each point is calculated as the expected outcome of the perceptron minus the real outcome therefore there are only 3 possible error values:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Expected</th>
+      <th style="text-align: center">Calculated</th>
+      <th style="text-align: center">Error</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">-1</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">-1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>With every point that is learned if the error is not 0 the weights are adjusted according to:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>New_weight = Old_weight + error * input * learning_rate
+for example: New_weight_x = Old_weight_x + error * x * learning rate
+</code></pre></div></div>
+
+<p>A very useful parameter in all of neural networks is teh learning rate, which is basically a measure on how tiny our nudge to the weights is going to be.</p>
+
+<p>In this particular case, I coded the learning_rate to decrease with every iteration as follows:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>learning_rate = 0.01 / (iteration + 1)
+</code></pre></div></div>
+
+<p>this is important to ensure that once the weights are nearing the optimal values the adjustment in each iteration is subsequently more subtle.</p>
+
+<center><img src="./assets/img/posts/20210125/Learning_1000_points_per_iteration.jpg" /></center>
+
+<p>In the end, the perceptron always converges into a solution and finds with great precision the line we are looking for.</p>
+
+<p>Perceptrons are quite a revelation in that they can resolve equations by learning, however they are very limited. By their nature they can only resolve linear equations, so their problem space is quite narrow.</p>
+
+<p>Nowadays the neural networks consist of combinations of many perceptrons, in many layers, and other types of “neurons”, like convolution, recurrent, etc. increasing significantly the types of problems they solve.</p>
+
+        <aside class="sidebar inline" id="post-end">
+    
+
+
+
+<div class="tag-cloud">
+    
+        <ul class="tags inline">
+            
+                <li><a href="../tag.html?tag=machine+learning" class="tag inline">machine learning</a></li>
+            
+                <li><a href="../tag.html?tag=coding" class="tag inline">coding</a></li>
+            
+                <li><a href="../tag.html?tag=neural+networks" class="tag inline">neural networks</a></li>
+            
+    
+        </ul>
+</div>
+    <div class="share-options inline">
+    <div class="share-hover inline">
+        <span class="share-button inline"><svg fill="currentColor" width="25" height="25" class="inline"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg></span>
+        <div class="share-icons inline" id="post-end-icons">
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=Single Neuron Perceptron&url=http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html&title=Single Neuron Perceptron" title="Submit to Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
+            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html&title=Single Neuron Perceptron&summary=Single neuron perceptron that classifies elements learning quite quickly.&source=http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html" title="Share on LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a class="email" href="mailto:?subject=Single Neuron Perceptron&body=Single neuron perceptron that classifies elements learning quite quickly.%0A%0ARead more here: http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html" title="Share via e-mail" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+            <a class="copy-link" onclick="copyToClipboard()" title="Copy to clipboard" rel="nofollow" target="_blank"><svg width="20px" fill="currentColor" class="inline" viewBox="0 0 18 18"><path d="M16.94 1.1A3.7 3.7 0 0 0 14.3 0c-1 0-1.94.39-2.64 1.1L7.43 5.3c-.91.92-2.09 3.2 0 5.27a.75.75 0 0 0 .82.16c.09-.03.17-.09.24-.15a.74.74 0 0 0 0-1.06c-1.16-1.15-.77-2.39-.02-3.16l4.24-4.22a2.2 2.2 0 0 1 1.58-.65c.6 0 1.16.23 1.58.65.86.87.86 2.29 0 3.16L12.7 8.47a.74.74 0 0 0 1.04 1.05l3.17-3.16a3.73 3.73 0 0 0 0-5.27h.03zM9.54 7.4a.74.74 0 0 0 0 1.06c1.16 1.15.76 2.39 0 3.16l-4.22 4.22c-.42.42-.99.65-1.59.65a2.23 2.23 0 0 1-1.58-3.82l3.17-3.16A.73.73 0 0 0 5.54 9a.78.78 0 0 0-.22-.52.77.77 0 0 0-1.05 0L1.1 11.64A3.72 3.72 0 0 0 3.74 18c1 0 1.94-.39 2.65-1.1l4.23-4.2c.21-.22.94-1.02 1.13-2.2.18-1.12-.2-2.15-1.12-3.07-.27-.27-.78-.27-1.06 0l-.02-.02z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></a>
+        </div>
+    </div>
+    <div class='alert' style='font-size:.6em;color:var(--accent);text-align:center;'></div>
+</div>
+</aside>
+
+        <div class="separator"></div>
+        
+
+
+
+<section class="author-box">
+  <div class="narrow-column">
+    <a href='https://Tiany1Yu.github.io'><img src="../assets/img/Myself.jpg" alt="俞天镒" class="author-img"></a>
+    <ul class="contact-icons">
+      
+      
+      
+      <li class="github"><a class="github" href="http://github.com/Tiany1Yu" target="_blank"><i class="fa fa-github"></i></a></li>
+      
+      
+      <li class="email"><a class="email" href="mailto:tianyiyu.nju@gmail.com"><i class="fa fa-envelope-o"></i></a></li>
+      
+      
+    </ul>
+  </div>
+  <div class="author-desc">
+    <h3>俞天镒</h3>
+    <p>南京大学智能科学与技术的大一新生，写点闲话给大家，也是给自己</p>
+  </div>
+</section>
+
+        
+
+
+
+<div class="recent-box">
+  <h2 class="page-subtitle">Recent posts</h2>
+  <div class="recent-list">
+    
+  </div>
+</div> <!-- End Recent-Box -->
+
+        <div class="newsletter" id="mc_embed_signup">
+  <h2 class="page-subtitle">Newsletter</h2>
+  <div class="form-container">
+    <p>Subscribe here to get our latest updates</p>
+    <form action="https://github.us1.list-manage.com/subscribe/post?u=8ece198b3eb260e6838461a60&amp;id=397d90b5f4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+      <label class="screen-reader-text" for="mce-EMAIL">Email Address</label>
+      <div class="newsletter-box" id="mc_embed_signup_scroll">
+        <input type="email" name="EMAIL" placeholder="Email address" class="email-input" id="mce-EMAIL" required>
+        <input type="submit" value="Subscribe" name="subscribe" class="subscribe-btn" id="mc-embedded-subscribe">
+      </div>
+    </form>
+  </div>
+</div> <!-- End Newsletter -->
+
+        <section class="comment-area">
+    <div class="comment-wrapper">
+        
+        <div class="row" id="comment-curtain">
+            <div class="col-lg-8 col-sm-10 mr-auto ml-auto">
+                <h2 class="page-subtitle">Comments</h2>
+                <div class="comments-trigger" onClick="toggle_comments()">
+                    <i class="fa fa-comments"></i>&nbsp;&nbsp;Write a comment ...
+                </div>
+            </div>
+        </div>
+        
+
+        
+            
+        
+    </div>
+</section> <!-- End Comment Area -->
+      </div>
+    </div> <!-- End Wrapper -->
+  </article>
+  <div class="search-box">
   <div class="wrapper">
     <div class="search-grid">
       <form class="search-form">
@@ -320,68 +597,6 @@
   </div>
 </div>
 
-    <div class="pagination clearfix">
-  
-    <a href="../" class="previous"><i class="fa fa-angle-left" aria-hidden="true"></i> Previous</a>
-  
-  
-</div>
-
-    <div class="center-tags">
-      
-
-      
-
-
-
-<div class="tag-cloud">
-    
-        <ul class="tags">
-            
-                
-                <li><a href="../tag.html?tag=artificial+intelligence" class="tag">artificial intelligence <span>(3)</span></a></li>
-            
-                
-                <li><a href="../tag.html?tag=coding" class="tag">coding <span>(5)</span></a></li>
-            
-                
-                <li><a href="../tag.html?tag=copyright" class="tag">copyright <span>(1)</span></a></li>
-            
-                
-                <li><a href="../tag.html?tag=creativity" class="tag">creativity <span>(1)</span></a></li>
-            
-                
-                <li><a href="../tag.html?tag=deep+Neural+networks" class="tag">deep Neural networks <span>(1)</span></a></li>
-            
-                
-                <li><a href="../tag.html?tag=general+blogging" class="tag">general blogging <span>(1)</span></a></li>
-            
-                
-                <li><a href="../tag.html?tag=life" class="tag">life <span>(1)</span></a></li>
-            
-                
-                <li><a href="../tag.html?tag=machine+learning" class="tag">machine learning <span>(6)</span></a></li>
-            
-                
-                <li><a href="../tag.html?tag=neural+networks" class="tag">neural networks <span>(4)</span></a></li>
-            
-                
-                <li><a href="../tag.html?tag=optimization" class="tag">optimization <span>(1)</span></a></li>
-            
-                
-                <li><a href="../tag.html?tag=python" class="tag">python <span>(3)</span></a></li>
-            
-                
-                <li><a href="../tag.html?tag=reinforcement+learning" class="tag">reinforcement learning <span>(1)</span></a></li>
-            
-                
-                <li><a href="../tag.html?tag=thoughts" class="tag">thoughts <span>(1)</span></a></li>
-            
-    
-        </ul>
-</div>
-    </div>
-  </div> <!-- End Wrapper -->
   
 
 
@@ -395,7 +610,7 @@
             </a>
         </div>
         <div class="copyright">
-          <p>2026 &copy; Tianyi Yu</p>
+          <p>2026 &copy; 俞天镒</p>
         </div>
         <div class="footer-nav">
             <div>
@@ -417,7 +632,8 @@
     </div>
 </footer> <!-- End Footer -->
 
-</div><!-- End flex-container -->
+</div>
+
     <div class="top" title="Top">
       <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="angle-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" class="svg-inline--fa fa-angle-up fa-w-8 fa-2x"><path fill="currentColor" d="M136.5 185.1l116 117.8c4.7 4.7 4.7 12.3 0 17l-7.1 7.1c-4.7 4.7-12.3 4.7-17 0L128 224.7 27.6 326.9c-4.7 4.7-12.3 4.7-17 0l-7.1-7.1c-4.7-4.7-4.7-12.3 0-17l116-117.8c4.7-4.6 12.3-4.6 17 .1z" class=""></path></svg>
     </div>
@@ -539,9 +755,87 @@
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
 
 
+  <script>
+    function toggle_comments(){
+      var commentCurtain = document.getElementById('comment-curtain')
+      if (commentCurtain) {
+        commentCurtain.classList.toggle('hide')
+      }
+      var disqusThread = document.getElementById('comment-layout')
+      if (disqusThread) {
+        disqusThread.classList.toggle('show')
+      }
+    }
+
+    function copyToClipboard() {
+      navigator.clipboard.writeText('http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html').then(function() {
+      alerts = document.getElementsByClassName('alert')
+      for (i=0; i < alerts.length; i++){
+        alerts[i].innerHTML='\u00ABlink copied\u00BB';
+        setTimeout((function(i){ return function(){alerts[i].innerHTML='';}})(i), 1600 );
+      };
+      }, function() {
+        prompt("Unable to copy, please use this link:", "http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html");
+      });
+    }
+
+    $(function () {
+      if (document.getElementById('comment-curtain') == null){
+        var disqusThread = document.getElementById('comment-layout')
+        if (disqusThread) {
+          disqusThread.classList.toggle('show')
+        }
+      }
+
+      var tweetTags = document.getElementsByTagName("tweet");
+
+      if (tweetTags != null){
+        for (i=0; i<tweetTags.length; i++){
+          tweetA = document.createElement("a")
+          tweetA.href = 'https://twitter.com/share?text='
+                       + encodeURIComponent(tweetTags[i].textContent)
+                       + '&via=&url='
+                       + window.location.href;
+          tweetA.target = "_blank";
+          tweetA.className = 'twitter';
+          tweetSpanText = document.createElement('span');
+          tweetSpanText.className = 'tweetText';
+          tweetSpanText.appendChild(document.createTextNode(tweetTags[i].textContent));
+          tweetSpanIcon = document.createElement('span');
+          tweetSpanIcon.className = 'tweetIcon';
+          tweetSpanIcon.appendChild(document.createTextNode("click to tweet"));
+          tweetI = document.createElement("i");
+          tweetI.className = 'fa fa-twitter';
+          tweetSpanIcon.appendChild(tweetI);
+          tweetA.appendChild(tweetSpanText);
+          tweetA.appendChild(tweetSpanIcon);
+          tweetTags[i].textContent = "";
+          tweetTags[i].appendChild(tweetA);
+        }
+      }
+
+    });
+
+  </script>
+  <!-- Mailchimp linking -->
+  <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/8ece198b3eb260e6838461a60/d20d9fb9aad962399025da52e.js");</script>
 
 
 
+
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "CommonHTML": { linebreaks: { automatic: true } }
+    });
+  </script>
+  <script src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 <script src="../assets/js/main.js"></script>

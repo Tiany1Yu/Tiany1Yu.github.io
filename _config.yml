@@ -1,6 +1,6 @@
 # Site settings
 title: "羽落天青 | Uke's Blog"
-description: 'Life at NJU & Beyond. Documenting the daily grinds and joys of Tianyi Yu.' # this means to ignore newlines until "baseurl:"
+description: '南大的碎碎念' # this means to ignore newlines until "baseurl:"
 permalink: ':title:output_ext'
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://Tiany1Yu.github.io" # the base hostname & protocol for your site, e.g. http://example.com
@@ -24,10 +24,9 @@ logo-dark: "/assets/img/branding/MVM-logo-full-dark.svg"
 highlight_theme: syntax-base16.monokai.dark # select a dark theme for the code highlighter if needed
 
 # Author settings
-author: Tianyi Yu # add your name
-author-pic: Myself_Neon_grey.jpg
-about-author: Engineer, industry executive, research enthusiast. Avid learner with diverse interests in coding, machine learning, artificial intelligence and reinforcement learning. 17+ years of experience working in multinational corporations.
-
+author: 俞天镒 # add your name
+author-pic: Myself.jpg
+about-author: "南京大学智能科学与技术的大一新生，写点闲话给大家，也是给自己"
 # Contact links
 email: tianyiyu.nju@gmail.com # Add your Email address
 phone: 19552905886 # Add your Phone number
