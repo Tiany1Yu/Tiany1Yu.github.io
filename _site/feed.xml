@@ -1,4 +1,113 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-03-14T22:55:01+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">羽落天青 | Uke’s Blog</title><subtitle>南大的碎碎念</subtitle><author><name>uke</name></author><entry><title type="html">PCA/核PCA/谱聚类–关于《矩阵计算与优化》第一次组作业</title><link href="http://localhost:4000/2026-03-14-ai-note.html" rel="alternate" type="text/html" title="PCA/核PCA/谱聚类–关于《矩阵计算与优化》第一次组作业" /><published>2026-03-14T17:54:00+08:00</published><updated>2026-03-14T17:54:00+08:00</updated><id>http://localhost:4000/2026-03-14-ai-note</id><content type="html" xml:base="http://localhost:4000/2026-03-14-ai-note.html"><![CDATA[<center><img src="/assets/img/posts/20260314-2026-03-14-ai-note/imgs/Screenshot 2026-03-14 165722.png" /></center>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-03-15T00:36:44+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">羽落天青 | Uke’s Blog</title><subtitle>南大的碎碎念</subtitle><author><name>uke</name></author><entry><title type="html">2026-03-14-经典机器学习算法</title><link href="http://localhost:4000/2026-03-14-%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html" rel="alternate" type="text/html" title="2026-03-14-经典机器学习算法" /><published>2026-03-15T00:35:42+08:00</published><updated>2026-03-15T00:35:42+08:00</updated><id>http://localhost:4000/2026-03-14-%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95</id><content type="html" xml:base="http://localhost:4000/2026-03-14-%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html"><![CDATA[<p>大模型时代，机器学习算法还抱有生命力吗？</p>
+
+<p>我的答案是： 我不知道</p>
+
+<p>但是说实话机器学习的可解释性远好于深度学习，而且在不少问题的准确率应该还是很好的</p>
+
+<p>但是既然刚接触数据科学，那么这几个经典算法还是先学习一遍</p>
+<h2 id="1决策树">1.决策树</h2>
+<p>分治，不断将数据通过if else 的切片分成各类</p>
+
+<p>（CART）2叉树递归式的遍历节点，贪心构造一棵树</p>
+
+<p>切割如何评议？</p>
+<h3 id="引入纯度purity概念">引入纯度purity概念</h3>
+<ul>
+  <li>
+    <p>.离散情况</p>
+
+    <p>信息熵：\(H(X) = -\sum_{i=1}^{n} p_i \log_2 p_i\)</p>
+
+    <p>基尼指数：\(\text{Gini}(D) = 1 - \sum_{i=1}^{K} p_i^2\)</p>
+
+    <p>信息熵没啥好解释的</p>
+
+    <p>基尼指数是\(\sum_{i=1}^{K} p_i(1-p_i)\)</p>
+
+    <p>,即随机抽取两个样本类别不一致的概率之和</p>
+  </li>
+  <li>
+    <p>连续情况（回归树）
+SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)</p>
+  </li>
+</ul>
+
+<p>其中 $c_1, c_2$ 是切分后两个子区域的平均值</p>
+
+<h3 id="如何最佳化节点数">如何最佳化节点数</h3>
+
+<p>CCP剪枝的引入</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>定义损失函数$$R_\alpha(T) = R(T) + \alpha</td>
+      <td>T</td>
+      <td>$$</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
+    <tr>
+      <td>$</td>
+      <td>T</td>
+      <td>$ (叶子节点个数)代表模型的复杂度。叶子越多，模型越细碎。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>$\alpha$ (超参数)$\alpha$ 是一个调节权重。当 $\alpha = 0$ 时，不剪枝，树最大。当 $\alpha \to \infty$ 时，剪得只剩根节点。</p>
+
+\[g(t) = \frac{R(t) - R(T_t)}{|T_t| - 1}\]
+
+<p>根据g(t)达到阈值的节点个数，给出几个确定的$\alpha$进行测试集交叉验证</p>
+
+<h2 id="2随机森林">2.随机森林</h2>
+
+<h3 id="与决策树对比下呢">与决策树对比下呢</h3>
+
+<p>单颗树的确能够保证训练集准确率，但往往在测试集上表现并不好</p>
+
+<p>因此尝试引入多颗树，多个弱学习器来综合出强学习器</p>
+
+<p>隶属bagging家族</p>
+
+<p>采用自主取样法，即对N个样本进行N次有放回的抽取</p>
+
+<p>这具有一定的多样性和随机性，类似alexnet神经网络中的dropout</p>
+
+<p>OOB数据可作为验证集</p>
+
+<h3 id="建树">建树</h3>
+<p>一般采用cart树，gini impurity</p>
+
+<h3 id="如何找最优切分点">如何找最优切分点？</h3>
+<p>先抽m &lt; M 个特征，在 m中找最优解，这更有dropout的味道了</p>
+
+<p>这样双重随机给予了树多样性</p>
+
+<p>我们循环T次建T棵树，不进行剪枝</p>
+
+<p>最后预测阶段 若分类（离散） 那么取多数</p>
+
+<p>若回归（连续） 那么取平均</p>
+
+<p><em>强，支持并行计算，从原理上看我感觉显著优于单一决策树</em></p>
+
+<h2 id="3gbdt-梯度提升决策树">3.GBDT 梯度提升决策树</h2>
+<p>boosting流派 每棵树都是为了修正前一棵树的错误</p>
+
+<p>这个看起来只能串行计算</p>]]></content><author><name>uke</name></author><category term="机器学习" /><category term="待完善" /><summary type="html"><![CDATA[大模型时代，机器学习算法还抱有生命力吗？]]></summary></entry><entry><title type="html">名词解释</title><link href="http://localhost:4000/2026-03-14.html" rel="alternate" type="text/html" title="名词解释" /><published>2026-03-15T00:35:41+08:00</published><updated>2026-03-15T00:35:41+08:00</updated><id>http://localhost:4000/2026-03-14</id><content type="html" xml:base="http://localhost:4000/2026-03-14.html"><![CDATA[<h2 id="熟知一些缩写对自己有好处">熟知一些缩写对自己有好处</h2>
+<p>PCA=principal component analysis
+SSE/MSE/MAE/RMSE/MRE……  （root） sum/mean of squared/absolute error
+RI/ARI/MI/NMI/AMI  （adjusted）  rand index /（adjusted/normalized） mutual information （暂未搞懂）
+RBF=SE核 高斯核 radial basis function |squared expotional （暂未搞懂）
+CCP cost complexity pruning
+Bagging Bootstep aggregating 采样聚合
+OOB out of bag
+GBDT gradient boosting decision tree</p>]]></content><author><name>uke</name></author><summary type="html"><![CDATA[熟知一些缩写对自己有好处 PCA=principal component analysis SSE/MSE/MAE/RMSE/MRE…… （root） sum/mean of squared/absolute error RI/ARI/MI/NMI/AMI （adjusted） rand index /（adjusted/normalized） mutual information （暂未搞懂） RBF=SE核 高斯核 radial basis function |squared expotional （暂未搞懂） CCP cost complexity pruning Bagging Bootstep aggregating 采样聚合 OOB out of bag GBDT gradient boosting decision tree]]></summary></entry><entry><title type="html">PCA/核PCA/谱聚类–关于《矩阵计算与优化》第一次组作业</title><link href="http://localhost:4000/2026-03-14-ai-note.html" rel="alternate" type="text/html" title="PCA/核PCA/谱聚类–关于《矩阵计算与优化》第一次组作业" /><published>2026-03-14T17:54:00+08:00</published><updated>2026-03-14T17:54:00+08:00</updated><id>http://localhost:4000/2026-03-14-ai-note</id><content type="html" xml:base="http://localhost:4000/2026-03-14-ai-note.html"><![CDATA[<center><img src="/assets/img/posts/20260314-2026-03-14-ai-note/imgs/Screenshot 2026-03-14 165722.png" /></center>
 
 <p>这周的矩阵计算通识课，上来就给我们当头一棒，面对不熟悉陌生的词语，以及半懂不懂的术语</p>
 
@@ -171,7 +280,7 @@ L_{\text{sym}}=I-D^{-1/2}WD^{-1/2}
 
 <p>讲述什么的我不太擅长</p>
 
-<p>我希望大家能通过这个markdown了解名词，并且强烈推荐一下我想的这套工作模式</p>]]></content><author><name>uke</name></author><category term="数据科学" /><category term="特征工程" /><category term="讲稿" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">写在前面</title><link href="http://localhost:4000/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2.html" rel="alternate" type="text/html" title="写在前面" /><published>2026-03-14T10:56:20+08:00</published><updated>2026-03-14T10:56:20+08:00</updated><id>http://localhost:4000/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2</id><content type="html" xml:base="http://localhost:4000/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2.html"><![CDATA[<p>感觉身处AI时代，人很迷茫啊。作为本站第一条博客，我来讲讲自己写博客的动因。</p>
+<p>我希望大家能通过这个markdown了解名词，并且强烈推荐一下我想的这套工作模式</p>]]></content><author><name>uke</name></author><category term="机器学习" /><category term="特征工程" /><category term="讲稿" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">写在前面</title><link href="http://localhost:4000/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2.html" rel="alternate" type="text/html" title="写在前面" /><published>2026-03-14T10:56:20+08:00</published><updated>2026-03-14T10:56:20+08:00</updated><id>http://localhost:4000/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2</id><content type="html" xml:base="http://localhost:4000/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2.html"><![CDATA[<p>感觉身处AI时代，人很迷茫啊。作为本站第一条博客，我来讲讲自己写博客的动因。</p>
 <h2 id="为什么写">为什么写？</h2>
 <p>陪伴了我很久的人在大一上期末选择了离开，我一下子感觉少了很多，又多了很多。</p>
 

@@ -1,9 +1,29 @@
 [
   
     {
+      "title"       : "2026-03-14-经典机器学习算法",
+      "category"    : "",
+      "tags"        : "机器学习, 待完善",
+      "url"         : "./2026-03-14-%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html",
+      "date"        : "2026-03-15 00:35:42 +0800",
+      "description" : "",
+      "content"     : "大模型时代，机器学习算法还抱有生命力吗？我的答案是： 我不知道但是说实话机器学习的可解释性远好于深度学习，而且在不少问题的准确率应该还是很好的但是既然刚接触数据科学，那么这几个经典算法还是先学习一遍1.决策树分治，不断将数据通过if else 的切片分成各类（CART）2叉树递归式的遍历节点，贪心构造一棵树切割如何评议？引入纯度purity概念 .离散情况 信息熵：\\(H(X) = -\\sum_{i=1}^{n} p_i \\log_2 p_i\\) 基尼指数：\\(\\text{Gini}(D) = 1 - \\sum_{i=1}^{K} p_i^2\\) 信息熵没啥好解释的 基尼指数是\\(\\sum_{i=1}^{K} p_i(1-p_i)\\) ,即随机抽取两个样本类别不一致的概率之和 连续情况（回归树）SSE：\\(SSE = \\sum_{i \\in R_1} (y_i - c_1)^2 + \\sum_{i \\in R_2} (y_i - c_2)^2\\) 其中 $c_1, c_2$ 是切分后两个子区域的平均值如何最佳化节点数CCP剪枝的引入 定义损失函数$$R_\\alpha(T) = R(T) + \\alpha T $$ $ T $ (叶子节点个数)代表模型的复杂度。叶子越多，模型越细碎。 $\\alpha$ (超参数)$\\alpha$ 是一个调节权重。当 $\\alpha = 0$ 时，不剪枝，树最大。当 $\\alpha \\to \\infty$ 时，剪得只剩根节点。\\[g(t) = \\frac{R(t) - R(T_t)}{|T_t| - 1}\\]根据g(t)达到阈值的节点个数，给出几个确定的$\\alpha$进行测试集交叉验证2.随机森林与决策树对比下呢单颗树的确能够保证训练集准确率，但往往在测试集上表现并不好因此尝试引入多颗树，多个弱学习器来综合出强学习器隶属bagging家族采用自主取样法，即对N个样本进行N次有放回的抽取这具有一定的多样性和随机性，类似alexnet神经网络中的dropoutOOB数据可作为验证集建树一般采用cart树，gini impurity如何找最优切分点？先抽m &lt; M 个特征，在 m中找最优解，这更有dropout的味道了这样双重随机给予了树多样性我们循环T次建T棵树，不进行剪枝最后预测阶段 若分类（离散） 那么取多数若回归（连续） 那么取平均强，支持并行计算，从原理上看我感觉显著优于单一决策树3.GBDT 梯度提升决策树boosting流派 每棵树都是为了修正前一棵树的错误这个看起来只能串行计算"
+    } ,
+  
+    {
+      "title"       : "名词解释",
+      "category"    : "",
+      "tags"        : "",
+      "url"         : "./2026-03-14.html",
+      "date"        : "2026-03-15 00:35:41 +0800",
+      "description" : "",
+      "content"     : "熟知一些缩写对自己有好处PCA=principal component analysisSSE/MSE/MAE/RMSE/MRE…… （root） sum/mean of squared/absolute errorRI/ARI/MI/NMI/AMI （adjusted） rand index /（adjusted/normalized） mutual information （暂未搞懂）RBF=SE核 高斯核 radial basis function |squared expotional （暂未搞懂）CCP cost complexity pruningBagging Bootstep aggregating 采样聚合OOB out of bagGBDT gradient boosting decision tree"
+    } ,
+  
+    {
       "title"       : "PCA/核PCA/谱聚类--关于《矩阵计算与优化》第一次组作业",
       "category"    : "",
-      "tags"        : "数据科学, 特征工程, 讲稿",
+      "tags"        : "机器学习, 特征工程, 讲稿",
       "url"         : "./2026-03-14-ai-note.html",
       "date"        : "2026-03-14 17:54:00 +0800",
       "description" : "",

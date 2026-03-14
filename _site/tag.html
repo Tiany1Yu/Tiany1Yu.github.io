@@ -189,11 +189,99 @@
 
 
 	
-	<div id="数据科学" class="hidden tag-master">
-		<h1>数据科学</h1>
+	<div id="待完善" class="hidden tag-master">
+		<h1>待完善</h1>
 		<div class="archive">
 			<div class="post-list">
 		    
+			
+
+				<div class="post">
+					<a class="post-list-title" href="./2026-03-14-%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html">2026-03-14-经典机器学习算法</a>
+					
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-03-15T00:35:42+08:00">2026年3月15日</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    <span class="page_meta-readtime">
+      
+        少于 1 分钟阅读
+      
+    </span>
+  
+  
+  </span>
+
+					<div class="post-excerpt">
+						<p>大模型时代，机器学习算法还抱有生命力吗？</p> <p>我的答案是： 我不知道</p> <p>但是说实话机器学习的可解释性远好于深度学习，而且在不少问题的准确率应该还是很好的</p> <p>但是既然刚接触数据科学，那么这几个经典算法还是先学习一遍</p> <h2 id="1决策树">1.决策树</h2> <p>分治，不断将数据通过if else 的切片分成各类</p> <p>（CART）2叉树递归式的遍历节点，贪心构造一棵树</p> <p>切割如何评议？</p> <h3 id="引入纯度purity概念">引入纯度purity概念</h3> <ul> <li> <p>.离散情况</p> <p>信息熵：\(H(X) = -\sum_{i=1}^{n} p_i \log_2 p_i\)</p> <p>基尼指数：\(\text{Gini}(D) = 1 - \sum_{i=1}^{K} p_i^2\)</p> <p>信息熵没啥好解释的</p> <p>基尼指数是\(\sum_{i=1}^{K} p_i(1-p_i)\)</p> <p>,即随机抽取两个样本类别不一致的概率之和</p> </li> <li> <p>连续情况（回归树） SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)</p> </li> </ul> <p>其中 $c_1, c_2$ 是切分后两个子区域的平均值</p> <h3 id="如何最佳化节点数">如何最佳化节点数</h3> <p>CCP剪枝的引入</p> <table> <tbody> <tr> <td>定义损失函数$$R_\alpha(T) = R(T) + \alpha</td> <td>T</td> <td>$$</td> </tr> </tbody> </table> <table> <tbody> <tr> <td>$</td> <td>T</td> <td>$ (叶子节点个数)代表模型的复杂度。叶子越多，模型越细碎。</td> </tr> </tbody> </table> <p>$\alpha$ (超参数)$\alpha$ 是一个调节权重。当 $\alpha = 0$ 时，不剪枝，树最大。当 $\alpha \to \infty$ 时，剪得只剩根节点。</p> <table> <tbody> <tr> <td>[g(t) = \frac{R(t)...<a class="read-more" href="./2026-03-14-%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html"> 阅读全文</a>
+					</div>
+				</div>
+			
+			</div>
+		</div>
+	</div>
+
+	
+	<div id="机器学习" class="hidden tag-master">
+		<h1>机器学习</h1>
+		<div class="archive">
+			<div class="post-list">
+		    
+			
+
+				<div class="post">
+					<a class="post-list-title" href="./2026-03-14-%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html">2026-03-14-经典机器学习算法</a>
+					
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-03-15T00:35:42+08:00">2026年3月15日</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    <span class="page_meta-readtime">
+      
+        少于 1 分钟阅读
+      
+    </span>
+  
+  
+  </span>
+
+					<div class="post-excerpt">
+						<p>大模型时代，机器学习算法还抱有生命力吗？</p> <p>我的答案是： 我不知道</p> <p>但是说实话机器学习的可解释性远好于深度学习，而且在不少问题的准确率应该还是很好的</p> <p>但是既然刚接触数据科学，那么这几个经典算法还是先学习一遍</p> <h2 id="1决策树">1.决策树</h2> <p>分治，不断将数据通过if else 的切片分成各类</p> <p>（CART）2叉树递归式的遍历节点，贪心构造一棵树</p> <p>切割如何评议？</p> <h3 id="引入纯度purity概念">引入纯度purity概念</h3> <ul> <li> <p>.离散情况</p> <p>信息熵：\(H(X) = -\sum_{i=1}^{n} p_i \log_2 p_i\)</p> <p>基尼指数：\(\text{Gini}(D) = 1 - \sum_{i=1}^{K} p_i^2\)</p> <p>信息熵没啥好解释的</p> <p>基尼指数是\(\sum_{i=1}^{K} p_i(1-p_i)\)</p> <p>,即随机抽取两个样本类别不一致的概率之和</p> </li> <li> <p>连续情况（回归树） SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)</p> </li> </ul> <p>其中 $c_1, c_2$ 是切分后两个子区域的平均值</p> <h3 id="如何最佳化节点数">如何最佳化节点数</h3> <p>CCP剪枝的引入</p> <table> <tbody> <tr> <td>定义损失函数$$R_\alpha(T) = R(T) + \alpha</td> <td>T</td> <td>$$</td> </tr> </tbody> </table> <table> <tbody> <tr> <td>$</td> <td>T</td> <td>$ (叶子节点个数)代表模型的复杂度。叶子越多，模型越细碎。</td> </tr> </tbody> </table> <p>$\alpha$ (超参数)$\alpha$ 是一个调节权重。当 $\alpha = 0$ 时，不剪枝，树最大。当 $\alpha \to \infty$ 时，剪得只剩根节点。</p> <table> <tbody> <tr> <td>[g(t) = \frac{R(t)...<a class="read-more" href="./2026-03-14-%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html"> 阅读全文</a>
+					</div>
+				</div>
+			
 			
 
 				<div class="post">
@@ -467,7 +555,10 @@
         <ul class="tags">
             
                 
-                <li><a href="./tag.html?tag=%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6" class="tag">数据科学 <span>(1)</span></a></li>
+                <li><a href="./tag.html?tag=%E5%BE%85%E5%AE%8C%E5%96%84" class="tag">待完善 <span>(1)</span></a></li>
+            
+                
+                <li><a href="./tag.html?tag=%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0" class="tag">机器学习 <span>(2)</span></a></li>
             
                 
                 <li><a href="./tag.html?tag=%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B" class="tag">特征工程 <span>(1)</span></a></li>
