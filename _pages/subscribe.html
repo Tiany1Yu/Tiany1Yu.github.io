@@ -1,0 +1,37 @@
+---
+layout: menu-page
+title: 订阅
+permalink: subscribe:output_ext
+---
+{% include calculate_relative_base.html %}
+{% include escape-404.html %}
+{% assign rss_origin = site.website | default: site.url %}
+{% assign rss_url = rss_origin | append: site.baseurl | append: '/feed.xml' | replace: '//feed.xml', '/feed.xml' %}
+
+<div class="small-wrapper">
+  <div class="about-container">
+    <section class="about-header">
+      <h3>订阅更新</h3>
+      <p class="subtitle">选择你习惯的方式，第一时间收到新文章</p>
+    </section>
+
+    <section class="about-body" style="text-align: center; padding: 0 1rem 2rem;">
+      <p>
+        <a class="subscribe-btn" style="display: inline-block; width: auto; min-width: 160px; line-height: 40px; text-decoration: none; margin: 0.3rem;" href="{{ site.mailchimp }}" target="_blank" rel="noopener noreferrer">邮件订阅</a>
+      </p>
+      <p>
+        <button class="subscribe-btn" type="button" style="display: inline-block; width: auto; min-width: 200px; line-height: 40px; margin: 0.3rem;" onclick="navigator.clipboard.writeText('{{ rss_url }}').then(function(){alert('RSS 地址已复制，请到 Feedly 的 Add Content 中粘贴');}, function(){alert('复制失败，请手动复制下方地址');});">复制 RSS 地址</button>
+      </p>
+      <p>
+        <button class="subscribe-btn" type="button" style="display: inline-block; width: auto; min-width: 240px; line-height: 40px; margin: 0.3rem;" onclick="navigator.clipboard.writeText('{{ rss_url }}').then(function(){window.open('https://feedly.com/i/discover', '_blank'); alert('已复制 RSS 地址，并打开 Feedly。请在 Feedly 中粘贴添加。');}, function(){window.open('https://feedly.com/i/discover', '_blank'); alert('已打开 Feedly，请手动复制下方 RSS 地址后粘贴添加。');});">复制并打开 Feedly 添加页</button>
+      </p>
+      <p style="word-break: break-all; font-size: 0.95rem; color: var(--grey2);">{{ rss_url }}</p>
+      <p>
+        <a href="{{ relativebase }}feed.xml" target="_blank" rel="noopener noreferrer">直接打开 RSS 地址</a>
+      </p>
+      <p style="color: var(--text-light); font-size: 0.95rem; margin-top: 1rem;">
+        提示：Feedly 直跳链接有时会被错误重定向（例如出现 %3A 或页面丢失）。推荐使用“复制并打开 Feedly 添加页”。
+      </p>
+    </section>
+  </div>
+</div>

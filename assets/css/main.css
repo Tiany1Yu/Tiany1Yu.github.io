@@ -16,12 +16,12 @@ html {
   --background:   #ffffff;
   --shadow:       rgba(32,30,30,.3);
   --github:       #333;
-  --font1: 'Lora', charter, Georgia, Cambria, 'Times New Roman', Times, serif;/* body text */
-  --font2: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif; /* headers and titles   */
+  --font1: 'Noto Sans SC', 'Source Han Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;/* body text */
+  --font2: 'Plus Jakarta Sans', 'Noto Sans SC', 'Source Han Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif; /* headers and titles   */
   --font1-light:      400;
   --font1-regular:    400;
   --font1-bold:       600;
-  --font2-light:      200;
+  --font2-light:      300;
   --font2-regular:    400;
   --font2-bold:       700;
 }
@@ -401,28 +401,41 @@ html, body {
   overflow: visible
 }
 html {
-    line-height: 1.75;
-    letter-spacing: 0.002em;
-    font-size: 1.375rem;
+    line-height: 1.8;
+    letter-spacing: 0.01em;
+    font-size: 1.25rem;
 }
 body {
   font-family: var(--font1);
+  font-weight: var(--font1-regular);
   color: var(--text);
   margin: 0;
   background-color: var(--background);
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-overflow-scrolling: touch;
 }
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font2);
+  letter-spacing: -0.01em;
   color: var(--accent-dark);
 }
 
 h1 {
-  font-size: 4rem;
+  font-size: 3.8rem;
   font-weight: var(--font2-regular);
-  line-height: 1;
+  line-height: 1.08;
+}
+
+h2, h3 {
+  font-weight: var(--font2-regular);
+  line-height: 1.22;
+}
+
+h4, h5, h6 {
+  font-weight: var(--font2-bold);
+  line-height: 1.35;
 }
 
 img {
@@ -587,10 +600,12 @@ svg {
   color:var(--main);
 }
 .main-header .logo a {
+  font-family: var(--font2), sans-serif;
   text-decoration: none;
-  text-transform: uppercase;
+  text-transform: none;
   font-size: 27px;
-  font-weight: var(--font2-light);
+  font-weight: var(--font2-bold);
+  letter-spacing: 0.01em;
   color: var(--accent-dark);
 }
 .main-nav {
@@ -616,8 +631,9 @@ svg {
 .main-nav ul li a {
   display: block;
   padding: 15px 0;
+  font-family: var(--font2), sans-serif;
   text-decoration: none;
-  text-transform: uppercase;
+  text-transform: none;
   font-weight: var(--font2-regular);
   font-size: 18px;
   color: var(--main);
@@ -1459,6 +1475,13 @@ tweet a {
           box-shadow: 0px 2px 4px var(--shadow);
   max-width: 800px;
 }
+
+.page-content p,
+.page-content li,
+.about-container p {
+  line-height: 1.95;
+  letter-spacing: 0.01em;
+}
 /* full width image in posts */
 img[src$="#full"] {
     max-width: none;
@@ -1488,8 +1511,11 @@ img + small, img + br + small {
   margin-bottom: 1em;
 }
 .header-page h1 {
-  font-weight: var(--font2-regular);
-  font-size: 4.25rem;
+  font-family: var(--font2), sans-serif;
+  font-weight: var(--font2-bold);
+  font-size: 3.4rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   text-align: left;
   margin: 0 0 10px;
   color: var(--text)

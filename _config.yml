@@ -2,7 +2,7 @@
 title: "羽落天青 | Uke's Blog"
 description: '南大的碎碎念' # this means to ignore newlines until "baseurl:"
 permalink: ':title:output_ext'
-baseurl: "/" # the subpath of your site, e.g. /blog
+baseurl: "" # root site on username.github.io, keep empty to avoid // in generated URLs
 url: "https://Tiany1Yu.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 logo: "/assets/img/branding/MVM-logo-full.svg"
 logo-icon: "/assets/img/branding/MVM-symbol.svg"
