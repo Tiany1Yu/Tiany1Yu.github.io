@@ -191,6 +191,43 @@
 
   <li>
     <div class="post-card">
+      <a href="./2026-03-14-ai-note.html" title="具体方案介绍" class="post-card-image" style="background: url('./assets/img/posts/20260314-2026-03-14-ai-note/cover.jpg') center no-repeat; background-size: cover;">
+      </a>
+      <div class="post-card-body">
+        <p class="post-card-title-and-meta">
+          
+          <a href="./2026-03-14-ai-note.html" class="post-card-link">
+          具体方案介绍
+          </a>
+          
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+  
+    
+    
+    <span class="page_meta-readtime">
+      
+        少于 1 分钟阅读
+      
+    </span>
+  
+  
+  </span>
+
+        </p>
+      </div>
+    </div>
+  </li>
+  
+  
+
+  <li>
+    <div class="post-card">
       <a href="./%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2.html" title="写在前面" class="post-card-image" style="background: url('./assets/img/posts/20260314/why.jpg') center no-repeat; background-size: cover;">
       </a>
       <div class="post-card-body">
@@ -259,7 +296,16 @@
         <ul class="tags">
             
                 
+                <li><a href="./tag.html?tag=%E6%95%B0%E6%8D%AE%E7%A7%91%E5%AD%A6" class="tag">数据科学 <span>(1)</span></a></li>
+            
+                
+                <li><a href="./tag.html?tag=%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B" class="tag">特征工程 <span>(1)</span></a></li>
+            
+                
                 <li><a href="./tag.html?tag=%E8%87%AA%E6%88%91%E6%80%9D%E7%B4%A2" class="tag">自我思索 <span>(1)</span></a></li>
+            
+                
+                <li><a href="./tag.html?tag=%E8%AE%B2%E7%A8%BF" class="tag">讲稿 <span>(1)</span></a></li>
             
     
         </ul>
@@ -454,6 +500,36 @@ function openEmailContact(email) {
 
 
 
+
+  <script>
+    // Recover display-math blocks where Markdown stripped \[ ... \] into [ ... ].
+    (function () {
+      var nodes = document.querySelectorAll('.page-content p, .page-content li, .post-excerpt p, .post-excerpt li');
+      for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        if (node.children.length !== 0) {
+          continue;
+        }
+        var text = node.textContent.trim();
+        var looksLikeEquation = /^\[[\s\S]+\]$/.test(text) && (text.indexOf('\\') !== -1 || /[_^=]/.test(text));
+        if (looksLikeEquation) {
+          node.textContent = '\\[' + text.slice(1, -1).trim() + '\\]';
+        }
+      }
+    })();
+  </script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "CommonHTML": { linebreaks: { automatic: true } }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 <script src="./assets/js/main.js"></script>

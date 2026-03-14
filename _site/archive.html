@@ -197,6 +197,45 @@
 		<div class="post">
 			
 
+			<a class="post-list-title" href="./2026-03-14-ai-note.html">具体方案介绍</a>
+			
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-03-14T17:54:00+08:00">2026年3月14日</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    <span class="page_meta-readtime">
+      
+        少于 1 分钟阅读
+      
+    </span>
+  
+  
+  </span>
+
+			<div class="post-excerpt">
+				<center><img src="/assets/img/posts/20260314-2026-03-14-ai-note/imgs/Screenshot 2026-03-14 165722.png" /></center><p>这周的矩阵计算通识课，上来就给我们当头一棒，面对不熟悉陌生的词语，以及半懂不懂的术语</p><p>我们又该怎么应对？/(ㄒoㄒ)/~~</p><h2 id="具体方案介绍">具体方案介绍</h2><p>这次我想设计的任务很简单，以Olivetti faces数据集，做一个简单的人脸分类工作</p><p>以PCA/核PCA  =&gt;  kmeans聚类/谱聚类共四种组合，对比其性能</p><h2 id="不好理解-开始名词解释">不好理解？ 开始名词解释</h2><h3 id="olivetti数据集是什么">olivetti数据集是什么？</h3><p>olivetti数据集是一个很经典的人脸数据集</p><ul>  <li>40 个人</li>  <li>每个人 10 张照片</li>  <li>一共 400 张人脸图</li>  <li>每张图是灰度图（黑白），大小 64×64</li>  <li>所以每张图片有 4096 个像素（因为 64×64=4096）</li></ul><h3 id="我要做什么">我要做什么？</h3><p>通过无监督学习(不给人工智能答案)，让人工智能通过四种不同方案，分别对人脸进行分类，对比ARI(adjusted rand index)正确率</p><h3 id="先解释一下标准操作流程">先解释一下标准操作流程</h3><p>64*64的图片已经很小了，但即使是这样，数据也有4096个（每个0-255之间）</p><p>我们首先要将其展平成4096维向量</p><p>那么问题来了，输入这么大，怎么提取出关键信息呢？</p><p>PCA/核PCA这时候就来了（（kernel）Principal component analysis）</p><h3 id="pca核pca">PCA/核PCA</h3><p>我们要找出这个矩阵的主要成分，那有什么和矩阵相关的工具可以用呢🤔</p><p>特征值将整个向量空间分成特征子空间的直和</p><p>每个特征子空间都反映了这个空间在某个方向上的缩放，我们选取前k个，反映了这个矩阵的<strong>主要成分</strong></p><p>这就是<strong>主要成分</strong>分析</p><p>首先是PCA，分为三步</p><p>1.我们先把矩阵去中心化，也就是把这些人脸平均出来的平均脸减去，这样才能反映各个矩阵的差异</p><p>也即</p><p>[\tilde X = X - \mathbf{1}\mu^\top]</p><p>2.我们要提取主成分，有两种方式</p><ul>  <li>我们进行奇异值分解，这个方法对所有矩阵通用</li></ul><p>[\tilde X = U\Sigma V^\top]</p><ul>  <li>还记得上学期的线性代数吗，我们把矩阵及其转置矩阵相乘得到的是一个实对称矩阵，而实对称具有非常优良的性质：具有n个特征值，且每个特征值对应的特征向量正交！那么这就可以得到n个特征子空间</li></ul><p>3.我们选取其中数值最大的k个作为基，将每个向量对应与这k个基做内积，得到一个k维的向量，这个时候我们成功提取出了主成分！</p><p>核PCA与这个类似，但是他是把空间映射到无穷维空间上（函数）</p><p>因为PCA只能对成分进行线性组合，提取出k个主成分，但是非线性的成分似乎就不行了（例如一个环形的成分）</p><p>这个时候映射到无穷维空间就有效果了</p><p>但是无穷维怎么计算呢？</p><p>我们考虑一个隐式的无穷维空间，用连续而非离散的函数将其映射到有限维</p><p>例如：</p><p>常用的是 RBF 核（高斯核）：</p><p>[k(x_i,x_j)=\exp(-\gamma|x_i-x_j|^2)]</p><p>再通过gram矩阵（内积空间基底转换）</p><p>[K_{ij}=k(x_i,x_j)]</p><p>来反映每个向量之间的联系</p><p>其实步骤差不多，都是去中心化-&gt;提取主成分k维-&gt;将原向量映射到k维</p><h3 id="kmeans聚类谱聚类">kmeans聚类/谱聚类</h3><p>现在可以开始聚类了，我们去除了原数据中可能的无关成分，得到了k个最精简的成分</p><p>什么是kmeans？</p><p>我们对选择K（这里K=40）个簇</p><ul>  <li>先随便放 40 个“中心点”，然后每张脸归到最近的中心点；</li>  <li>再把每一组的中心点更新成那组的平均值；</li>  <li>重复直到稳定。</li></ul><p>这就实现了聚类</p><p>什么是谱聚类？</p><p>这块是我最不了解的地方，因为涉及到图论</p><p>谱聚类很像：</p><ol>  <li>我把每张脸当作一个点（节点）</li>  <li>    <p>我用相似度把点连接成一张“图”（graph）<br />相似的脸连得更“紧”（边权更大）</p>    <p>边权：</p>  </li></ol><p>[W_{ij}=\exp\left(-\frac{|z_i-z_j|^2}{2\sigma^2}\right)]</p><ol>  <li>我想把这张图切成 40 块，让：    <ul>      <li>同一块里面的边权尽量大（彼此相似）</li>      <li>不同块之间的连接尽量小（彼此不相似）</li>    </ul>  </li>  <li>怎么切？<br />它会算一个叫“拉普拉斯矩阵”的东西，然后做特征分解（又是矩阵特征值那一套）</li>  <li>最后在特征向量空间里再用 KMeans 分组</li></ol><p>这个拉普拉斯矩阵我还要再学习一下（）贴一下</p><p>[L_{\text{sym}}=I-D^{-1/2}WD^{-1/2}]</p><h3 id="激动人心">激动人心！！</h3><p>这时候我们终于得到了 40类人脸</p><p>我们通过ARI（Adjusted Rand Index），把我们分类出来的序号0-39 和原图标注的0-39一一对应，计算正确率</p><h2 id="最后">最后</h2><p>这是我想的一个比较贴近的方式（）</p><p>讲述什么的我不太擅长</p><p>我希望大家能通过这个markdown了解名词，并且强烈推荐一下我想的这套工作模式</p><a class="read-more" href="./2026-03-14-ai-note.html"> 阅读全文</a>
+			</div>
+		</div>
+	
+		<div class="post">
+			
+
 			<a class="post-list-title" href="./%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2.html">写在前面</a>
 			
 
@@ -507,6 +546,36 @@ function openEmailContact(email) {
 
 
 
+
+  <script>
+    // Recover display-math blocks where Markdown stripped \[ ... \] into [ ... ].
+    (function () {
+      var nodes = document.querySelectorAll('.page-content p, .page-content li, .post-excerpt p, .post-excerpt li');
+      for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        if (node.children.length !== 0) {
+          continue;
+        }
+        var text = node.textContent.trim();
+        var looksLikeEquation = /^\[[\s\S]+\]$/.test(text) && (text.indexOf('\\') !== -1 || /[_^=]/.test(text));
+        if (looksLikeEquation) {
+          node.textContent = '\\[' + text.slice(1, -1).trim() + '\\]';
+        }
+      }
+    })();
+  </script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "CommonHTML": { linebreaks: { automatic: true } }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 <script src="./assets/js/main.js"></script>

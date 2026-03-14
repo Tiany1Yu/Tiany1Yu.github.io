@@ -66,6 +66,9 @@ comments_opts:
 # Build settings
 markdown: kramdown
 mathjax: true
+kramdown:
+  input: GFM
+  math_engine: mathjax
 highlighter: rouge
 compress_html:
   clippings: all

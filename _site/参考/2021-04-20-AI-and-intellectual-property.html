@@ -421,6 +421,37 @@
           
           
 
+          <a href="../2026-03-14-ai-note.html" class="recent-item-img" style="background: url('../assets/img/posts/20260314-2026-03-14-ai-note/cover.jpg') center no-repeat; background-size: cover;">
+            <div class="recent-item-title">
+              <span>具体方案介绍</span>
+              
+
+  <span class = "recent-item-meta">
+  
+  
+  
+  
+    
+    
+    <p class="page_meta-readtime">
+      
+        少于 1 分钟阅读
+      
+    </p>
+  
+  
+  </span>
+
+            </div>
+          </a>
+        </div>
+      
+    
+      
+        <div class="recent-item">
+          
+          
+
           <a href="../%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2.html" class="recent-item-img" style="background: url('../assets/img/posts/20260314/why.jpg') center no-repeat; background-size: cover;">
             <div class="recent-item-title">
               <span>写在前面</span>
@@ -755,6 +786,36 @@ function openEmailContact(email) {
 
 
 
+
+  <script>
+    // Recover display-math blocks where Markdown stripped \[ ... \] into [ ... ].
+    (function () {
+      var nodes = document.querySelectorAll('.page-content p, .page-content li, .post-excerpt p, .post-excerpt li');
+      for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        if (node.children.length !== 0) {
+          continue;
+        }
+        var text = node.textContent.trim();
+        var looksLikeEquation = /^\[[\s\S]+\]$/.test(text) && (text.indexOf('\\') !== -1 || /[_^=]/.test(text));
+        if (looksLikeEquation) {
+          node.textContent = '\\[' + text.slice(1, -1).trim() + '\\]';
+        }
+      }
+    })();
+  </script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "CommonHTML": { linebreaks: { automatic: true } }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 <script src="../assets/js/main.js"></script>
