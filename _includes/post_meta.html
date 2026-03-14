@@ -20,15 +20,17 @@
   {% endunless %}
   {% if document.read_time %}
     {% assign words_per_minute = document.words_per_minute | default: site.words_per_minute | default: 200 %}
-    {% assign words = document.content | strip_html | number_of_words %}
+    {% assign words = document.content | strip_html | number_of_words: 'auto' %}
+    {% assign minutes = words | divided_by: words_per_minute %}
+    {% assign remainder = words | modulo: words_per_minute %}
+    {% if remainder > 0 %}
+      {% assign minutes = minutes | plus: 1 %}
+    {% endif %}
+    {% if minutes < 1 %}
+      {% assign minutes = 1 %}
+    {% endif %}
     <{% if include.type == "recent-item-meta" %}p{% else %}span{% endif %} class="page_meta-readtime">
-      {% if words < words_per_minute %}
-        {{ site.data.ui-text[site.locale].less_than | default: '少于' }} 1 {{ site.data.ui-text[site.locale].minute_read | default: '分钟阅读' }}
-      {% elsif words == words_per_minute %}
-        1 {{ site.data.ui-text[site.locale].minute_read | default: '分钟阅读' }}
-      {% else %}
-        {{ words | divided_by: words_per_minute }} {{ site.data.ui-text[site.locale].minute_read | default: '分钟阅读' }}
-      {% endif %}
+      {{ minutes }} {{ site.data.ui-text[site.locale].minute_read | default: '分钟阅读' }}
     </{% if include.type == "recent-item-meta" %}p{% else %}span{% endif %}>
   {% endif %}
   {% if include.type == "post-page-meta" %}
