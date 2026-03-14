@@ -19,10 +19,25 @@
     {% endunless %}
   {% endunless %}
   {% if document.read_time %}
-    {% assign words_per_minute = document.words_per_minute | default: site.words_per_minute | default: 200 %}
-    {% assign words = document.content | strip_html | number_of_words: 'auto' %}
-    {% assign minutes = words | divided_by: words_per_minute %}
-    {% assign remainder = words | modulo: words_per_minute %}
+    {% assign units_per_minute = document.words_per_minute | default: site.words_per_minute | default: 300 %}
+    {% assign plain_text = document.content | strip_html | strip_newlines %}
+    {% assign compact_text = plain_text | remove: ' ' | remove: '　' | remove: '	' %}
+    {% assign weighted_units_times5 = 0 %}
+    {% assign chars = compact_text | split: '' %}
+    {% for ch in chars %}
+      {% if ch >= '!' and ch <= '~' %}
+        {% assign weighted_units_times5 = weighted_units_times5 | plus: 1 %}
+      {% else %}
+        {% assign weighted_units_times5 = weighted_units_times5 | plus: 5 %}
+      {% endif %}
+    {% endfor %}
+    {% assign weighted_units = weighted_units_times5 | divided_by: 5 %}
+    {% assign unit_remainder = weighted_units_times5 | modulo: 5 %}
+    {% if unit_remainder > 0 %}
+      {% assign weighted_units = weighted_units | plus: 1 %}
+    {% endif %}
+    {% assign minutes = weighted_units | divided_by: units_per_minute %}
+    {% assign remainder = weighted_units | modulo: units_per_minute %}
     {% if remainder > 0 %}
       {% assign minutes = minutes | plus: 1 %}
     {% endif %}
