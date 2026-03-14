@@ -1,6 +1,6 @@
 ---
 layout: menu-page
-title: About
+title: 关于
 permalink: about:output_ext
 ---
 {% include calculate_relative_base.html %}
@@ -27,7 +27,7 @@ permalink: about:output_ext
         <li class="github"><a class="github" href="https://github.com/{{site.github}}" target="_blank"><i class="fa fa-github"></i></a></li>
       {% endif %}
       {% if site.email %}
-        <li class="email"><a class="email" href="mailto:{{site.email}}"><i class="fa fa-envelope-o"></i></a></li>
+        <li class="email"><a class="email" href="mailto:{{site.email}}" onclick="return openEmailContact('{{ site.email }}')" title="发送邮件"><i class="fa fa-envelope-o"></i></a></li>
       {% endif %}
       {% if site.bandcamp %}
         <li class="bandcamp"><a class="bandcamp" href="https://{{site.bandcamp}}.bandcamp.com" target="_blank"><i class="fa fa-bandcamp" aria-hidden="true"></i></a></li>

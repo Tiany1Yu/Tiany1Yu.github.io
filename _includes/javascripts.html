@@ -108,6 +108,34 @@
     handleThemeToggle(nightShift);
     }
 })();
+
+function openEmailContact(email) {
+  if (!email) {
+    return false;
+  }
+
+  // Try opening the local mail client first.
+  window.location.href = 'mailto:' + email;
+
+  // Also copy the address as a fallback for environments without a mail handler.
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(email).then(function() {
+      setTimeout(function() {
+        alert('已尝试打开邮件客户端。若没有反应，请手动发送到：' + email + '（邮箱已复制）');
+      }, 250);
+    }, function() {
+      setTimeout(function() {
+        alert('已尝试打开邮件客户端。若没有反应，请手动发送到：' + email);
+      }, 250);
+    });
+  } else {
+    setTimeout(function() {
+      alert('已尝试打开邮件客户端。若没有反应，请手动发送到：' + email);
+    }, 250);
+  }
+
+  return false;
+}
 </script>
 
 <script src="{{ relativebase }}assets/js/jekyll-search.js"></script>
@@ -130,11 +158,11 @@
       navigator.clipboard.writeText('{{ site.url }}{{ page.url }}').then(function() {
       alerts = document.getElementsByClassName('alert')
       for (i=0; i < alerts.length; i++){
-        alerts[i].innerHTML='\u00ABlink copied\u00BB';
+        alerts[i].innerHTML='\u00AB链接已复制\u00BB';
         setTimeout((function(i){ return function(){alerts[i].innerHTML='';}})(i), 1600 );
       };
       }, function() {
-        prompt("Unable to copy, please use this link:", "{{ site.url }}{{ page.url }}");
+        prompt("复制失败，请手动复制此链接：", "{{ site.url }}{{ page.url }}");
       });
     }
 
@@ -162,7 +190,7 @@
           tweetSpanText.appendChild(document.createTextNode(tweetTags[i].textContent));
           tweetSpanIcon = document.createElement('span');
           tweetSpanIcon.className = 'tweetIcon';
-          tweetSpanIcon.appendChild(document.createTextNode("click to tweet"));
+          tweetSpanIcon.appendChild(document.createTextNode("一键转推"));
           tweetI = document.createElement("i");
           tweetI.className = 'fa fa-twitter';
           tweetSpanIcon.appendChild(tweetI);
@@ -240,7 +268,7 @@
       resultsContainer: document.getElementById('results-container'),
       json: '{{ relativebase }}search.json',
       searchResultTemplate: '<li><a href="{url}" title="{description}">{title}</a><p>{description}</p></li>',
-      noResultsText: 'No results found',
+      noResultsText: '未找到相关结果',
       fuzzy: false,
       exclude: ['Welcome']
     });
