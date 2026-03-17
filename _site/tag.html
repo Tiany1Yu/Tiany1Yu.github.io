@@ -238,7 +238,7 @@
   </span>
 
 					<div class="post-excerpt">
-						<p>大模型时代，机器学习算法还抱有生命力吗？</p> <p>我的答案是： 我不知道</p> <p>但是说实话机器学习的可解释性远好于深度学习，而且在不少问题的准确率应该还是很好的</p> <p>但是既然刚接触数据科学，那么这几个经典算法还是先学习一遍</p> <h2 id="1决策树">1.决策树</h2> <p>分治，不断将数据通过if else 的切片分成各类</p> <p>（CART）2叉树递归式的遍历节点，贪心构造一棵树</p> <p>切割如何评议？</p> <h3 id="引入纯度purity概念">引入纯度purity概念</h3> <ul> <li> <p>.离散情况</p> <p>信息熵：\(H(X) = -\sum_{i=1}^{n} p_i \log_2 p_i\)</p> <p>基尼指数：\(\text{Gini}(D) = 1 - \sum_{i=1}^{K} p_i^2\)</p> <p>信息熵没啥好解释的</p> <p>基尼指数是\(\sum_{i=1}^{K} p_i(1-p_i)\)</p> <p>,即随机抽取两个样本类别不一致的概率之和</p> </li> <li> <p>连续情况（回归树） SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)</p> </li> </ul> <p>其中 $c_1, c_2$ 是切分后两个子区域的平均值</p> <h3 id="如何最佳化节点数">如何最佳化节点数</h3> <p>CCP剪枝的引入</p> <p>定义损失函数 \(R_\alpha(T) = R(T) + \alpha\lvert T \rvert\)</p> <p>$\lvert T \rvert$（叶子节点个数）代表模型的复杂度。叶子越多，模型越细碎。</p> <p>$\alpha$（超参数）是一个调节权重。当 $\alpha = 0$ 时，不剪枝，树最大。当 $\alpha \to \infty$ 时，剪得只剩根节点。</p> <p>[g(t) = \frac{R(t) - R(T_t)}{\lvert T_t \rvert - 1}]</p> <p>根据g(t)达到阈值的节点个数，给出几个确定的$\alpha$进行测试集交叉验证</p> <h2 id="2随机森林">2.随机森林</h2> <h3 id="与决策树对比下呢">与决策树对比下呢</h3> <p>单颗树的确能够保证训练集准确率，但往往在测试集上表现并不好</p> <p>因此尝试引入多颗树，多个弱学习器来综合出强学习器</p> <p>隶属bagging家族</p> <p>采用自主取样法，即对N个样本进行N次有放回的抽取</p> <p>这具有一定的多样性和随机性，类似alexnet神经网络中的dropout</p> <p>OOB数据可作为验证集</p>...<a class="read-more" href="./%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html"> 阅读全文</a>
+						<h1 id="公式只是一些notation习惯了就好正如冯诺依曼说的我们从来没有真正理解数学我们只是习惯了它">公式只是一些notation，习惯了就好。正如冯诺依曼说的，我们从来没有真正理解数学，我们只是习惯了它</h1> <p>大模型时代，机器学习算法还抱有生命力吗？</p> <p>我的答案是： 我不知道</p> <p>但是说实话机器学习的可解释性远好于深度学习，而且在不少问题的准确率应该还是很好的</p> <p>但是既然刚接触数据科学，那么这几个经典算法还是先学习一遍</p> <h2 id="1决策树">1.决策树</h2> <p>分治，不断将数据通过if else 的切片分成各类</p> <p>（CART）2叉树递归式的遍历节点，贪心构造一棵树</p> <p>切割如何评议？</p> <h3 id="引入纯度purity概念">引入纯度purity概念</h3> <ul> <li> <p>.离散情况</p> <p>信息熵：\(H(X) = -\sum_{i=1}^{n} p_i \log_2 p_i\)</p> <p>基尼指数：\(\text{Gini}(D) = 1 - \sum_{i=1}^{K} p_i^2\)</p> <p>信息熵没啥好解释的</p> <p>基尼指数是\(\sum_{i=1}^{K} p_i(1-p_i)\)</p> <p>,即随机抽取两个样本类别不一致的概率之和</p> </li> <li> <p>连续情况（回归树） SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)</p> </li> </ul> <p>其中 $c_1, c_2$ 是切分后两个子区域的平均值</p> <p>我们采用上述纯度计算方法，纯度为切分成的两个区域自己内部的纯度的节点数加权和</p> <h3 id="如何最佳化节点数">如何最佳化节点数</h3> <p>CCP剪枝的引入</p> <p>定义损失函数 \(R_\alpha(T) = R(T) + \alpha\lvert T \rvert\)</p> <p>$\lvert T \rvert$（叶子节点个数）代表模型的复杂度。叶子越多，模型越细碎。</p> <p>$\alpha$（超参数）是一个调节权重。当 $\alpha = 0$ 时，不剪枝，树最大。当 $\alpha \to \infty$ 时，剪得只剩根节点。</p> <p>[g(t) = \frac{R(t) - R(T_t)}{\lvert T_t \rvert - 1}]</p> <p>根据g(t)达到阈值的节点个数，给出几个确定的$\alpha$进行测试集交叉验证</p> <h2 id="2随机森林">2.随机森林</h2> <h3 id="与决策树对比下呢">与决策树对比下呢</h3> <p>单颗树的确能够保证训练集准确率，但往往在测试集上表现并不好</p> <p>因此尝试引入多颗树，多个弱学习器来综合出强学习器</p> <p>隶属bagging家族</p>...<a class="read-more" href="./%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html"> 阅读全文</a>
 					</div>
 				</div>
 			
@@ -252,6 +252,54 @@
 		<div class="archive">
 			<div class="post-list">
 		    
+			
+
+				<div class="post">
+					<a class="post-list-title" href="./%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html">人工智能通识的第一次作业</a>
+					
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-03-17T20:10:45+08:00">2026年3月17日</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <span class="page_meta-readtime">
+      10 分钟阅读
+    </span>
+  
+  
+  </span>
+
+					<div class="post-excerpt">
+						<p><strong><em>为展现PCA，kPCA与谱聚类等经典机器学习算法在人脸识别上的应用，我们选取了Olivetti人脸数据集进行分析，采用控制变量法，对PCA-&gt;kmeans，KernelPCA-&gt;kmeans，PCA-&gt;谱聚类，KernelPCA-&gt;谱聚类四种方法进行对比分析，并使用ARI与NMI两种方式评估结果。</em></strong></p> <p><strong><em>导入olivetti数据集，并导入numpy、sklearn、matplotlib库，设置可视化模板，给出所有可视化函数</em></strong></p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span> <span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span> <span class="c1">#这里我们导入了一个好看的模板 </span><span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8</span><span class="sh">"</span><span class="p">)</span> <span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">.</span><span class="nf">update</span><span class="p">({</span> <span class="sh">"</span><span class="s">figure.dpi</span><span class="sh">"</span><span class="p">:</span> <span class="mi">140</span><span class="p">,</span> <span class="sh">"</span><span class="s">savefig.dpi</span><span class="sh">"</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="sh">"</span><span class="s">font.size</span><span class="sh">"</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="sh">"</span><span class="s">font.family</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">sans-serif</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">font.sans-serif</span><span class="sh">"</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s">Microsoft YaHei</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">DejaVu Sans</span><span class="sh">"</span><span class="p">],</span> <span class="sh">"</span><span class="s">axes.titlesize</span><span class="sh">"</span><span class="p">:</span> <span...<a class="read-more" href="./%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html"> 阅读全文</a>
+					</div>
+				</div>
+			
 			
 
 				<div class="post">
@@ -296,7 +344,7 @@
   </span>
 
 					<div class="post-excerpt">
-						<p>大模型时代，机器学习算法还抱有生命力吗？</p> <p>我的答案是： 我不知道</p> <p>但是说实话机器学习的可解释性远好于深度学习，而且在不少问题的准确率应该还是很好的</p> <p>但是既然刚接触数据科学，那么这几个经典算法还是先学习一遍</p> <h2 id="1决策树">1.决策树</h2> <p>分治，不断将数据通过if else 的切片分成各类</p> <p>（CART）2叉树递归式的遍历节点，贪心构造一棵树</p> <p>切割如何评议？</p> <h3 id="引入纯度purity概念">引入纯度purity概念</h3> <ul> <li> <p>.离散情况</p> <p>信息熵：\(H(X) = -\sum_{i=1}^{n} p_i \log_2 p_i\)</p> <p>基尼指数：\(\text{Gini}(D) = 1 - \sum_{i=1}^{K} p_i^2\)</p> <p>信息熵没啥好解释的</p> <p>基尼指数是\(\sum_{i=1}^{K} p_i(1-p_i)\)</p> <p>,即随机抽取两个样本类别不一致的概率之和</p> </li> <li> <p>连续情况（回归树） SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)</p> </li> </ul> <p>其中 $c_1, c_2$ 是切分后两个子区域的平均值</p> <h3 id="如何最佳化节点数">如何最佳化节点数</h3> <p>CCP剪枝的引入</p> <p>定义损失函数 \(R_\alpha(T) = R(T) + \alpha\lvert T \rvert\)</p> <p>$\lvert T \rvert$（叶子节点个数）代表模型的复杂度。叶子越多，模型越细碎。</p> <p>$\alpha$（超参数）是一个调节权重。当 $\alpha = 0$ 时，不剪枝，树最大。当 $\alpha \to \infty$ 时，剪得只剩根节点。</p> <p>[g(t) = \frac{R(t) - R(T_t)}{\lvert T_t \rvert - 1}]</p> <p>根据g(t)达到阈值的节点个数，给出几个确定的$\alpha$进行测试集交叉验证</p> <h2 id="2随机森林">2.随机森林</h2> <h3 id="与决策树对比下呢">与决策树对比下呢</h3> <p>单颗树的确能够保证训练集准确率，但往往在测试集上表现并不好</p> <p>因此尝试引入多颗树，多个弱学习器来综合出强学习器</p> <p>隶属bagging家族</p> <p>采用自主取样法，即对N个样本进行N次有放回的抽取</p> <p>这具有一定的多样性和随机性，类似alexnet神经网络中的dropout</p> <p>OOB数据可作为验证集</p>...<a class="read-more" href="./%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html"> 阅读全文</a>
+						<h1 id="公式只是一些notation习惯了就好正如冯诺依曼说的我们从来没有真正理解数学我们只是习惯了它">公式只是一些notation，习惯了就好。正如冯诺依曼说的，我们从来没有真正理解数学，我们只是习惯了它</h1> <p>大模型时代，机器学习算法还抱有生命力吗？</p> <p>我的答案是： 我不知道</p> <p>但是说实话机器学习的可解释性远好于深度学习，而且在不少问题的准确率应该还是很好的</p> <p>但是既然刚接触数据科学，那么这几个经典算法还是先学习一遍</p> <h2 id="1决策树">1.决策树</h2> <p>分治，不断将数据通过if else 的切片分成各类</p> <p>（CART）2叉树递归式的遍历节点，贪心构造一棵树</p> <p>切割如何评议？</p> <h3 id="引入纯度purity概念">引入纯度purity概念</h3> <ul> <li> <p>.离散情况</p> <p>信息熵：\(H(X) = -\sum_{i=1}^{n} p_i \log_2 p_i\)</p> <p>基尼指数：\(\text{Gini}(D) = 1 - \sum_{i=1}^{K} p_i^2\)</p> <p>信息熵没啥好解释的</p> <p>基尼指数是\(\sum_{i=1}^{K} p_i(1-p_i)\)</p> <p>,即随机抽取两个样本类别不一致的概率之和</p> </li> <li> <p>连续情况（回归树） SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)</p> </li> </ul> <p>其中 $c_1, c_2$ 是切分后两个子区域的平均值</p> <p>我们采用上述纯度计算方法，纯度为切分成的两个区域自己内部的纯度的节点数加权和</p> <h3 id="如何最佳化节点数">如何最佳化节点数</h3> <p>CCP剪枝的引入</p> <p>定义损失函数 \(R_\alpha(T) = R(T) + \alpha\lvert T \rvert\)</p> <p>$\lvert T \rvert$（叶子节点个数）代表模型的复杂度。叶子越多，模型越细碎。</p> <p>$\alpha$（超参数）是一个调节权重。当 $\alpha = 0$ 时，不剪枝，树最大。当 $\alpha \to \infty$ 时，剪得只剩根节点。</p> <p>[g(t) = \frac{R(t) - R(T_t)}{\lvert T_t \rvert - 1}]</p> <p>根据g(t)达到阈值的节点个数，给出几个确定的$\alpha$进行测试集交叉验证</p> <h2 id="2随机森林">2.随机森林</h2> <h3 id="与决策树对比下呢">与决策树对比下呢</h3> <p>单颗树的确能够保证训练集准确率，但往往在测试集上表现并不好</p> <p>因此尝试引入多颗树，多个弱学习器来综合出强学习器</p> <p>隶属bagging家族</p>...<a class="read-more" href="./%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html"> 阅读全文</a>
 					</div>
 				</div>
 			
@@ -358,6 +406,54 @@
 		<div class="archive">
 			<div class="post-list">
 		    
+			
+
+				<div class="post">
+					<a class="post-list-title" href="./%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html">人工智能通识的第一次作业</a>
+					
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-03-17T20:10:45+08:00">2026年3月17日</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <span class="page_meta-readtime">
+      10 分钟阅读
+    </span>
+  
+  
+  </span>
+
+					<div class="post-excerpt">
+						<p><strong><em>为展现PCA，kPCA与谱聚类等经典机器学习算法在人脸识别上的应用，我们选取了Olivetti人脸数据集进行分析，采用控制变量法，对PCA-&gt;kmeans，KernelPCA-&gt;kmeans，PCA-&gt;谱聚类，KernelPCA-&gt;谱聚类四种方法进行对比分析，并使用ARI与NMI两种方式评估结果。</em></strong></p> <p><strong><em>导入olivetti数据集，并导入numpy、sklearn、matplotlib库，设置可视化模板，给出所有可视化函数</em></strong></p> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span> <span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span> <span class="c1">#这里我们导入了一个好看的模板 </span><span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8</span><span class="sh">"</span><span class="p">)</span> <span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">.</span><span class="nf">update</span><span class="p">({</span> <span class="sh">"</span><span class="s">figure.dpi</span><span class="sh">"</span><span class="p">:</span> <span class="mi">140</span><span class="p">,</span> <span class="sh">"</span><span class="s">savefig.dpi</span><span class="sh">"</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="sh">"</span><span class="s">font.size</span><span class="sh">"</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="sh">"</span><span class="s">font.family</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">sans-serif</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">font.sans-serif</span><span class="sh">"</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s">Microsoft YaHei</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">DejaVu Sans</span><span class="sh">"</span><span class="p">],</span> <span class="sh">"</span><span class="s">axes.titlesize</span><span class="sh">"</span><span class="p">:</span> <span...<a class="read-more" href="./%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html"> 阅读全文</a>
+					</div>
+				</div>
+			
 			
 
 				<div class="post">
@@ -612,10 +708,10 @@
                 <li><a href="./tag.html?tag=%E5%BE%85%E5%AE%8C%E5%96%84" class="tag">待完善 <span>(1)</span></a></li>
             
                 
-                <li><a href="./tag.html?tag=%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0" class="tag">机器学习 <span>(2)</span></a></li>
+                <li><a href="./tag.html?tag=%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0" class="tag">机器学习 <span>(3)</span></a></li>
             
                 
-                <li><a href="./tag.html?tag=%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B" class="tag">特征工程 <span>(1)</span></a></li>
+                <li><a href="./tag.html?tag=%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B" class="tag">特征工程 <span>(2)</span></a></li>
             
                 
                 <li><a href="./tag.html?tag=%E8%87%AA%E6%88%91%E6%80%9D%E7%B4%A2" class="tag">自我思索 <span>(1)</span></a></li>

@@ -22,7 +22,7 @@
   "headline": "经典机器学习算法",
   "abstract": "",
     "keywords": "机器学习, 待完善",
-    "wordcount": "114",
+    "wordcount": "116",
     "image": ["http://localhost:4000/assets/imgposts/20260315-经典机器学习算法/cover.jpg"],
   "datePublished": "2026-03-15 00:35:42 +0800",
   "dateModified": "2026-03-15 00:35:42 +0800",
@@ -62,7 +62,7 @@
 <meta name="twitter:description" content="">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="114"/>
+<meta data-rh="true" name="twitter:data1" content="116"/>
 <meta name="twitter:image:src" content="http://localhost:4000/assets/img/posts/20260315-经典机器学习算法/cover.jpg">
 	<!-- Windows Phone -->
 	<meta name="msapplication-navbutton-color" content="#311e3e">
@@ -139,7 +139,7 @@
   </span>
 
         <div class="post-excerpt">
-          <p>大模型时代，机器学习算法还抱有生命力吗？</p><p>我的答案是： 我不知道</p><p>但是说实话机器学习的可解释性远好于深度学习，而且在不少问题的准确率应该还是很好的</p><p>但是既然刚接触数据科学，那么这几个经典算法还是先学习一遍</p><h2 id="1决策树">1.决策树</h2><p>分治，不断将数据通过if else 的切片分成各类</p><p>（CART）2叉树递归式的遍历节点，贪心构造一棵树</p><p>切割如何评议？</p><h3 id="引入纯度purity概念">引入纯度purity概念</h3><ul>  <li>    <p>.离散情况</p>    <p>信息熵：\(H(X) = -\sum_{i=1}^{n} p_i \log_2 p_i\)</p>    <p>基尼指数：\(\text{Gini}(D) = 1 - \sum_{i=1}^{K} p_i^2\)</p>    <p>信息熵没啥好解释的</p>    <p>基尼指数是\(\sum_{i=1}^{K} p_i(1-p_i)\)</p>    <p>,即随机抽取两个样本类别不一致的概率之和</p>  </li>  <li>    <p>连续情况（回归树）SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)</p>  </li></ul><p>其中 $c_1, c_2$ 是切分后两个子区域的平均值</p><h3 id="如何最佳化节点数">如何最佳化节点数</h3><p>CCP剪枝的引入</p><p>定义损失函数 \(R_\alpha(T) = R(T) + \alpha\lvert T \rvert\)</p><p>$\lvert T \rvert$（叶子节点个数）代表模型的复杂度。叶子越多，模型越细碎。</p><p>$\alpha$（超参数）是一个调节权重。当 $\alpha = 0$ 时，不剪枝，树最大。当 $\alpha \to \infty$ 时，剪得只剩根节点。</p><p>[g(t) = \frac{R(t) - R(T_t)}{\lvert T_t \rvert - 1}]</p><p>根据g(t)达到阈值的节点个数，给出几个确定的$\alpha$进行测试集交叉验证</p><h2 id="2随机森林">2.随机森林</h2><h3 id="与决策树对比下呢">与决策树对比下呢</h3><p>单颗树的确能够保证训练集准确率，但往往在测试集上表现并不好</p><p>因此尝试引入多颗树，多个弱学习器来综合出强学习器</p><p>隶属bagging家族</p><p>采用自主取样法，即对N个样本进行N次有放回的抽取</p><p>这具有一定的多样性和随机性，类似alexnet神经网络中的dropout</p><p>OOB数据可作为验证集</p><h3 id="建树">建树</h3><p>一般采用cart树，gini impurity</p><h3 id="如何找最优切分点">如何找最优切分点？</h3><p>先抽m &lt; M 个特征，在 m中找最优解，这更有dropout的味道了</p><p>这样双重随机给予了树多样性</p><p>我们循环T次建T棵树，不进行剪枝</p><p>最后预测阶段 若分类（离散） 那么取多数</p><p>若回归（连续） 那么取平均</p><p><em>强，支持并行计算，从原理上看我感觉显著优于单一决策树</em></p><h2 id="3gbdt-梯度提升决策树">3.GBDT 梯度提升决策树</h2><p>boosting流派 每棵树都是为了修正前一棵树的错误</p><p>这个看起来只能串行计算（to be continued）</p><a class="read-more" href="./%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html"> 阅读全文</a>
+          <h1 id="公式只是一些notation习惯了就好正如冯诺依曼说的我们从来没有真正理解数学我们只是习惯了它">公式只是一些notation，习惯了就好。正如冯诺依曼说的，我们从来没有真正理解数学，我们只是习惯了它</h1><p>大模型时代，机器学习算法还抱有生命力吗？</p><p>我的答案是： 我不知道</p><p>但是说实话机器学习的可解释性远好于深度学习，而且在不少问题的准确率应该还是很好的</p><p>但是既然刚接触数据科学，那么这几个经典算法还是先学习一遍</p><h2 id="1决策树">1.决策树</h2><p>分治，不断将数据通过if else 的切片分成各类</p><p>（CART）2叉树递归式的遍历节点，贪心构造一棵树</p><p>切割如何评议？</p><h3 id="引入纯度purity概念">引入纯度purity概念</h3><ul>  <li>    <p>.离散情况</p>    <p>信息熵：\(H(X) = -\sum_{i=1}^{n} p_i \log_2 p_i\)</p>    <p>基尼指数：\(\text{Gini}(D) = 1 - \sum_{i=1}^{K} p_i^2\)</p>    <p>信息熵没啥好解释的</p>    <p>基尼指数是\(\sum_{i=1}^{K} p_i(1-p_i)\)</p>    <p>,即随机抽取两个样本类别不一致的概率之和</p>  </li>  <li>    <p>连续情况（回归树）SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)</p>  </li></ul><p>其中 $c_1, c_2$ 是切分后两个子区域的平均值</p><p>我们采用上述纯度计算方法，纯度为切分成的两个区域自己内部的纯度的节点数加权和</p><h3 id="如何最佳化节点数">如何最佳化节点数</h3><p>CCP剪枝的引入</p><p>定义损失函数 \(R_\alpha(T) = R(T) + \alpha\lvert T \rvert\)</p><p>$\lvert T \rvert$（叶子节点个数）代表模型的复杂度。叶子越多，模型越细碎。</p><p>$\alpha$（超参数）是一个调节权重。当 $\alpha = 0$ 时，不剪枝，树最大。当 $\alpha \to \infty$ 时，剪得只剩根节点。</p><p>[g(t) = \frac{R(t) - R(T_t)}{\lvert T_t \rvert - 1}]</p><p>根据g(t)达到阈值的节点个数，给出几个确定的$\alpha$进行测试集交叉验证</p><h2 id="2随机森林">2.随机森林</h2><h3 id="与决策树对比下呢">与决策树对比下呢</h3><p>单颗树的确能够保证训练集准确率，但往往在测试集上表现并不好</p><p>因此尝试引入多颗树，多个弱学习器来综合出强学习器</p><p>隶属bagging家族</p><p>采用自主取样法，即对N个样本进行N次有放回的抽取</p><p>这具有一定的多样性和随机性，类似alexnet神经网络中的dropout</p><p>OOB数据可作为验证集</p><h3 id="建树">建树</h3><p>一般采用cart树，gini impurity</p><h3 id="如何找最优切分点">如何找最优切分点？</h3><p>先抽m &lt; M 个特征，在 m中找最优解，这更有dropout的味道了</p><p>这样双重随机给予了树多样性</p><p>我们循环T次建T棵树，不进行剪枝</p><p>最后预测阶段 若分类（离散） 那么取多数</p><p>若回归（连续） 那么取平均</p><p><em>强，支持并行计算，从原理上看我感觉显著优于单一决策树</em></p><h2 id="3gbdt-梯度提升决策树">3.GBDT 梯度提升决策树</h2><p>boosting流派 每棵树都是为了修正前一棵树的错误</p><p>这个看起来只能串行计算（to be continued）</p><a class="read-more" href="./%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html"> 阅读全文</a>
         </div>
   </div>
 </section>
@@ -322,7 +322,9 @@
 
         
         
-        <p>大模型时代，机器学习算法还抱有生命力吗？</p>
+        <h1 id="公式只是一些notation习惯了就好正如冯诺依曼说的我们从来没有真正理解数学我们只是习惯了它">公式只是一些notation，习惯了就好。正如冯诺依曼说的，我们从来没有真正理解数学，我们只是习惯了它</h1>
+
+<p>大模型时代，机器学习算法还抱有生命力吗？</p>
 
 <p>我的答案是： 我不知道</p>
 
@@ -357,6 +359,8 @@ SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)<
 </ul>
 
 <p>其中 $c_1, c_2$ 是切分后两个子区域的平均值</p>
+
+<p>我们采用上述纯度计算方法，纯度为切分成的两个区域自己内部的纯度的节点数加权和</p>
 
 <h3 id="如何最佳化节点数">如何最佳化节点数</h3>
 
@@ -482,6 +486,46 @@ SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)<
           
           
 
+          <a href="./%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html" class="recent-item-img" style="background: url('./assets/img/posts/20260317-人工智能通识的第一次作业/cover.png') center no-repeat; background-size: cover;">
+            <div class="recent-item-title">
+              <span>人工智能通识的第一次作业</span>
+              
+
+  <span class = "recent-item-meta">
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <p class="page_meta-readtime">
+      10 分钟阅读
+    </p>
+  
+  
+  </span>
+
+            </div>
+          </a>
+        </div>
+      
+    
+      
+        <div class="recent-item">
+          
+          
+
           <a href="./%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html" class="recent-item-img" style="background: url('./assets/img/posts/20260315-经典机器学习算法/cover.jpg') center no-repeat; background-size: cover;">
             <div class="recent-item-title">
               <span>经典机器学习算法</span>
@@ -587,46 +631,6 @@ SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)<
     
     <p class="page_meta-readtime">
       7 分钟阅读
-    </p>
-  
-  
-  </span>
-
-            </div>
-          </a>
-        </div>
-      
-    
-      
-        <div class="recent-item">
-          
-          
-
-          <a href="./%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2.html" class="recent-item-img" style="background: url('./assets/img/posts/20260314/why.jpg') center no-repeat; background-size: cover;">
-            <div class="recent-item-title">
-              <span>写在前面</span>
-              
-
-  <span class = "recent-item-meta">
-  
-  
-  
-  
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <p class="page_meta-readtime">
-      2 分钟阅读
     </p>
   
   

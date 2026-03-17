@@ -197,6 +197,54 @@
 		<div class="post">
 			
 
+			<a class="post-list-title" href="./%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html">人工智能通识的第一次作业</a>
+			
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-03-17T20:10:45+08:00">2026年3月17日</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <span class="page_meta-readtime">
+      10 分钟阅读
+    </span>
+  
+  
+  </span>
+
+			<div class="post-excerpt">
+				<p><strong><em>为展现PCA，kPCA与谱聚类等经典机器学习算法在人脸识别上的应用，我们选取了Olivetti人脸数据集进行分析，采用控制变量法，对PCA-&gt;kmeans，KernelPCA-&gt;kmeans，PCA-&gt;谱聚类，KernelPCA-&gt;谱聚类四种方法进行对比分析，并使用ARI与NMI两种方式评估结果。</em></strong></p><p><strong><em>导入olivetti数据集，并导入numpy、sklearn、matplotlib库，设置可视化模板，给出所有可视化函数</em></strong></p><div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span><span class="c1">#这里我们导入了一个好看的模板</span><span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8</span><span class="sh">"</span><span class="p">)</span><span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">.</span><span class="nf">update</span><span class="p">({</span> <span class="sh">"</span><span class="s">figure.dpi</span><span class="sh">"</span><span class="p">:</span> <span class="mi">140</span><span class="p">,</span> <span class="sh">"</span><span class="s">savefig.dpi</span><span class="sh">"</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="sh">"</span><span class="s">font.size</span><span class="sh">"</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="sh">"</span><span class="s">font.family</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">sans-serif</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">font.sans-serif</span><span class="sh">"</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s">Microsoft YaHei</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">DejaVu Sans</span><span class="sh">"</span><span class="p">],</span> <span class="sh">"</span><span class="s">axes.titlesize</span><span class="sh">"</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="sh">"</span><span class="s">axes.labelsize</span><span class="sh">"</span><span...<a class="read-more" href="./%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html"> 阅读全文</a>
+			</div>
+		</div>
+	
+		<div class="post">
+			
+
 			<a class="post-list-title" href="./%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html">经典机器学习算法</a>
 			
 
@@ -238,7 +286,7 @@
   </span>
 
 			<div class="post-excerpt">
-				<p>大模型时代，机器学习算法还抱有生命力吗？</p><p>我的答案是： 我不知道</p><p>但是说实话机器学习的可解释性远好于深度学习，而且在不少问题的准确率应该还是很好的</p><p>但是既然刚接触数据科学，那么这几个经典算法还是先学习一遍</p><h2 id="1决策树">1.决策树</h2><p>分治，不断将数据通过if else 的切片分成各类</p><p>（CART）2叉树递归式的遍历节点，贪心构造一棵树</p><p>切割如何评议？</p><h3 id="引入纯度purity概念">引入纯度purity概念</h3><ul>  <li>    <p>.离散情况</p>    <p>信息熵：\(H(X) = -\sum_{i=1}^{n} p_i \log_2 p_i\)</p>    <p>基尼指数：\(\text{Gini}(D) = 1 - \sum_{i=1}^{K} p_i^2\)</p>    <p>信息熵没啥好解释的</p>    <p>基尼指数是\(\sum_{i=1}^{K} p_i(1-p_i)\)</p>    <p>,即随机抽取两个样本类别不一致的概率之和</p>  </li>  <li>    <p>连续情况（回归树）SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)</p>  </li></ul><p>其中 $c_1, c_2$ 是切分后两个子区域的平均值</p><h3 id="如何最佳化节点数">如何最佳化节点数</h3><p>CCP剪枝的引入</p><p>定义损失函数 \(R_\alpha(T) = R(T) + \alpha\lvert T \rvert\)</p><p>$\lvert T \rvert$（叶子节点个数）代表模型的复杂度。叶子越多，模型越细碎。</p><p>$\alpha$（超参数）是一个调节权重。当 $\alpha = 0$ 时，不剪枝，树最大。当 $\alpha \to \infty$ 时，剪得只剩根节点。</p><p>[g(t) = \frac{R(t) - R(T_t)}{\lvert T_t \rvert - 1}]</p><p>根据g(t)达到阈值的节点个数，给出几个确定的$\alpha$进行测试集交叉验证</p><h2 id="2随机森林">2.随机森林</h2><h3 id="与决策树对比下呢">与决策树对比下呢</h3><p>单颗树的确能够保证训练集准确率，但往往在测试集上表现并不好</p><p>因此尝试引入多颗树，多个弱学习器来综合出强学习器</p><p>隶属bagging家族</p><p>采用自主取样法，即对N个样本进行N次有放回的抽取</p><p>这具有一定的多样性和随机性，类似alexnet神经网络中的dropout</p><p>OOB数据可作为验证集</p><h3 id="建树">建树</h3><p>一般采用cart树，gini impurity</p><h3 id="如何找最优切分点">如何找最优切分点？</h3><p>先抽m &lt; M 个特征，在 m中找最优解，这更有dropout的味道了</p><p>这样双重随机给予了树多样性</p><p>我们循环T次建T棵树，不进行剪枝</p><p>最后预测阶段 若分类（离散） 那么取多数</p><p>若回归（连续） 那么取平均</p><p><em>强，支持并行计算，从原理上看我感觉显著优于单一决策树</em></p><h2 id="3gbdt-梯度提升决策树">3.GBDT 梯度提升决策树</h2><p>boosting流派 每棵树都是为了修正前一棵树的错误</p><p>这个看起来只能串行计算（to be continued）</p><a class="read-more" href="./%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html"> 阅读全文</a>
+				<h1 id="公式只是一些notation习惯了就好正如冯诺依曼说的我们从来没有真正理解数学我们只是习惯了它">公式只是一些notation，习惯了就好。正如冯诺依曼说的，我们从来没有真正理解数学，我们只是习惯了它</h1><p>大模型时代，机器学习算法还抱有生命力吗？</p><p>我的答案是： 我不知道</p><p>但是说实话机器学习的可解释性远好于深度学习，而且在不少问题的准确率应该还是很好的</p><p>但是既然刚接触数据科学，那么这几个经典算法还是先学习一遍</p><h2 id="1决策树">1.决策树</h2><p>分治，不断将数据通过if else 的切片分成各类</p><p>（CART）2叉树递归式的遍历节点，贪心构造一棵树</p><p>切割如何评议？</p><h3 id="引入纯度purity概念">引入纯度purity概念</h3><ul>  <li>    <p>.离散情况</p>    <p>信息熵：\(H(X) = -\sum_{i=1}^{n} p_i \log_2 p_i\)</p>    <p>基尼指数：\(\text{Gini}(D) = 1 - \sum_{i=1}^{K} p_i^2\)</p>    <p>信息熵没啥好解释的</p>    <p>基尼指数是\(\sum_{i=1}^{K} p_i(1-p_i)\)</p>    <p>,即随机抽取两个样本类别不一致的概率之和</p>  </li>  <li>    <p>连续情况（回归树）SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)</p>  </li></ul><p>其中 $c_1, c_2$ 是切分后两个子区域的平均值</p><p>我们采用上述纯度计算方法，纯度为切分成的两个区域自己内部的纯度的节点数加权和</p><h3 id="如何最佳化节点数">如何最佳化节点数</h3><p>CCP剪枝的引入</p><p>定义损失函数 \(R_\alpha(T) = R(T) + \alpha\lvert T \rvert\)</p><p>$\lvert T \rvert$（叶子节点个数）代表模型的复杂度。叶子越多，模型越细碎。</p><p>$\alpha$（超参数）是一个调节权重。当 $\alpha = 0$ 时，不剪枝，树最大。当 $\alpha \to \infty$ 时，剪得只剩根节点。</p><p>[g(t) = \frac{R(t) - R(T_t)}{\lvert T_t \rvert - 1}]</p><p>根据g(t)达到阈值的节点个数，给出几个确定的$\alpha$进行测试集交叉验证</p><h2 id="2随机森林">2.随机森林</h2><h3 id="与决策树对比下呢">与决策树对比下呢</h3><p>单颗树的确能够保证训练集准确率，但往往在测试集上表现并不好</p><p>因此尝试引入多颗树，多个弱学习器来综合出强学习器</p><p>隶属bagging家族</p><p>采用自主取样法，即对N个样本进行N次有放回的抽取</p><p>这具有一定的多样性和随机性，类似alexnet神经网络中的dropout</p><p>OOB数据可作为验证集</p><h3 id="建树">建树</h3><p>一般采用cart树，gini impurity</p><h3 id="如何找最优切分点">如何找最优切分点？</h3><p>先抽m &lt; M 个特征，在 m中找最优解，这更有dropout的味道了</p><p>这样双重随机给予了树多样性</p><p>我们循环T次建T棵树，不进行剪枝</p><p>最后预测阶段 若分类（离散） 那么取多数</p><p>若回归（连续） 那么取平均</p><p><em>强，支持并行计算，从原理上看我感觉显著优于单一决策树</em></p><h2 id="3gbdt-梯度提升决策树">3.GBDT 梯度提升决策树</h2><p>boosting流派 每棵树都是为了修正前一棵树的错误</p><p>这个看起来只能串行计算（to be continued）</p><a class="read-more" href="./%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html"> 阅读全文</a>
 			</div>
 		</div>
 	
@@ -286,55 +334,7 @@
   </span>
 
 			<div class="post-excerpt">
-				<h2 id="熟知一些缩写对自己有好处">熟知一些缩写对自己有好处</h2><p>PCA=principal component analysisSSE/MSE/MAE/RMSE/MRE……  （root） sum/mean of squared/absolute errorRI/ARI/MI/NMI/AMI  （adjusted）  rand index /（adjusted/normalized） mutual information （暂未搞懂）RBF=SE核 高斯核 radial basis function |squared expotional （暂未搞懂）CCP cost complexity pruningBagging Bootstep aggregating 采样聚合OOB out of bagGBDT gradient boosting decision tree</p><a class="read-more" href="./%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A.html"> 阅读全文</a>
-			</div>
-		</div>
-	
-		<div class="post">
-			
-
-			<a class="post-list-title" href="./2026-03-14-ai-note.html">PCA/核PCA/谱聚类--关于《矩阵计算与优化》第一次组作业</a>
-			
-
-  <span class = "post-card-meta">
-  
-  
-    <span class="meta-pre"></span>
-  
-  
-    
-      
-      <span class="page_meta-date">
-        <time datetime="2026-03-14T17:54:00+08:00">2026年3月14日</time>
-      </span>
-    
-    
-      <span class="meta-sep"></span>
-    
-  
-  
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <span class="page_meta-readtime">
-      7 分钟阅读
-    </span>
-  
-  
-  </span>
-
-			<div class="post-excerpt">
-				<center><img src="/assets/img/posts/20260314-2026-03-14-ai-note/imgs/Screenshot 2026-03-14 165722.png" /></center><p>这周的矩阵计算通识课，上来就给我们当头一棒，面对不熟悉陌生的词语，以及半懂不懂的术语</p><p>我们又该怎么应对？/(ㄒoㄒ)/~~</p><h2 id="具体方案介绍">具体方案介绍</h2><p>这次我想设计的任务很简单，以Olivetti faces数据集，做一个简单的人脸分类工作</p><p>以PCA/核PCA  =&gt;  kmeans聚类/谱聚类共四种组合，对比其性能</p><h2 id="不好理解-开始名词解释">不好理解？ 开始名词解释</h2><h3 id="olivetti数据集是什么">olivetti数据集是什么？</h3><p>olivetti数据集是一个很经典的人脸数据集</p><ul>  <li>40 个人</li>  <li>每个人 10 张照片</li>  <li>一共 400 张人脸图</li>  <li>每张图是灰度图（黑白），大小 64×64</li>  <li>所以每张图片有 4096 个像素（因为 64×64=4096）</li></ul><h3 id="我要做什么">我要做什么？</h3><p>通过无监督学习(不给人工智能答案)，让人工智能通过四种不同方案，分别对人脸进行分类，对比ARI(adjusted rand index)正确率</p><h3 id="先解释一下标准操作流程">先解释一下标准操作流程</h3><p>64*64的图片已经很小了，但即使是这样，数据也有4096个（每个0-255之间）</p><p>我们首先要将其展平成4096维向量</p><p>那么问题来了，输入这么大，怎么提取出关键信息呢？</p><p>PCA/核PCA这时候就来了（（kernel）Principal component analysis）</p><h3 id="pca核pca">PCA/核PCA</h3><p>我们要找出这个矩阵的主要成分，那有什么和矩阵相关的工具可以用呢🤔</p><p>特征值将整个向量空间分成特征子空间的直和</p><p>每个特征子空间都反映了这个空间在某个方向上的缩放，我们选取前k个，反映了这个矩阵的<strong>主要成分</strong></p><p>这就是<strong>主要成分</strong>分析</p><p>首先是PCA，分为三步</p><p>1.我们先把矩阵去中心化，也就是把这些人脸平均出来的平均脸减去，这样才能反映各个矩阵的差异</p><p>也即</p><p>[\tilde X = X - \mathbf{1}\mu^\top]</p><p>2.我们要提取主成分，有两种方式</p><ul>  <li>我们进行奇异值分解，这个方法对所有矩阵通用</li></ul><p>[\tilde X = U\Sigma V^\top]</p><ul>  <li>还记得上学期的线性代数吗，我们把矩阵及其转置矩阵相乘得到的是一个实对称矩阵，而实对称具有非常优良的性质：具有n个特征值，且每个特征值对应的特征向量正交！那么这就可以得到n个特征子空间</li></ul><p>3.我们选取其中数值最大的k个作为基，将每个向量对应与这k个基做内积，得到一个k维的向量，这个时候我们成功提取出了主成分！</p><p>核PCA与这个类似，但是他是把空间映射到无穷维空间上（函数）</p><p>因为PCA只能对成分进行线性组合，提取出k个主成分，但是非线性的成分似乎就不行了（例如一个环形的成分）</p><p>这个时候映射到无穷维空间就有效果了</p><p>但是无穷维怎么计算呢？</p><p>我们考虑一个隐式的无穷维空间，用连续而非离散的函数将其映射到有限维</p><p>例如：</p><p>常用的是 RBF 核（高斯核）：</p><p>[k(x_i,x_j)=\exp(-\gamma|x_i-x_j|^2)]</p><p>再通过gram矩阵（内积空间基底转换）</p><p>[K_{ij}=k(x_i,x_j)]</p><p>来反映每个向量之间的联系</p><p>其实步骤差不多，都是去中心化-&gt;提取主成分k维-&gt;将原向量映射到k维</p><h3 id="kmeans聚类谱聚类">kmeans聚类/谱聚类</h3><p>现在可以开始聚类了，我们去除了原数据中可能的无关成分，得到了k个最精简的成分</p><p>什么是kmeans？</p><p>我们对选择K（这里K=40）个簇</p><ul>  <li>先随便放 40 个“中心点”，然后每张脸归到最近的中心点；</li>  <li>再把每一组的中心点更新成那组的平均值；</li>  <li>重复直到稳定。</li></ul><p>这就实现了聚类</p><p>什么是谱聚类？</p><p>这块是我最不了解的地方，因为涉及到图论</p><p>谱聚类很像：</p><ol>  <li>我把每张脸当作一个点（节点）</li>  <li>    <p>我用相似度把点连接成一张“图”（graph）<br />相似的脸连得更“紧”（边权更大）</p>    <p>边权：</p>  </li></ol><p>[W_{ij}=\exp\left(-\frac{|z_i-z_j|^2}{2\sigma^2}\right)]</p><ol>  <li>我想把这张图切成 40 块，让：    <ul>      <li>同一块里面的边权尽量大（彼此相似）</li>      <li>不同块之间的连接尽量小（彼此不相似）</li>    </ul>  </li>  <li>怎么切？<br />它会算一个叫“拉普拉斯矩阵”的东西，然后做特征分解（又是矩阵特征值那一套）</li>  <li>最后在特征向量空间里再用 KMeans 分组</li></ol><p>这个拉普拉斯矩阵我还要再学习一下（）贴一下</p><p>[L_{\text{sym}}=I-D^{-1/2}WD^{-1/2}]</p><h3 id="激动人心">激动人心！！</h3><p>这时候我们终于得到了 40类人脸</p><p>我们通过ARI（Adjusted Rand Index），把我们分类出来的序号0-39 和原图标注的0-39一一对应，计算正确率</p><h2 id="最后">最后</h2><p>这是我想的一个比较贴近的方式（）</p><p>讲述什么的我不太擅长</p><p>我希望大家能通过这个markdown了解名词，并且强烈推荐一下我想的这套工作模式</p><a class="read-more" href="./2026-03-14-ai-note.html"> 阅读全文</a>
+				<h2 id="熟知一些缩写对自己有好处">熟知一些缩写对自己有好处</h2><p>PCA=principal component analysis</p><p>SSE/MSE/MAE/RMSE/MRE……  （root） sum/mean of squared/absolute error</p><p>RI/ARI/MI/NMI/AMI  （adjusted）  rand index /（adjusted/normalized）</p><p>mutual information （暂未搞懂）</p><table>  <tbody>    <tr>      <td>RBF=SE核 高斯核 radial basis function</td>      <td>squared expotional （暂未搞懂）</td>    </tr>  </tbody></table><p>CCP cost complexity pruning</p><p>Bagging Bootstep aggregating 采样聚合</p><p>OOB out of bag</p><p>GBDT gradient boosting decision tree</p><p>CSV Comma-Separated Values</p><a class="read-more" href="./%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A.html"> 阅读全文</a>
 			</div>
 		</div>
 	
