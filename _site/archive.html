@@ -197,6 +197,54 @@
 		<div class="post">
 			
 
+			<a class="post-list-title" href="./hw2.html">基于矩阵分解的哈勃深空图像分析与重构</a>
+			
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-03-28T13:37:47+08:00">2026年3月28日</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <span class="page_meta-readtime">
+      18 分钟阅读
+    </span>
+  
+  
+  </span>
+
+			<div class="post-excerpt">
+				<p>本人没空，文章由ai生成</p><h1 id="基于矩阵分解的哈勃深空图像分析与重构">基于矩阵分解的哈勃深空图像分析与重构</h1><p><strong>摘要</strong>：本项目旨在探索高级矩阵分解算法（主要包括奇异值分解 SVD、满秩分解、以及 Cholesky 三角分解）在超高分辨率计算机视觉任务中的应用。我们以哈勃太空望远镜拍摄的极高分辨率彩色星云图为研究对象，分别构建了“基于 SVD 的深空降噪模型”与“基于 ALS 的像素残缺修复（补全）模型”。本文档将详细阐述项目背后的数学原理与工程算法细节，以便团队成员快速理解核心思路并顺利参与后续开发。</p><hr /><h2 id="模块一基于-svd-的图像降噪与重构">模块一：基于 SVD 的图像降噪与重构</h2><h3 id="1-核心问题背景">1. 核心问题背景</h3><p>宇宙空间探测器传回的图像，往往伴随大量的光子噪声与宇宙射线辐射（通常呈现为高斯分布或椒盐噪声）。我们的任务是在尽量不破坏星系自然轮廓和星际尘埃细节的前提下，通过纯数学建模的方式滤除这些物理底噪。</p><p>在计算机中，一张单色（灰度）图像可以被视为一个由亮度像素值构成的 $m \times n$ 的实数矩阵 $A$。对于彩色星云图（RGB），则是由三个这样的二维矩阵合并构成的三维张量。我们首先从二维矩阵讲起。</p><h3 id="2-数学原理深度剖析svd-奇异值分解">2. 数学原理深度剖析：SVD (奇异值分解)</h3><p><strong>SVD 的代数形式：</strong>线性代数学告诉我们，任意一个 $m \times n$ 的实矩阵 $A$ 都可以被分解为三个极具规律的矩阵的乘积：\(A = U \Sigma V^T\)</p><ul> <li><strong>$U$ (左奇异矩阵)</strong>: 代表图像的“列基向量”（垂直方向特征空间）。</li> <li><strong>$V$ (右奇异矩阵)</strong>: 其转置 $V^T$ 代表图像的“行基向量”（水平方向特征空间）。</li> <li><strong>$\Sigma$ (奇异值矩阵)</strong>: 一个对角矩阵，对角线上的元素 $\sigma_i$ 被称为“奇异值”，默认按从大到小的顺序严格降序排列。</li></ul><p><strong>从线性空间基变换的视角理解奇异值（核心）：</strong>在线性代数中，SVD 实质上是将原矩阵表示为 $r$ 个（$r$ 为矩阵的秩）秩为 1 的矩阵之和：$A = \sum_{i=1}^r \sigma_i u_i v_i^T$。其中每一项代表了原图像在某对相互正交的行向量和列向量所张成的一维子空间上的投影。</p><ul> <li><strong>巨大的前列奇异值</strong>：这些奇异值携带了矩阵的主干结构（高度线性相关的大面积星云轮廓和渐变光谱）。这部分基向量构成了图像有效信息的主要子空间展开方向。</li> <li><strong>微小的尾部奇异值</strong>：这些极小的成分意味着其对应的基向量投影对整体矩阵的影响微乎其微。绝大多数独立且完全随机、无线性相关性的高斯噪点，由于无法通过少数几个基的线性组合来表达，它们的“坐标分量”会被迫均匀散布在这些微小奇异值长尾中。</li></ul><p><strong>如何实现降噪？——投影到低秩子空间 (Truncated SVD)</strong>既然无关联的噪声全部分散于微小奇异值所对应的正交分量（基向量）上，我们可以采取一种强硬降维策略：人为地选取一个秩 $k &lt; r$，强制只保留前 $k$ 个最大的奇异值。此时重构的秩为 $k$ 的近似矩阵 $A_k$ 为：\(A_k = U \Sigma_k V^T = \sum_{i=1}^k \sigma_i u_i v_i^T\)在这看似简单的截断背后，有着深刻的代数原理支撑——<strong>Eckart-Young-Mirsky 定理</strong>。该定理保证了：在所有秩不超过 $k$ 的矩阵中，$A_k$ 是距离原矩阵 $A$ 最近的（即两者差值的弗罗贝尼乌斯范数 $|A - A_k|_F$ 最小）。通过丢弃后段的奇异值，我们在数学层面上相当于把原本含有庞乱杂散基向量的图像空间强行投影到了一个最具有代表性的 $k$ 维子平面上，从而在代数投影层面“过筛”掉了大部分不满足线性相关的随机噪点。</p><h3 id="3-工程化实现与调优基准">3. 工程化实现与调优基准</h3><ul> <li><strong>通道拆解与堆叠</strong>：标准的 SVD 无法直接用于 RGB 带来的 3D...<a class="read-more" href="./hw2.html"> 阅读全文</a>
+			</div>
+		</div>
+	
+		<div class="post">
+			
+
 			<a class="post-list-title" href="./%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html">人工智能通识的第一次作业</a>
 			
 
@@ -287,54 +335,6 @@
 
 			<div class="post-excerpt">
 				<h1 id="公式只是一些notation习惯了就好正如冯诺依曼说的我们从来没有真正理解数学我们只是习惯了它">公式只是一些notation，习惯了就好。正如冯诺依曼说的，我们从来没有真正理解数学，我们只是习惯了它</h1><p>大模型时代，机器学习算法还抱有生命力吗？</p><p>我的答案是： 我不知道</p><p>但是说实话机器学习的可解释性远好于深度学习，而且在不少问题的准确率应该还是很好的</p><p>但是既然刚接触数据科学，那么这几个经典算法还是先学习一遍</p><h2 id="1决策树">1.决策树</h2><p>分治，不断将数据通过if else 的切片分成各类</p><p>（CART）2叉树递归式的遍历节点，贪心构造一棵树</p><p>切割如何评议？</p><h3 id="引入纯度purity概念">引入纯度purity概念</h3><ul>  <li>    <p>.离散情况</p>    <p>信息熵：\(H(X) = -\sum_{i=1}^{n} p_i \log_2 p_i\)</p>    <p>基尼指数：\(\text{Gini}(D) = 1 - \sum_{i=1}^{K} p_i^2\)</p>    <p>信息熵没啥好解释的</p>    <p>基尼指数是\(\sum_{i=1}^{K} p_i(1-p_i)\)</p>    <p>,即随机抽取两个样本类别不一致的概率之和</p>  </li>  <li>    <p>连续情况（回归树）SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)</p>  </li></ul><p>其中 $c_1, c_2$ 是切分后两个子区域的平均值</p><p>我们采用上述纯度计算方法，纯度为切分成的两个区域自己内部的纯度的节点数加权和</p><h3 id="如何最佳化节点数">如何最佳化节点数</h3><p>CCP剪枝的引入</p><p>定义损失函数 \(R_\alpha(T) = R(T) + \alpha\lvert T \rvert\)</p><p>$\lvert T \rvert$（叶子节点个数）代表模型的复杂度。叶子越多，模型越细碎。</p><p>$\alpha$（超参数）是一个调节权重。当 $\alpha = 0$ 时，不剪枝，树最大。当 $\alpha \to \infty$ 时，剪得只剩根节点。</p><p>[g(t) = \frac{R(t) - R(T_t)}{\lvert T_t \rvert - 1}]</p><p>根据g(t)达到阈值的节点个数，给出几个确定的$\alpha$进行测试集交叉验证</p><h2 id="2随机森林">2.随机森林</h2><h3 id="与决策树对比下呢">与决策树对比下呢</h3><p>单颗树的确能够保证训练集准确率，但往往在测试集上表现并不好</p><p>因此尝试引入多颗树，多个弱学习器来综合出强学习器</p><p>隶属bagging家族</p><p>采用自主取样法，即对N个样本进行N次有放回的抽取</p><p>这具有一定的多样性和随机性，类似alexnet神经网络中的dropout</p><p>OOB数据可作为验证集</p><h3 id="建树">建树</h3><p>一般采用cart树，gini impurity</p><h3 id="如何找最优切分点">如何找最优切分点？</h3><p>先抽m &lt; M 个特征，在 m中找最优解，这更有dropout的味道了</p><p>这样双重随机给予了树多样性</p><p>我们循环T次建T棵树，不进行剪枝</p><p>最后预测阶段 若分类（离散） 那么取多数</p><p>若回归（连续） 那么取平均</p><p><em>强，支持并行计算，从原理上看我感觉显著优于单一决策树</em></p><h2 id="3gbdt-梯度提升决策树">3.GBDT 梯度提升决策树</h2><p>boosting流派 每棵树都是为了修正前一棵树的错误</p><p>这个看起来只能串行计算（to be continued）</p><a class="read-more" href="./%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html"> 阅读全文</a>
-			</div>
-		</div>
-	
-		<div class="post">
-			
-
-			<a class="post-list-title" href="./%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A.html">名词解释</a>
-			
-
-  <span class = "post-card-meta">
-  
-  
-    <span class="meta-pre"></span>
-  
-  
-    
-      
-      <span class="page_meta-date">
-        <time datetime="2026-03-15T00:35:41+08:00">2026年3月15日</time>
-      </span>
-    
-    
-      <span class="meta-sep"></span>
-    
-  
-  
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <span class="page_meta-readtime">
-      1 分钟阅读
-    </span>
-  
-  
-  </span>
-
-			<div class="post-excerpt">
-				<h2 id="熟知一些缩写对自己有好处">熟知一些缩写对自己有好处</h2><p>PCA=principal component analysis</p><p>SSE/MSE/MAE/RMSE/MRE……  （root） sum/mean of squared/absolute error</p><p>RI/ARI/MI/NMI/AMI  （adjusted）  rand index /（adjusted/normalized）</p><p>mutual information （暂未搞懂）</p><table>  <tbody>    <tr>      <td>RBF=SE核 高斯核 radial basis function</td>      <td>squared expotional （暂未搞懂）</td>    </tr>  </tbody></table><p>CCP cost complexity pruning</p><p>Bagging Bootstep aggregating 采样聚合</p><p>OOB out of bag</p><p>GBDT gradient boosting decision tree</p><p>CSV Comma-Separated Values</p><a class="read-more" href="./%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A.html"> 阅读全文</a>
 			</div>
 		</div>
 	

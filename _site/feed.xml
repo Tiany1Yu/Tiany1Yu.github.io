@@ -1,4 +1,154 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-03-17T20:21:39+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">羽落天青 | Uke’s Blog</title><subtitle>南大的碎碎念</subtitle><author><name>uke</name></author><entry><title type="html">人工智能通识的第一次作业</title><link href="http://localhost:4000/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html" rel="alternate" type="text/html" title="人工智能通识的第一次作业" /><published>2026-03-17T20:10:45+08:00</published><updated>2026-03-17T20:10:45+08:00</updated><id>http://localhost:4000/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A</id><content type="html" xml:base="http://localhost:4000/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html"><![CDATA[<p><strong><em>为展现PCA，kPCA与谱聚类等经典机器学习算法在人脸识别上的应用，我们选取了Olivetti人脸数据集进行分析，采用控制变量法，对PCA-&gt;kmeans，KernelPCA-&gt;kmeans，PCA-&gt;谱聚类，KernelPCA-&gt;谱聚类四种方法进行对比分析，并使用ARI与NMI两种方式评估结果。</em></strong></p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-03-28T14:05:50+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">羽落天青 | Uke’s Blog</title><subtitle>南大的碎碎念</subtitle><author><name>uke</name></author><entry><title type="html">基于矩阵分解的哈勃深空图像分析与重构</title><link href="http://localhost:4000/hw2.html" rel="alternate" type="text/html" title="基于矩阵分解的哈勃深空图像分析与重构" /><published>2026-03-28T13:37:47+08:00</published><updated>2026-03-28T13:37:47+08:00</updated><id>http://localhost:4000/hw2</id><content type="html" xml:base="http://localhost:4000/hw2.html"><![CDATA[<p>本人没空，文章由ai生成</p>
+
+<h1 id="基于矩阵分解的哈勃深空图像分析与重构">基于矩阵分解的哈勃深空图像分析与重构</h1>
+
+<p><strong>摘要</strong>：本项目旨在探索高级矩阵分解算法（主要包括奇异值分解 SVD、满秩分解、以及 Cholesky 三角分解）在超高分辨率计算机视觉任务中的应用。我们以哈勃太空望远镜拍摄的极高分辨率彩色星云图为研究对象，分别构建了“基于 SVD 的深空降噪模型”与“基于 ALS 的像素残缺修复（补全）模型”。本文档将详细阐述项目背后的数学原理与工程算法细节，以便团队成员快速理解核心思路并顺利参与后续开发。</p>
+
+<hr />
+
+<h2 id="模块一基于-svd-的图像降噪与重构">模块一：基于 SVD 的图像降噪与重构</h2>
+
+<h3 id="1-核心问题背景">1. 核心问题背景</h3>
+<p>宇宙空间探测器传回的图像，往往伴随大量的光子噪声与宇宙射线辐射（通常呈现为高斯分布或椒盐噪声）。我们的任务是在尽量不破坏星系自然轮廓和星际尘埃细节的前提下，通过纯数学建模的方式滤除这些物理底噪。</p>
+
+<p>在计算机中，一张单色（灰度）图像可以被视为一个由亮度像素值构成的 $m \times n$ 的实数矩阵 $A$。对于彩色星云图（RGB），则是由三个这样的二维矩阵合并构成的三维张量。我们首先从二维矩阵讲起。</p>
+
+<h3 id="2-数学原理深度剖析svd-奇异值分解">2. 数学原理深度剖析：SVD (奇异值分解)</h3>
+
+<p><strong>SVD 的代数形式：</strong>
+线性代数学告诉我们，任意一个 $m \times n$ 的实矩阵 $A$ 都可以被分解为三个极具规律的矩阵的乘积：
+\(A = U \Sigma V^T\)</p>
+<ul>
+  <li><strong>$U$ (左奇异矩阵)</strong>: 代表图像的“列基向量”（垂直方向特征空间）。</li>
+  <li><strong>$V$ (右奇异矩阵)</strong>: 其转置 $V^T$ 代表图像的“行基向量”（水平方向特征空间）。</li>
+  <li><strong>$\Sigma$ (奇异值矩阵)</strong>: 一个对角矩阵，对角线上的元素 $\sigma_i$ 被称为“奇异值”，默认按从大到小的顺序严格降序排列。</li>
+</ul>
+
+<p><strong>从线性空间基变换的视角理解奇异值（核心）：</strong>
+在线性代数中，SVD 实质上是将原矩阵表示为 $r$ 个（$r$ 为矩阵的秩）秩为 1 的矩阵之和：$A = \sum_{i=1}^r \sigma_i u_i v_i^T$。其中每一项代表了原图像在某对相互正交的行向量和列向量所张成的一维子空间上的投影。</p>
+<ul>
+  <li><strong>巨大的前列奇异值</strong>：这些奇异值携带了矩阵的主干结构（高度线性相关的大面积星云轮廓和渐变光谱）。这部分基向量构成了图像有效信息的主要子空间展开方向。</li>
+  <li><strong>微小的尾部奇异值</strong>：这些极小的成分意味着其对应的基向量投影对整体矩阵的影响微乎其微。绝大多数独立且完全随机、无线性相关性的高斯噪点，由于无法通过少数几个基的线性组合来表达，它们的“坐标分量”会被迫均匀散布在这些微小奇异值长尾中。</li>
+</ul>
+
+<p><strong>如何实现降噪？——投影到低秩子空间 (Truncated SVD)</strong>
+既然无关联的噪声全部分散于微小奇异值所对应的正交分量（基向量）上，我们可以采取一种强硬降维策略：人为地选取一个秩 $k &lt; r$，强制只保留前 $k$ 个最大的奇异值。此时重构的秩为 $k$ 的近似矩阵 $A_k$ 为：
+\(A_k = U \Sigma_k V^T = \sum_{i=1}^k \sigma_i u_i v_i^T\)
+在这看似简单的截断背后，有着深刻的代数原理支撑——<strong>Eckart-Young-Mirsky 定理</strong>。该定理保证了：在所有秩不超过 $k$ 的矩阵中，$A_k$ 是距离原矩阵 $A$ 最近的（即两者差值的弗罗贝尼乌斯范数 $|A - A_k|_F$ 最小）。通过丢弃后段的奇异值，我们在数学层面上相当于把原本含有庞乱杂散基向量的图像空间强行投影到了一个最具有代表性的 $k$ 维子平面上，从而在代数投影层面“过筛”掉了大部分不满足线性相关的随机噪点。</p>
+
+<h3 id="3-工程化实现与调优基准">3. 工程化实现与调优基准</h3>
+<ul>
+  <li><strong>通道拆解与堆叠</strong>：标准的 SVD 无法直接用于 RGB 带来的 3D 张量 ($m \times n \times 3$)。我们在代码层面采用<strong>分而治之</strong>的策略，拆解为 R、G、B 独立子通道并行执行降噪，重组后再叠加并通过 <code class="language-plaintext highlighter-rouge">np.clip</code> 截断防止亮度溢出。</li>
+  <li><strong>参数 $k$ 的艺术极值</strong>：
+    <ul>
+      <li>若 $k$ 取得太大：导致降维不够，噪声依旧被原样重构。</li>
+      <li>若 $k$ 取得太小：由于过分丢失高频信息，图片边缘变得平滑模糊。</li>
+      <li><strong>评价体系制定</strong>：团队综合考量<strong>峰值信噪比(PSNR)</strong>与<strong>压缩率指标</strong>。我们通过脚本遍历探测发现：把 $k$ 固定在 $150$ 左右时，我们达到了“人类视觉最优临界点 (Visual Sweet Spot)”，即在高效压制噪声的同时原汁原味保全了星云层次。</li>
+    </ul>
+  </li>
+</ul>
+
+<div align="center">
+  <img src="/assets/img/posts/20260328-hw2/image/3_psnr_compression_plot_FullRes.png" />
+  <br /><i>图 1-1：PSNR 与压缩率随参数 $k$ 的变化曲线</i>
+</div>
+
+<div align="center">
+  <img src="/assets/img/posts/20260328-hw2/image/1_Math_Best_PSNR_Blurry.png" />
+  <img src="/assets/img/posts/20260328-hw2/image/2_Visual_Best_Crisp.png" />
+  <br /><i>图 1-2：左图为数学最优 PSNR 结果，右图为人类视觉最优表现（保留了更多清晰边缘）</i>
+</div>
+
+<p><strong>SVD 降噪动态过程演示</strong></p>
+<div align="center">
+  <video controls="" autoplay="" loop="" muted="" width="80%">
+    <source type="video/mp4" src="/assets/img/posts/20260328-hw2/image/svd_denoising_process.mp4" />
+  </video>
+  <br /><i>视频 1-1：随着奇异值保留个数 $k$ 的增加，图像从轮廓渐进至细节的完整重构过程</i>
+</div>
+
+<hr />
+
+<h2 id="模块二基于-als-与-cholesky-分解的图像大面积修复">模块二：基于 ALS 与 Cholesky 分解的图像大面积修复</h2>
+
+<h3 id="1-破损图像填补问题定义">1. 破损图像填补问题定义</h3>
+<p>假设因太空异常辐射，接收到的信号导致画面发生极其严重的损坏，有高达 $60\%$ 的离散像素彻底丢失。我们将这种状态抽象成一个观测掩码矩阵 $W$（1 代表像素完好，0 代表像素空洞）。
+如何依靠仅仅剩余 $40\%$ 的已知数据，自动“推理填补”出具有极深物理关联的原始星云图像？</p>
+
+<div align="center">
+  <img src="/assets/img/posts/20260328-hw2/image/1_原始与残缺对比图.png" />
+  <br /><i>图 2-1：哈勃星云图原始图像（左）与 60% 像素随机丢失后的状态（右）</i>
+</div>
+
+<h3 id="2-数学原理深度剖析通过满秩分解构造超定方程组">2. 数学原理深度剖析：通过满秩分解构造超定方程组</h3>
+
+<p><strong>从图像的强相关性引出低秩假定：</strong>
+由于真实拍摄的照片中相邻像素色块间常具有连绵的梯度过渡，像素之间具备极强的线性空间相关性。因此，<strong>我们可以假定大尺度自然图像整体上非常接近于一个低秩矩阵</strong>。
+设含有空洞的残缺图为矩阵 $R$。根据线性代数的定义，若预设其潜藏着一个较低的近似秩 $k$，则意味着必定能将它近似拆解为两个满秩的瘦高矩阵相乘，即 $U \in \mathbb{R}^{m \times k}$ 与 $V \in \mathbb{R}^{n \times k}$：
+\(R \approx U V^T\)</p>
+
+<p><strong>面对残缺数据建立最小二乘模型：</strong>
+因为图像残缺，我们仅能利用可观测像素的集合 $W$ 建立约束方程。由于能够提取出的有效方程个数远多于未知矩阵成分数量，这种求取 $U$ 和 $V$ 的过程实际上是在解一个<strong>超定方程组 (Overdetermined System)</strong>。
+针对无精准解的超定系统，我们会采用经典的<strong>最小二乘法 (Least Squares)</strong>，寻找一组使其误差极小化的近似解：
+\(\text{Min } e(U, V) = \sum_{(i,j) \in W} (R_{i,j} - u_i v_j^T)^2 + \lambda (\|U\|_F^2 + \|V\|_F^2)\)
+说明：方程末尾补充项 $\lambda$ 的意义在于引入微小的对角线扰动。这能强制使得目标方程后续转化得到的格兰姆矩阵 (Gram Matrix) 保持严格的满秩状态，确保矩阵求逆具有绝对的唯一极小点解。</p>
+
+<h3 id="3-工程算法攻坚战als-交替最小二乘法">3. 工程算法攻坚战：ALS (交替最小二乘法)</h3>
+
+<p>由于上述误差方程中存在乘积项 $u_i \cdot v_j^T$，而 $U$ 和 $V$ 均是未知量，这种双变量共同主导的问题意味着它不能通过基础线性方程一次性结出解析解。</p>
+
+<p>此时解决该问题的代数方案是引入 <strong>ALS (交替最小二乘法)</strong>，其核心思路就是将原本双元的方程转化为普通的多元一次方程：</p>
+<ol>
+  <li><strong>赋初值并假设其一常数</strong>：首先人为给短阵 $V$ 初始化一组非零的常数矩阵。</li>
+  <li><strong>求解一侧未知量</strong>：在 $V$ 是常量矩阵的前提下，原误差公式 $(R_{i,j} - u_i v^T)^2$ 便彻底退化成为了一个只有唯一未知变量 $U$ 的常规基础最小二乘问题。通过对偏导置 0 的普通代数解法，立刻便能算出当前局部最优参量 $U$。</li>
+  <li><strong>参数身份对调</strong>：解出全新的 $U$ 矩阵后，我们将这一结论反转视为固定的常量矩阵，将其代入公式作为已知数值，掉头去解剩下唯独缺失数据的 $V$ 矩阵，再一次求它的最小二乘解析解。</li>
+  <li><strong>交替向极小化演进</strong>：持续循环迭代步骤 2 和 3。依靠这种交替式冻结某一侧的参数去求解另一变量，模型的总体代数计算误差将在迭代过程中逐步阶梯式削减，最终稳定收敛在一组相对纯净的近似极小值之下。</li>
+</ol>
+
+<div align="center">
+  <img src="/assets/img/posts/20260328-hw2/image/2_MSE收敛曲线.png" />
+  <br /><i>图 2-2：交替最小二乘法 (ALS) 迭代过程中的 MSE 误差下降曲线</i>
+</div>
+
+<p><strong>ALS 修复动态过程演示</strong></p>
+<div align="center">
+  <video controls="" autoplay="" loop="" muted="" width="80%">
+    <source type="video/mp4" src="/assets/img/posts/20260328-hw2/image/4_ALS修复过程.mp4" />
+  </video>
+  <br /><i>视频 2-1：模型在空洞处逐步“生长”出星云纹理的修复过程</i>
+</div>
+
+<h3 id="4-避免矩阵求逆运算引入-cholesky-三角分解">4. 避免矩阵求逆运算：引入 Cholesky 三角分解</h3>
+
+<p>这一步构筑了我们代码框架能够极速支撑大运算量的底层基石。
+根据大学线性代数中最关键的<strong>最小二乘法结果公式</strong>：在刚刚“假定 $V$ 已知”的系统中，为了算出最优解 $U$ 里的某行分量 $u_i$，等价于必须直接解出以下的<strong>正规方程组 (Normal Equations)</strong>：
+\((V_{obs}^T V_{obs} + \lambda I) u_i = V_{obs}^T r_{obs}\)
+如果我们将等号左侧的系数矩阵记作 $A$，核心难题即转变为求解大规模的线性方程组 $Ax = b$。</p>
+
+<ul>
+  <li><strong>常规矩阵求逆的瓶颈</strong>：最简单的思路是在等式两边同乘 $A^{-1}$ 算出结果。但面对哈勃深空百万级别的像素矩阵，传统求解矩阵逆的计算复杂度极高（约 $O(N^3)$）。这不仅会导致运算极度缓慢，且由于浮点数舍入法则带来的限制，超大矩阵求逆运算极易引发严重的数值不稳定和巨大的累积误差。</li>
+  <li><strong>对称正定矩阵与分解代入（Cholesky 三角分解）</strong>：观察我们的系数矩阵 $A = V_{obs}^T V_{obs} + \lambda I$，它不仅是一个对称矩阵，而且由于对角线加入了 $\lambda I$，它严格满足<strong>对称正定矩阵 (Symmetric Positive-Definite Matrix)</strong> 的定义。
+在线性代数中，对于解对称正定方程组脱困的最好办法就是采用 <strong>Cholesky 三角分解</strong>。该定理保证，对称正定矩阵必定能被唯一地拆解为一个<strong>下三角矩阵 $L$</strong>，以及它的<strong>转置上三角矩阵 $L^T$</strong> 的乘积：
+\(A = L L^T\)
+有了上述分解，原来极其困难的求逆系统 $A x = b$，被轻巧地转换为了 $L L^T x = b$。这让我们彻底避开了对极大型防矩阵直接求逆操作，取而代之以两步极其快速的基础代入运算：
+    <ol>
+      <li><strong>前向代入运算</strong>：先解出过渡向量 $y$，使其满足 $L y = b$。由于 $L$ 是下三角结构，方程可以从第一行起按顺序单向递推，只涉及基础的一元方程求解，速度极快且误差极低。</li>
+      <li><strong>后向代入运算</strong>：依据算出的 $y$，再反解 $L^T x = y$。同理，由于 $L^T$ 为上三角结构，只需从最后一行往上倒推，即可非常稳定地求出我们最终需要的答案序列。</li>
+    </ol>
+  </li>
+</ul>
+
+<p>在工程代码中，我们直接采用了高度优化的底层数值算法库组件：<code class="language-plaintext highlighter-rouge">scipy.linalg.cho_factor</code>（用于分解得出 $L$）与 <code class="language-plaintext highlighter-rouge">cho_solve</code>（用于执行前后双向代入计算）。这让我们在底层核算中彻底告别了依靠庞大矩阵求逆指令死循环运算死角。在处理丢失率高达 60% 的极端数据损坏案例中，仅仅依靠不过十次的 ALS 循环迭代重铸，模型的均方误差 (MSE) 就展现了极快地断崖式收敛特征，最终在几乎没有任何卡滞感知的情况下，高保真地还原了哈勃深空星云震撼人心的繁复特征原貌。</p>
+
+<div align="center">
+  <img src="/assets/img/posts/20260328-hw2/image/5_最终三图对比.png" />
+  <br /><i>图 2-3：最终修复成果大公开——由左至右分别为：Ground Truth (原图)、破损图、以及我们的 ALS+Cholesky 极限修复图。肉眼几乎无法分辨出人工修复的痕迹。</i>
+</div>
+
+<div align="center">
+  <img src="/assets/img/posts/20260328-hw2/image/3_最终原生高清修复图.png" />
+  <br /><i>图 2-4：经过算法重构后的单张超高清渲染大图展示，星云的高频细节与原图相比以假乱真。</i>
+</div>]]></content><author><name>uke</name></author><summary type="html"><![CDATA[本人没空，文章由ai生成]]></summary></entry><entry><title type="html">人工智能通识的第一次作业</title><link href="http://localhost:4000/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html" rel="alternate" type="text/html" title="人工智能通识的第一次作业" /><published>2026-03-17T20:10:45+08:00</published><updated>2026-03-17T20:10:45+08:00</updated><id>http://localhost:4000/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A</id><content type="html" xml:base="http://localhost:4000/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html"><![CDATA[<p><strong><em>为展现PCA，kPCA与谱聚类等经典机器学习算法在人脸识别上的应用，我们选取了Olivetti人脸数据集进行分析，采用控制变量法，对PCA-&gt;kmeans，KernelPCA-&gt;kmeans，PCA-&gt;谱聚类，KernelPCA-&gt;谱聚类四种方法进行对比分析，并使用ARI与NMI两种方式评估结果。</em></strong></p>
 
 <p><strong><em>导入olivetti数据集，并导入numpy、sklearn、matplotlib库，设置可视化模板，给出所有可视化函数</em></strong></p>
 
@@ -273,7 +423,7 @@ kPCA -&gt; Spectral    ARI=0.5314  NMI=0.8187
 
 <p><strong><em>总体而言，kPCA与谱聚类的结合在本次人脸识别任务中表现最佳，说明在处理高维且具有复杂结构的数据时，非线性降维与图论方法的结合能够更有效地揭示数据的内在模式。</em></strong></p>
 
-<p><strong><em>我想，对于小样本量的无监督学习来说，这样的ARI核NMI正确率已然不错，我们完美的完成了课堂任务，很好的运用了矩阵论知识以及机器学习算法，展现了PCA、核PCA与谱聚类在实际问题中的应用效果。</em></strong></p>]]></content><author><name>uke</name></author><category term="机器学习" /><category term="特征工程" /><summary type="html"><![CDATA[为展现PCA，kPCA与谱聚类等经典机器学习算法在人脸识别上的应用，我们选取了Olivetti人脸数据集进行分析，采用控制变量法，对PCA-&gt;kmeans，KernelPCA-&gt;kmeans，PCA-&gt;谱聚类，KernelPCA-&gt;谱聚类四种方法进行对比分析，并使用ARI与NMI两种方式评估结果。]]></summary></entry><entry><title type="html">经典机器学习算法</title><link href="http://localhost:4000/%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html" rel="alternate" type="text/html" title="经典机器学习算法" /><published>2026-03-15T00:35:42+08:00</published><updated>2026-03-15T00:35:42+08:00</updated><id>http://localhost:4000/%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95</id><content type="html" xml:base="http://localhost:4000/%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html"><![CDATA[<h1 id="公式只是一些notation习惯了就好正如冯诺依曼说的我们从来没有真正理解数学我们只是习惯了它">公式只是一些notation，习惯了就好。正如冯诺依曼说的，我们从来没有真正理解数学，我们只是习惯了它</h1>
+<p><strong><em>我想，对于小样本量的无监督学习来说，这样的ARI核NMI正确率已然不错，我们完美的完成了课堂任务，很好的运用了矩阵论知识以及机器学习算法，展现了PCA、核PCA与谱聚类在实际问题中的应用效果。</em></strong></p>]]></content><author><name>uke</name></author><category term="机器学习" /><category term="特征工程" /><category term="大作业" /><summary type="html"><![CDATA[为展现PCA，kPCA与谱聚类等经典机器学习算法在人脸识别上的应用，我们选取了Olivetti人脸数据集进行分析，采用控制变量法，对PCA-&gt;kmeans，KernelPCA-&gt;kmeans，PCA-&gt;谱聚类，KernelPCA-&gt;谱聚类四种方法进行对比分析，并使用ARI与NMI两种方式评估结果。]]></summary></entry><entry><title type="html">经典机器学习算法</title><link href="http://localhost:4000/%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html" rel="alternate" type="text/html" title="经典机器学习算法" /><published>2026-03-15T00:35:42+08:00</published><updated>2026-03-15T00:35:42+08:00</updated><id>http://localhost:4000/%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95</id><content type="html" xml:base="http://localhost:4000/%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html"><![CDATA[<h1 id="公式只是一些notation习惯了就好正如冯诺依曼说的我们从来没有真正理解数学我们只是习惯了它">公式只是一些notation，习惯了就好。正如冯诺依曼说的，我们从来没有真正理解数学，我们只是习惯了它</h1>
 
 <p>大模型时代，机器学习算法还抱有生命力吗？</p>
 
@@ -390,7 +540,7 @@ SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)<
 
 <p>GBDT gradient boosting decision tree</p>
 
-<p>CSV Comma-Separated Values</p>]]></content><author><name>uke</name></author><summary type="html"><![CDATA[熟知一些缩写对自己有好处 PCA=principal component analysis]]></summary></entry><entry><title type="html">PCA/核PCA/谱聚类–关于《矩阵计算与优化》第一次组作业</title><link href="http://localhost:4000/2026-03-14-ai-note.html" rel="alternate" type="text/html" title="PCA/核PCA/谱聚类–关于《矩阵计算与优化》第一次组作业" /><published>2026-03-14T17:54:00+08:00</published><updated>2026-03-14T17:54:00+08:00</updated><id>http://localhost:4000/2026-03-14-ai-note</id><content type="html" xml:base="http://localhost:4000/2026-03-14-ai-note.html"><![CDATA[<center><img src="/assets/img/posts/20260314-2026-03-14-ai-note/imgs/Screenshot 2026-03-14 165722.png" /></center>
+<p>CSV Comma-Separated Values</p>]]></content><author><name>uke</name></author><category term="记忆" /><summary type="html"><![CDATA[熟知一些缩写对自己有好处 PCA=principal component analysis]]></summary></entry><entry><title type="html">PCA/核PCA/谱聚类–关于《矩阵计算与优化》第一次组作业</title><link href="http://localhost:4000/2026-03-14-ai-note.html" rel="alternate" type="text/html" title="PCA/核PCA/谱聚类–关于《矩阵计算与优化》第一次组作业" /><published>2026-03-14T17:54:00+08:00</published><updated>2026-03-14T17:54:00+08:00</updated><id>http://localhost:4000/2026-03-14-ai-note</id><content type="html" xml:base="http://localhost:4000/2026-03-14-ai-note.html"><![CDATA[<center><img src="/assets/img/posts/20260314-2026-03-14-ai-note/imgs/Screenshot 2026-03-14 165722.png" /></center>
 
 <p>这周的矩阵计算通识课，上来就给我们当头一棒，面对不熟悉陌生的词语，以及半懂不懂的术语</p>
 
@@ -575,4 +725,1055 @@ L_{\text{sym}}=I-D^{-1/2}WD^{-1/2}
 
 <p>我并不是一个擅长用文字表达的人，但此刻，我想试着用文字梳理心情，也记录下自己在技术路上的摸索。这个博客，就是我安放这些思考的地方。</p>
 
-<p>更新节奏随心情而定……</p>]]></content><author><name>Tiany1Yu</name></author><category term="自我思索" /><summary type="html"><![CDATA[感觉身处AI时代，人很迷茫啊。作为本站第一条博客，我来讲讲自己写博客的动因。 为什么写？ 陪伴了我很久的人在大一上期末选择了离开，我一下子感觉少了很多，又多了很多。]]></summary></entry></feed>
+<p>更新节奏随心情而定……</p>]]></content><author><name>Tiany1Yu</name></author><category term="自我思索" /><summary type="html"><![CDATA[感觉身处AI时代，人很迷茫啊。作为本站第一条博客，我来讲讲自己写博客的动因。 为什么写？ 陪伴了我很久的人在大一上期末选择了离开，我一下子感觉少了很多，又多了很多。]]></summary></entry><entry><title type="html">语法整理</title><link href="http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html" rel="alternate" type="text/html" title="语法整理" /><published>2026-03-10T22:05:22+08:00</published><updated>2026-03-10T22:05:22+08:00</updated><id>http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86</id><content type="html" xml:base="http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html"><![CDATA[<p>这文章100%非我手写，主要是为了便于我查找和记忆最近刚开始学习的各类库（）
+producted by gemini 3.1pro
+—</p>
+
+<h1 id="第一部分pandas-核心语法全解-kaggle-pandas">第一部分：Pandas 核心语法全解 (Kaggle: Pandas)</h1>
+<p>Pandas 是数据科学的基础，它的核心作用就是<strong>“在 Python 里操作 Excel 表格”</strong>。在 Pandas 里，一维数据叫 <code class="language-plaintext highlighter-rouge">Series</code>（一列），二维数据叫 <code class="language-plaintext highlighter-rouge">DataFrame</code>（一张表）。</p>
+
+<h2 id="1-创建读取与写入-creating-reading-and-writing">1. 创建、读取与写入 (Creating, Reading and Writing)</h2>
+<p><strong>场景：</strong> 数据怎么弄进 Python 里？处理完怎么存下来？</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span> <span class="c1"># 永远的第一步：请出 pandas 大神，并给它起个小名叫 pd
+</span>
+<span class="c1"># --- 1. 手动创建数据 (常用于自己造测试数据) ---
+# 创建一个 DataFrame (数据框/二维表)
+# 语法逻辑：pd.DataFrame(字典) -&gt; 字典的键(Key)变成列名，值(Value)变成这一列的数据
+</span><span class="n">df_manual</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span>
+    <span class="sh">'</span><span class="s">Yes</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">21</span><span class="p">],</span> 
+    <span class="sh">'</span><span class="s">No</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">131</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="p">})</span>
+
+<span class="c1"># 创建时指定行索引 (index)
+</span><span class="n">df_custom_index</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span>
+    <span class="sh">'</span><span class="s">Bob</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sh">'</span><span class="s">I liked it.</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">It was awful.</span><span class="sh">'</span><span class="p">],</span> 
+    <span class="sh">'</span><span class="s">Sue</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sh">'</span><span class="s">Pretty good.</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Bland.</span><span class="sh">'</span><span class="p">]</span>
+<span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">Product A</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Product B</span><span class="sh">'</span><span class="p">])</span> <span class="c1"># 不写 index 默认是 0, 1, 2...
+</span>
+<span class="c1"># 创建一个 Series (序列/一列数据)
+</span><span class="n">s</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">Series</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">a</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">b</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">c</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">d</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">e</span><span class="sh">'</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">Numbers</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># --- 2. 🌟 读取外部数据 (Kaggle 最常用) ---
+# 读取 CSV 文件，并把它存进变量 df 中
+# 语法逻辑：pd.read_csv("文件路径")
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">../input/titanic/train.csv</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># 读取时，直接把某一列作为行索引 (比如把 ID 列当成行号)
+</span><span class="n">df_wine</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">wine-reviews.csv</span><span class="sh">"</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+
+<span class="c1"># --- 3. 检查数据长什么样 ---
+# 查看前 5 行 (如果不填数字，默认是 5；想看 10 行就写 df.head(10))
+</span><span class="n">df</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span> 
+<span class="c1"># 查看数据的行数和列数 (注意 shape 不是函数，后面没有括号)
+</span><span class="n">df</span><span class="p">.</span><span class="n">shape</span> <span class="c1"># 返回结果例如：(1309, 12) 代表 1309行，12列
+</span>
+<span class="c1"># --- 4. 保存/写入数据 ---
+# 把处理好的数据存成新的 CSV 文件
+# index=False 的意思是：不要把行号（0,1,2,3...）也当成一列保存进去
+</span><span class="n">df</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">my_submission.csv</span><span class="sh">"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<h2 id="2-索引选择与赋值-indexing-selecting--assigning">2. 索引、选择与赋值 (Indexing, Selecting &amp; Assigning)</h2>
+<p><strong>场景：</strong> 这张表有 1 万行 50 列，我只想把其中某几行、某几列单独拎出来看。
+<strong>💡 避坑指南：</strong> Pandas 有自己独特的定位方式 <code class="language-plaintext highlighter-rouge">iloc</code> 和 <code class="language-plaintext highlighter-rouge">loc</code>。</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">iloc</code> = <strong>i</strong>ndex <strong>loc</strong>ation (基于<strong>数字位置</strong>找人，就像找“第3排第5列的同学”)</li>
+  <li><code class="language-plaintext highlighter-rouge">loc</code> = <strong>loc</strong>ation (基于<strong>标签名字</strong>找人，就像找“叫张三的同学”)</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># --- 1. 获取整列数据 ---
+# 提取名为 'country' 的列，以下两种写法完全等价：
+</span><span class="n">countries</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">country</span>    <span class="c1"># 写法 1 (类似调用属性，列名有空格时不能用)
+</span><span class="n">countries</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">country</span><span class="sh">'</span><span class="p">]</span> <span class="c1"># 写法 2 🌟 (推荐写法，更稳妥)
+</span>
+<span class="c1"># --- 2. 基于位置的提取：iloc (纯数字) ---
+</span><span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>          <span class="c1"># 提取第一行的数据 (Python 从 0 开始)
+</span><span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>       <span class="c1"># 提取第一列的数据 (冒号 : 代表“所有行”)
+</span><span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>      <span class="c1"># 提取第一列的 前 3 行 (第0, 1, 2行)
+</span><span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>     <span class="c1"># 提取第一列的 第 1 到 2 行 (注意：1:3 左闭右开，不包含3)
+</span><span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span> <span class="c1"># 提取第一列的 第 0, 1, 2 行 (传入一个列表)
+</span><span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:]</span>        <span class="c1"># 提取最后 5 行数据
+</span>
+<span class="c1"># --- 3. 基于标签的提取：loc (名字) ---
+# 提取第一行，但列名为 'country' 的数据
+</span><span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="sh">'</span><span class="s">country</span><span class="sh">'</span><span class="p">]</span> 
+<span class="c1"># 提取所有行，包含 'taster_name', 'taster_twitter_handle', 'points' 这三列
+</span><span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="sh">'</span><span class="s">taster_name</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">taster_twitter_handle</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">points</span><span class="sh">'</span><span class="p">]]</span>
+
+<span class="c1"># --- 4. 🌟 条件选择 (Conditional Selection，极度重要) ---
+# 找出所有来自 'Italy' 的酒 (此时返回的是一堆 True 和 False)
+</span><span class="n">df</span><span class="p">.</span><span class="n">country</span> <span class="o">==</span> <span class="sh">'</span><span class="s">Italy</span><span class="sh">'</span> 
+<span class="c1"># 把上面的条件套进 loc 里，就能把来自意大利的行全拿出来！
+</span><span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">.</span><span class="n">country</span> <span class="o">==</span> <span class="sh">'</span><span class="s">Italy</span><span class="sh">'</span><span class="p">]</span> 
+
+<span class="c1"># 多条件查找：使用 &amp; (并且)，| (或者)
+# 找出来自意大利 并且 分数大于等于 90 的酒
+</span><span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">.</span><span class="n">country</span> <span class="o">==</span> <span class="sh">'</span><span class="s">Italy</span><span class="sh">'</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">points</span> <span class="o">&gt;=</span> <span class="mi">90</span><span class="p">)]</span> <span class="c1"># 注意每个条件必须加括号 ()
+</span>
+<span class="c1"># 找出来自意大利 或者 来自法国的酒
+</span><span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">.</span><span class="n">country</span> <span class="o">==</span> <span class="sh">'</span><span class="s">Italy</span><span class="sh">'</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">country</span> <span class="o">==</span> <span class="sh">'</span><span class="s">France</span><span class="sh">'</span><span class="p">)]</span>
+
+<span class="c1"># 更优雅的写法：使用 isin (在...里面)
+</span><span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">.</span><span class="n">country</span><span class="p">.</span><span class="nf">isin</span><span class="p">([</span><span class="sh">'</span><span class="s">Italy</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">France</span><span class="sh">'</span><span class="p">])]</span>
+
+<span class="c1"># 找出价格不是空的行 (notnull: 非空；isnull: 是空)
+</span><span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">.</span><span class="n">price</span><span class="p">.</span><span class="nf">notnull</span><span class="p">()]</span>
+
+<span class="c1"># --- 5. 赋值 (Assigning Data) ---
+# 简单粗暴：把某一列的所有值都变成一样
+</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">critic</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="sh">'</span><span class="s">everyone</span><span class="sh">'</span> <span class="c1"># 增加一列名为 'critic'，所有的值都是 'everyone'
+# 按倒序赋予行号
+</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">index_backwards</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<h2 id="3-统计函数与映射-summary-functions-and-maps">3. 统计函数与映射 (Summary Functions and Maps)</h2>
+<p><strong>场景：</strong> 我想知道数据的平均值、最大值？我想对某一列的所有数据统一做个数学运算（比如都乘以10）？</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># --- 1. 统计函数 ---
+# 🌟 describe(): 数据科学家的最爱，一键生成全方位体检报告
+# 会显示这列的：数量(count), 平均值(mean), 标准差(std), 最小值(min), 25%分位数, 最大值(max)
+</span><span class="n">df</span><span class="p">.</span><span class="n">points</span><span class="p">.</span><span class="nf">describe</span><span class="p">()</span> 
+<span class="n">df</span><span class="p">.</span><span class="nf">describe</span><span class="p">()</span> <span class="c1"># 甚至可以对整个表里所有数值型的列直接体检
+</span>
+<span class="c1"># 单独获取某一项统计值
+</span><span class="n">df</span><span class="p">.</span><span class="n">points</span><span class="p">.</span><span class="nf">mean</span><span class="p">()</span> <span class="c1"># 平均分
+</span><span class="n">df</span><span class="p">.</span><span class="n">points</span><span class="p">.</span><span class="nf">median</span><span class="p">()</span> <span class="c1"># 中位数
+</span><span class="n">df</span><span class="p">.</span><span class="n">country</span><span class="p">.</span><span class="nf">unique</span><span class="p">()</span> <span class="c1"># 看这列都有哪些不重复的值 (比如一共有多少个国家)
+</span><span class="n">df</span><span class="p">.</span><span class="n">country</span><span class="p">.</span><span class="nf">value_counts</span><span class="p">()</span> <span class="c1"># 🌟 统计每个国家分别出现了多少次 (极度常用)
+</span>
+<span class="c1"># --- 2. 数据映射 (Map / Apply) ---
+# 场景：你想让某一列的每一个数据，都经过某种处理
+# 比如：把所有分数都减去这列的平均分 (计算均值中心化)
+</span><span class="n">review_points_mean</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">points</span><span class="p">.</span><span class="nf">mean</span><span class="p">()</span>
+
+<span class="c1"># 方法 A：使用 map()，通常用于处理一列 (Series)
+# 语法逻辑：列.map(函数)。这里 lambda p: p - mean 是个匿名函数，意思是“给我一个 p，我返回 p 减去均值”
+</span><span class="n">df</span><span class="p">.</span><span class="n">points</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span> <span class="o">-</span> <span class="n">review_points_mean</span><span class="p">)</span>
+
+<span class="c1"># 方法 B：使用 apply()，通常用于处理整行或整表 (DataFrame)
+# axis='columns' 代表把每一行的数据传进去
+</span><span class="k">def</span> <span class="nf">remean_points</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+    <span class="n">row</span><span class="p">.</span><span class="n">points</span> <span class="o">=</span> <span class="n">row</span><span class="p">.</span><span class="n">points</span> <span class="o">-</span> <span class="n">review_points_mean</span>
+    <span class="k">return</span> <span class="n">row</span>
+
+<span class="n">df</span><span class="p">.</span><span class="nf">apply</span><span class="p">(</span><span class="n">remean_points</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="sh">'</span><span class="s">columns</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># 🌟 Kaggle 捷径：Pandas 支持直接用加减乘除 (向量化操作，比 map/apply 快得多！)
+# 上面的逻辑，完全可以直接这么写：
+</span><span class="n">df</span><span class="p">.</span><span class="n">points</span> <span class="o">-</span> <span class="n">df</span><span class="p">.</span><span class="n">points</span><span class="p">.</span><span class="nf">mean</span><span class="p">()</span>
+<span class="c1"># 拼接两列字符串：
+</span><span class="n">df</span><span class="p">.</span><span class="n">country</span> <span class="o">+</span> <span class="sh">"</span><span class="s"> - </span><span class="sh">"</span> <span class="o">+</span> <span class="n">df</span><span class="p">.</span><span class="n">region_1</span>
+</code></pre></div></div>
+
+<h2 id="4-分组与排序-grouping-and-sorting">4. 分组与排序 (Grouping and Sorting)</h2>
+<p><strong>场景：</strong> 类似于 Excel 里的“数据透视表”。我想知道“每个国家的最贵葡萄酒是多少钱？”或者“各个性别的平均幸存率是多少？”</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># --- 1. 分组分析：groupby ---
+# 统计各个国家 (country) 分别有多少款酒
+# 语法逻辑：按什么分组 -&gt; 选一列去统计 -&gt; 怎么统计
+</span><span class="n">df</span><span class="p">.</span><span class="nf">groupby</span><span class="p">(</span><span class="sh">'</span><span class="s">country</span><span class="sh">'</span><span class="p">).</span><span class="n">points</span><span class="p">.</span><span class="nf">count</span><span class="p">()</span>
+
+<span class="c1"># 计算每个国家最便宜的酒 (取 price 列的最小值 min)
+</span><span class="n">df</span><span class="p">.</span><span class="nf">groupby</span><span class="p">(</span><span class="sh">'</span><span class="s">country</span><span class="sh">'</span><span class="p">).</span><span class="n">price</span><span class="p">.</span><span class="nf">min</span><span class="p">()</span>
+
+<span class="c1"># apply 也能结合 groupby 使用
+# 找出每个国家的第一款酒
+</span><span class="n">df</span><span class="p">.</span><span class="nf">groupby</span><span class="p">(</span><span class="sh">'</span><span class="s">country</span><span class="sh">'</span><span class="p">).</span><span class="nf">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># --- 2. 🌟 agg(): 一次性计算多个统计指标 ---
+# 计算��个国家酒的长度(数量)、最低分、最高分
+</span><span class="n">df</span><span class="p">.</span><span class="nf">groupby</span><span class="p">([</span><span class="sh">'</span><span class="s">country</span><span class="sh">'</span><span class="p">]).</span><span class="n">price</span><span class="p">.</span><span class="nf">agg</span><span class="p">([</span><span class="nb">len</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">])</span>
+
+<span class="c1"># --- 3. 多重分组 (Multi-Index) ---
+# 按 国家 且 按 省份 分组，看最高分
+# 结果的行索引会有两层：第一层是国家，第二层是省份
+</span><span class="n">countries_reviewed</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="nf">groupby</span><span class="p">([</span><span class="sh">'</span><span class="s">country</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">province</span><span class="sh">'</span><span class="p">]).</span><span class="n">description</span><span class="p">.</span><span class="nf">agg</span><span class="p">([</span><span class="nb">len</span><span class="p">])</span>
+
+<span class="c1"># 遇到多层索引，我们通常用 reset_index() 把它变回普通的扁平表格，方便后续处理
+</span><span class="n">countries_reviewed</span> <span class="o">=</span> <span class="n">countries_reviewed</span><span class="p">.</span><span class="nf">reset_index</span><span class="p">()</span>
+
+<span class="c1"># --- 4. 排序：sort_values ---
+# 把刚刚算出来的数据，按照国家名字的字母顺序排 (默认升序 Ascending)
+</span><span class="n">countries_reviewed</span><span class="p">.</span><span class="nf">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="sh">'</span><span class="s">len</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># 从大到小排 (降序)：加参数 ascending=False
+</span><span class="n">countries_reviewed</span><span class="p">.</span><span class="nf">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="sh">'</span><span class="s">len</span><span class="sh">'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># 多列排序：先按国家名字排，如果国家名字一样，再按数量排
+</span><span class="n">countries_reviewed</span><span class="p">.</span><span class="nf">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">country</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">len</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="c1"># 按照索引(行号)排序：
+</span><span class="n">countries_reviewed</span><span class="p">.</span><span class="nf">sort_index</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h2 id="5-数据类型与缺失值-data-types-and-missing-values">5. 数据类型与缺失值 (Data Types and Missing Values)</h2>
+<p><strong>场景：</strong> 数据集经常是脏的。有的是数字被存成了文本，有的是格子直接是空的 (NaN)。怎么揪出它们并处理掉？</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># --- 1. 数据类型 (Dtypes) ---
+# 查看某一列的数据类型 (int64 整数, float64 浮点数, object 文本/字符串)
+</span><span class="n">df</span><span class="p">.</span><span class="n">price</span><span class="p">.</span><span class="n">dtype</span>
+<span class="n">df</span><span class="p">.</span><span class="n">dtypes</span> <span class="c1"># 查看所有列的数据类型
+</span>
+<span class="c1"># 类型转换 (astype)
+# 比如把本来是 64位浮点数 的 points 列，硬改成 64位整数
+</span><span class="n">df</span><span class="p">.</span><span class="n">points</span><span class="p">.</span><span class="nf">astype</span><span class="p">(</span><span class="sh">'</span><span class="s">int64</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># --- 2. 处理缺失值 (Missing Data) ---
+# 在 Pandas 里，空值通常显示为 NaN (Not a Number)
+</span>
+<span class="c1"># 找出 country 这一列为空值的所有行
+</span><span class="n">df</span><span class="p">[</span><span class="n">pd</span><span class="p">.</span><span class="nf">isnull</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">country</span><span class="p">)]</span>
+
+<span class="c1"># 🌟 填补空值 (fillna)
+# 遇到空缺的区域(region_2)，统一填成 'Unknown'
+</span><span class="n">df</span><span class="p">.</span><span class="n">region_2</span><span class="p">.</span><span class="nf">fillna</span><span class="p">(</span><span class="sh">"</span><span class="s">Unknown</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># 🌟 替换数据 (replace)
+# 把数据里所有的 '@kerinokeefe' 替换成 'kerinokeefe'
+</span><span class="n">df</span><span class="p">.</span><span class="n">taster_twitter_handle</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sh">"</span><span class="s">@kerinokeefe</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">kerinokeefe</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="6-重命名与合并-renaming-and-combining">6. 重命名与合并 (Renaming and Combining)</h2>
+<p><strong>场景：</strong> 列名太长或有错别字，想改掉。或者有两张表需要拼在一起。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># --- 1. 重命名 (rename) ---
+# 改列名：把 'points' 列改名叫 'score' (用字典形式提供对应关系)
+</span><span class="n">df</span><span class="p">.</span><span class="nf">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="sh">'</span><span class="s">points</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">score</span><span class="sh">'</span><span class="p">})</span>
+
+<span class="c1"># 改行名 (改索引名)：把索引 0 和 1 改名叫 'firstEntry' 和 'secondEntry'
+</span><span class="n">df</span><span class="p">.</span><span class="nf">rename</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="sh">'</span><span class="s">firstEntry</span><span class="sh">'</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="sh">'</span><span class="s">secondEntry</span><span class="sh">'</span><span class="p">})</span>
+
+<span class="c1"># 更改坐标轴名称：
+</span><span class="n">df</span><span class="p">.</span><span class="nf">rename_axis</span><span class="p">(</span><span class="sh">"</span><span class="s">wines</span><span class="sh">"</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="sh">'</span><span class="s">rows</span><span class="sh">'</span><span class="p">).</span><span class="nf">rename_axis</span><span class="p">(</span><span class="sh">"</span><span class="s">fields</span><span class="sh">"</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="sh">'</span><span class="s">columns</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># --- 2. 合并：concat (简单粗暴的上下/左右拼接) ---
+# 有两份格式一模一样的表格，把它们上下堆叠起来
+# 语法逻辑：pd.concat([表1, 表2])
+</span><span class="n">canadian_youtube</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">../input/youtube-new/CAvideos.csv</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">british_youtube</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">../input/youtube-new/GBvideos.csv</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">pd</span><span class="p">.</span><span class="nf">concat</span><span class="p">([</span><span class="n">canadian_youtube</span><span class="p">,</span> <span class="n">british_youtube</span><span class="p">])</span>
+
+<span class="c1"># --- 3. 合并：join (类似于 SQL 里的 Join，按索引拼接不同的列) ---
+# 左边的表和右边的表通过共有的行索引(index)拼在一起
+</span><span class="n">left</span> <span class="o">=</span> <span class="n">canadian_youtube</span><span class="p">.</span><span class="nf">set_index</span><span class="p">([</span><span class="sh">'</span><span class="s">title</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">trending_date</span><span class="sh">'</span><span class="p">])</span>
+<span class="n">right</span> <span class="o">=</span> <span class="n">british_youtube</span><span class="p">.</span><span class="nf">set_index</span><span class="p">([</span><span class="sh">'</span><span class="s">title</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">trending_date</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="c1"># lsuffix 和 rsuffix 用于处理两边有同名列的情况
+</span><span class="n">left</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">lsuffix</span><span class="o">=</span><span class="sh">'</span><span class="s">_CAN</span><span class="sh">'</span><span class="p">,</span> <span class="n">rsuffix</span><span class="o">=</span><span class="sh">'</span><span class="s">_UK</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h1 id="第二部分机器学习入门-kaggle-intro-to-machine-learning">第二部分：机器学习入门 (Kaggle: Intro to Machine Learning)</h1>
+<p>这门课带你走完一次<strong>最基础的机器学习全流程</strong>。核心库是 <code class="language-plaintext highlighter-rouge">Scikit-Learn</code> (简称 <code class="language-plaintext highlighter-rouge">sklearn</code>)。</p>
+
+<p>在 sklearn 中，不管是哪种算法，都有一个固定的 <strong>“三板斧”语法</strong>：</p>
+<ol>
+  <li><strong>定义模型</strong> <code class="language-plaintext highlighter-rouge">model = 算法名()</code></li>
+  <li><strong>拟合/训练</strong> <code class="language-plaintext highlighter-rouge">model.fit(X, y)</code></li>
+  <li><strong>预测</strong> <code class="language-plaintext highlighter-rouge">model.predict(X_新数据)</code></li>
+</ol>
+
+<h2 id="1-准备数据-selecting-data-for-modeling">1. 准备数据 (Selecting Data for Modeling)</h2>
+<p>机器学习要搞清楚两个概念：</p>
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">y</code> (Target / 目标变量)：</strong> 你想预测的东西（比如房价）。习惯上用<strong>小写字母</strong>。</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">X</code> (Features / 特征)：</strong> 你用来进行预测的线索（比如面积、房间数）。习惯上用<strong>大写字母</strong>。</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="n">melbourne_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">melb_data.csv</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># 只要数据里有空值，我们先简单粗暴地全删掉（dropna），否则模型会报错
+</span><span class="n">melbourne_data</span> <span class="o">=</span> <span class="n">melbourne_data</span><span class="p">.</span><span class="nf">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># --- 1. 选择目标 y ---
+</span><span class="n">y</span> <span class="o">=</span> <span class="n">melbourne_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Price</span><span class="sh">'</span><span class="p">]</span>
+
+<span class="c1"># --- 2. 选择特征 X ---
+# 我们把觉得对预测房价有用的列名写成一个列表
+</span><span class="n">melbourne_features</span> <span class="o">=</span> <span class="p">[</span><span class="sh">'</span><span class="s">Rooms</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Bathroom</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Landsize</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Lattitude</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Longtitude</span><span class="sh">'</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">melbourne_data</span><span class="p">[</span><span class="n">melbourne_features</span><span class="p">]</span>
+
+<span class="c1"># 在丢进模型前，先看一眼我们的特征数据长什么样
+</span><span class="n">X</span><span class="p">.</span><span class="nf">describe</span><span class="p">()</span>
+<span class="n">X</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h2 id="2-你的第一个机器学习模型-your-first-ml-model">2. 你的第一个机器学习模型 (Your First ML Model)</h2>
+<p>我们使用<strong>决策树 (Decision Tree)</strong>，它就像是一个不断在做“如果…那么…”判断的流程图。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+
+<span class="c1"># 1. 定义模型：指定模型类型
+# random_state=1 的作用是“固定随机种子”。
+# 机器学习里有很多随机初始化的过程，固定这个数字能保证你每次跑出的结果一模一样，方便查错。
+</span><span class="n">melbourne_model</span> <span class="o">=</span> <span class="nc">DecisionTreeRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 2. 拟合/训练模型：把线索(X)和答案(y)都喂给它，让它找规律
+</span><span class="n">melbourne_model</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># 3. 预测：给它新的线索，让它猜答案
+# 这里我们只是拿训练集前5行测试一下它能不能跑通
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">我们正在为以下5套房子做预测：</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="nf">head</span><span class="p">())</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">预测结果如下：</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">melbourne_model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="nf">head</span><span class="p">()))</span>
+</code></pre></div></div>
+
+<h2 id="3-模型验证-model-validation">3. 模型验证 (Model Validation)</h2>
+<p><strong>场景：</strong> 刚才我们拿平时练习的题（训练集）去考模型，它当然会做。要想知道它到底聪不聪明，必须得拿没见过的卷子（验证集）来考它！</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 引入“平均绝对误差”工具 (Mean Absolute Error, MAE)
+# MAE = |真实值 - 预测值| 的平均。比如预测房价和真实房价平均差了多少钱。
+</span><span class="kn">from</span> <span class="n">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_absolute_error</span>
+<span class="c1"># 引入“切分数据”的工具
+</span><span class="kn">from</span> <span class="n">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="c1"># --- 1. 切分数据集 ---
+# train_test_split 会把数据洗牌后，按比例(默认3:1)切成两份。
+# 分别得到：训练特征, 验证特征, 训练答案, 验证答案
+</span><span class="n">train_X</span><span class="p">,</span> <span class="n">val_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">val_y</span> <span class="o">=</span> <span class="nf">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># --- 2. 重新用训练集训练模型 ---
+</span><span class="n">melbourne_model</span> <span class="o">=</span> <span class="nc">DecisionTreeRegressor</span><span class="p">()</span>
+<span class="n">melbourne_model</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span> <span class="c1"># 此时只喂给它训练卷子
+</span>
+<span class="c1"># --- 3. 用验证集进行预测 ---
+</span><span class="n">val_predictions</span> <span class="o">=</span> <span class="n">melbourne_model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">val_X</span><span class="p">)</span> <span class="c1"># 考它验证卷子上的题
+</span>
+<span class="c1"># --- 4. 判卷打分 ---
+# 对比模型猜的答案(val_predictions)和真实答案(val_y)
+</span><span class="nf">print</span><span class="p">(</span><span class="nf">mean_absolute_error</span><span class="p">(</span><span class="n">val_y</span><span class="p">,</span> <span class="n">val_predictions</span><span class="p">))</span> 
+</code></pre></div></div>
+
+<h2 id="4-欠拟合与过拟合-underfitting-and-overfitting">4. 欠拟合与过拟合 (Underfitting and Overfitting)</h2>
+<p><strong>场景：</strong></p>
+<ul>
+  <li><strong>过拟合 (Overfitting)：</strong> 模型死记硬背了训练集，连异常的噪点都背下来了，遇到新题完全不会做（树太深，叶子太多）。</li>
+  <li><strong>欠拟合 (Underfitting)：</strong> 模型根本没学会，找出来的规律太简单（树太浅，只有两三片叶子）。
+在 sklearn 中，控制树深浅的参数是 <code class="language-plaintext highlighter-rouge">max_leaf_nodes</code>（最大叶子节点数）。</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 我们写一个小函数，专门用来对比不同 max_leaf_nodes 的 MAE 误差得分
+</span><span class="k">def</span> <span class="nf">get_mae</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="p">,</span> <span class="n">train_X</span><span class="p">,</span> <span class="n">val_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">val_y</span><span class="p">):</span>
+    <span class="c1"># 用指定的叶子数量建树
+</span>    <span class="n">model</span> <span class="o">=</span> <span class="nc">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="n">max_leaf_nodes</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">model</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span>
+    <span class="n">preds_val</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">val_X</span><span class="p">)</span>
+    <span class="n">mae</span> <span class="o">=</span> <span class="nf">mean_absolute_error</span><span class="p">(</span><span class="n">val_y</span><span class="p">,</span> <span class="n">preds_val</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mae</span>
+
+<span class="c1"># 测试不同的树深度：5叶, 50叶, 500叶, 5000叶
+# 我们要找出哪种叶子数量下的 mae 最小！
+</span><span class="k">for</span> <span class="n">max_leaf_nodes</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">5000</span><span class="p">]:</span>
+    <span class="n">my_mae</span> <span class="o">=</span> <span class="nf">get_mae</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="p">,</span> <span class="n">train_X</span><span class="p">,</span> <span class="n">val_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">val_y</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Max leaf nodes: %d  </span><span class="se">\t\t</span><span class="s"> Mean Absolute Error:  %d</span><span class="sh">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">max_leaf_nodes</span><span class="p">,</span> <span class="n">my_mae</span><span class="p">))</span>
+
+<span class="c1"># 结论通常是中间某个数字最好（比如50），5就是欠拟合，5000就是过拟合。
+</span></code></pre></div></div>
+
+<h2 id="5-随机森林-random-forests">5. 随机森林 (Random Forests)</h2>
+<p><strong>场景：</strong> 决策树有一个大缺点——它很不稳定。随机森林通过“集思广益”解决了这个问题：建很多棵不同的小决策树，然后大家投票决定预测结果。
+<strong>💡 重点：</strong> 在 Kaggle 中，随机森林通常是默认起手式，因为它的默认参数效果就很好了！</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+<span class="kn">from</span> <span class="n">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_absolute_error</span>
+
+<span class="c1"># 语法和决策树一模一样！只是名字换了。
+</span><span class="n">forest_model</span> <span class="o">=</span> <span class="nc">RandomForestRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># 1. 定义模型
+</span><span class="n">forest_model</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span>                   <span class="c1"># 2. 训练模型
+</span><span class="n">melb_preds</span> <span class="o">=</span> <span class="n">forest_model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">val_X</span><span class="p">)</span>             <span class="c1"># 3. 预测结果
+</span>
+<span class="nf">print</span><span class="p">(</span><span class="nf">mean_absolute_error</span><span class="p">(</span><span class="n">val_y</span><span class="p">,</span> <span class="n">melb_preds</span><span class="p">))</span>        <span class="c1"># 4. 评估结果 (你会发现比单棵决策树低多了！)
+</span></code></pre></div></div>
+
+<hr />
+
+<h1 id="第三部分机器学习进阶-kaggle-intermediate-machine-learning">第三部分：机器学习进阶 (Kaggle: Intermediate Machine Learning)</h1>
+<p>真实世界的数据是很残酷的：充满了缺失值、文本符号。如果不做处理，模型一跑就崩溃。这门课教你<strong>如何科学地把“脏数据”洗成机器学习喜欢的“纯数字矩阵”</strong>。</p>
+
+<h2 id="1-缺失值处理-missing-values">1. 缺失值处理 (Missing Values)</h2>
+<p>当发现特征中有空值 (NaN) 时的三种策略。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 策略 1：简单粗暴地扔掉有缺失值的“列” (Drop Columns)
+# 虽然会丢失信息，但最简单。
+# 获取有缺失值的列名
+</span><span class="n">cols_with_missing</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">X_train</span><span class="p">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">X_train</span><span class="p">[</span><span class="n">col</span><span class="p">].</span><span class="nf">isnull</span><span class="p">().</span><span class="nf">any</span><span class="p">()]</span>
+<span class="c1"># 删掉这些列 (注意，训练集删了，验证集也必须删同样的列，保持对齐！)
+</span><span class="n">reduced_X_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">.</span><span class="nf">drop</span><span class="p">(</span><span class="n">cols_with_missing</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># axis=1 代表删除列
+</span><span class="n">reduced_X_valid</span> <span class="o">=</span> <span class="n">X_valid</span><span class="p">.</span><span class="nf">drop</span><span class="p">(</span><span class="n">cols_with_missing</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># ---------------------------------------------
+# 策略 2：🌟 插补法 (Imputation) 
+# 用这一列的平均值、中位数去填补空洞。这是最常用的方法！
+</span><span class="kn">from</span> <span class="n">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+
+<span class="c1"># 定义插补器，默认策略就是算平均值 (mean)
+</span><span class="n">my_imputer</span> <span class="o">=</span> <span class="nc">SimpleImputer</span><span class="p">()</span>
+
+<span class="c1"># ⚠️ 非常重要的语法坑：
+# 对于训练集，我们需要让插补器去“找规律”(fit)并且“执行转换”(transform)，所以用 fit_transform
+</span><span class="n">imputed_X_train</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">my_imputer</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+<span class="c1"># 对于验证集/测试集，我们直接用刚才学到的平均值去“执行转换”，千万不能再让它找新规律了！所以只用 transform
+</span><span class="n">imputed_X_valid</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">my_imputer</span><span class="p">.</span><span class="nf">transform</span><span class="p">(</span><span class="n">X_valid</span><span class="p">))</span>
+
+<span class="c1"># 填补后，原来的列名会丢失（变成0,1,2列），把它重新贴回去
+</span><span class="n">imputed_X_train</span><span class="p">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">.</span><span class="n">columns</span>
+<span class="n">imputed_X_valid</span><span class="p">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">X_valid</span><span class="p">.</span><span class="n">columns</span>
+
+<span class="c1"># ---------------------------------------------
+# 策略 3：扩展插补法 (An Extension to Imputation)
+# 填补了平均值，但为了告诉模型“这里原本是空的，是我填的”，我们再额外加一列布尔值(True/False)标记
+</span><span class="n">X_train_plus</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">.</span><span class="nf">copy</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols_with_missing</span><span class="p">:</span>
+    <span class="n">X_train_plus</span><span class="p">[</span><span class="n">col</span> <span class="o">+</span> <span class="sh">'</span><span class="s">_was_missing</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_train_plus</span><span class="p">[</span><span class="n">col</span><span class="p">].</span><span class="nf">isnull</span><span class="p">()</span>
+<span class="c1"># 标记完之后，再按策略 2 进行填补即可。
+</span></code></pre></div></div>
+
+<h2 id="2-处理分类变量-categorical-variables">2. 处理分类变量 (Categorical Variables)</h2>
+<p>机器学习无法理解 “Red” 或者 “Honda” 这种文本字符串。我们需要把文本转成数字。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 找到数据类型为 'object' (即文本)的分类列
+</span><span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_train</span><span class="p">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="sh">'</span><span class="s">object</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">object_cols</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">s</span><span class="p">].</span><span class="n">index</span><span class="p">)</span>
+
+<span class="c1"># ---------------------------------------------
+# 策略 1：序号编码 (Ordinal Encoding)
+# 把不同的文本按顺序编成 1,2,3...
+# 适用于：有明显大小/顺序关系的词，比如 "差", "良", "优" -&gt; 1, 2, 3
+</span><span class="kn">from</span> <span class="n">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OrdinalEncoder</span>
+
+<span class="n">label_X_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">.</span><span class="nf">copy</span><span class="p">()</span>
+<span class="n">label_X_valid</span> <span class="o">=</span> <span class="n">X_valid</span><span class="p">.</span><span class="nf">copy</span><span class="p">()</span>
+
+<span class="n">ordinal_encoder</span> <span class="o">=</span> <span class="nc">OrdinalEncoder</span><span class="p">()</span>
+<span class="n">label_X_train</span><span class="p">[</span><span class="n">object_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">ordinal_encoder</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">object_cols</span><span class="p">])</span>
+<span class="n">label_X_valid</span><span class="p">[</span><span class="n">object_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">ordinal_encoder</span><span class="p">.</span><span class="nf">transform</span><span class="p">(</span><span class="n">X_valid</span><span class="p">[</span><span class="n">object_cols</span><span class="p">])</span>
+
+<span class="c1"># ---------------------------------------------
+# 策略 2：🌟 独热编码 (One-Hot Encoding)
+# 创建新的列，用 0 和 1 表示是否拥有该属性。
+# 比如一列是颜色（红/黄/蓝），会变成三列（是否红：1/0，是否黄：1/0，是否蓝：1/0）
+# 适用于：没有顺序大小之分的词，比如 "猫", "狗", "鸟"。
+</span><span class="kn">from</span> <span class="n">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+
+<span class="c1"># handle_unknown='ignore': 验证集遇到没见过的词，直接全标为0，不会报错退出
+# sparse_output=False: 要求输出一个完整的普通矩阵
+</span><span class="n">OH_encoder</span> <span class="o">=</span> <span class="nc">OneHotEncoder</span><span class="p">(</span><span class="n">handle_unknown</span><span class="o">=</span><span class="sh">'</span><span class="s">ignore</span><span class="sh">'</span><span class="p">,</span> <span class="n">sparse_output</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># 返回的是 numpy 矩阵
+</span><span class="n">OH_cols_train</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">OH_encoder</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">object_cols</span><span class="p">]))</span>
+<span class="n">OH_cols_valid</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">OH_encoder</span><span class="p">.</span><span class="nf">transform</span><span class="p">(</span><span class="n">X_valid</span><span class="p">[</span><span class="n">object_cols</span><span class="p">]))</span>
+
+<span class="c1"># 重新把由于转换丢掉的索引贴回去
+</span><span class="n">OH_cols_train</span><span class="p">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">.</span><span class="n">index</span>
+<span class="n">OH_cols_valid</span><span class="p">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">X_valid</span><span class="p">.</span><span class="n">index</span>
+
+<span class="c1"># 把之前不需要转换的数字特征(num_X_train) 和 刚转化好的独热特征(OH_cols_train) 拼合在一起
+# pd.concat 再次出场！
+# OH_X_train = pd.concat([num_X_train, OH_cols_train], axis=1)
+</span></code></pre></div></div>
+
+<h2 id="3--数据流水线-pipelines---强烈推荐">3. 🌟 数据流水线 (Pipelines) - 强烈推荐！</h2>
+<p><strong>场景：</strong> 你会发现前面处理缺失值和分类变量的代码又长又臭。一旦数据分了训练集、验证集、测试集，你就要反反复复写 <code class="language-plaintext highlighter-rouge">fit_transform</code> 和 <code class="language-plaintext highlighter-rouge">transform</code>。
+<strong>流水线的作用：</strong> 把“数据清洗”和“模型训练”打包成一根管子。丢进去脏数据，管子那头直接吐出预测结果！这是专业数据科学家的标志。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="n">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="n">sklearn.compose</span> <span class="kn">import</span> <span class="n">ColumnTransformer</span>
+<span class="kn">from</span> <span class="n">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="n">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+<span class="kn">from</span> <span class="n">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+<span class="kn">from</span> <span class="n">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+<span class="kn">from</span> <span class="n">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_absolute_error</span>
+
+<span class="c1"># 假设此时有数值特征(numerical_cols)和分类特征(categorical_cols)
+</span>
+<span class="c1"># ================================
+# 第一步：定义预处理步骤 (Preprocessing)
+# ================================
+# 数值型数据的处理：填补缺失值 (常数填补)
+</span><span class="n">numerical_transformer</span> <span class="o">=</span> <span class="nc">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="sh">'</span><span class="s">constant</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># 分类型数据的处理：也是一个流水线！先填补缺失值(最频繁出现的值)，再进行独热编码
+</span><span class="n">categorical_transformer</span> <span class="o">=</span> <span class="nc">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">(</span><span class="sh">'</span><span class="s">imputer</span><span class="sh">'</span><span class="p">,</span> <span class="nc">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="sh">'</span><span class="s">most_frequent</span><span class="sh">'</span><span class="p">)),</span>
+    <span class="p">(</span><span class="sh">'</span><span class="s">onehot</span><span class="sh">'</span><span class="p">,</span> <span class="nc">OneHotEncoder</span><span class="p">(</span><span class="n">handle_unknown</span><span class="o">=</span><span class="sh">'</span><span class="s">ignore</span><span class="sh">'</span><span class="p">))</span>
+<span class="p">])</span>
+
+<span class="c1"># 把这俩预处理步骤组合起来 (ColumnTransformer)
+# 意思：当数据流过来时，数值列交给 numerical_transformer 处理，分类列交给 categorical_transformer 处理
+</span><span class="n">preprocessor</span> <span class="o">=</span> <span class="nc">ColumnTransformer</span><span class="p">(</span>
+    <span class="n">transformers</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">num</span><span class="sh">'</span><span class="p">,</span> <span class="n">numerical_transformer</span><span class="p">,</span> <span class="n">numerical_cols</span><span class="p">),</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">cat</span><span class="sh">'</span><span class="p">,</span> <span class="n">categorical_transformer</span><span class="p">,</span> <span class="n">categorical_cols</span><span class="p">)</span>
+    <span class="p">])</span>
+
+<span class="c1"># ================================
+# 第二步：定义模型 (Define the Model)
+# ================================
+</span><span class="n">model</span> <span class="o">=</span> <span class="nc">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># ================================
+# 第三步：组装超级大管子 (Create Pipeline)
+# ================================
+</span><span class="n">my_pipeline</span> <span class="o">=</span> <span class="nc">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">[(</span><span class="sh">'</span><span class="s">preprocessor</span><span class="sh">'</span><span class="p">,</span> <span class="n">preprocessor</span><span class="p">),</span>
+                              <span class="p">(</span><span class="sh">'</span><span class="s">model</span><span class="sh">'</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+                             <span class="p">])</span>
+
+<span class="c1"># ================================
+# 见证奇迹的时刻
+# ================================
+# 直接把脏的、混杂着文本和空缺的 X_train 喂给流水线！
+</span><span class="n">my_pipeline</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span> 
+
+<span class="c1"># 直接把脏的 X_valid 喂给它，它会自动先清洗，然后预测！
+</span><span class="n">preds</span> <span class="o">=</span> <span class="n">my_pipeline</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">)</span>
+
+<span class="n">score</span> <span class="o">=</span> <span class="nf">mean_absolute_error</span><span class="p">(</span><span class="n">y_valid</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">MAE:</span><span class="sh">'</span><span class="p">,</span> <span class="n">score</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="4-交叉验证-cross-validation">4. 交叉验证 (Cross-Validation)</h2>
+<p><strong>场景：</strong> 数据集太小，如果只切分一次训练集和验证集（比如拿20%出来验证），验证集可能碰巧包含的都是很简单/很难的数据，得分骗了你。
+<strong>做法：</strong> 把数据切成 5 份。跑 5 次模型。每次拿其中 1 份当考卷，其余 4 份当教材。最后把 5 次考试的成绩平均一下。这就叫 5折交叉验证（5-Fold CV）。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+<span class="kn">from</span> <span class="n">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="c1"># 我们直接复用上面的 my_pipeline! （这就是为什么一定要学流水线）
+</span>
+<span class="c1"># cross_val_score 函数直接搞定：
+# cv=5: 折数为 5 折
+# scoring: 评估标准。注意 sklearn 中很多评分规定“越大越好”，由于误差是越小越好，
+# 所以它使用“负的 MAE (neg_mean_absolute_error)”。出来的分数是负数。
+</span><span class="n">scores</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="nf">cross_val_score</span><span class="p">(</span><span class="n">my_pipeline</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                              <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                              <span class="n">scoring</span><span class="o">=</span><span class="sh">'</span><span class="s">neg_mean_absolute_error</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">MAE scores:</span><span class="se">\n</span><span class="sh">"</span><span class="p">,</span> <span class="n">scores</span><span class="p">)</span>             <span class="c1"># 会打印出 5 个误差分数
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Average MAE score (across experiments):</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">scores</span><span class="p">.</span><span class="nf">mean</span><span class="p">())</span>                       <span class="c1"># 取平均，这才是模型真实可靠的水平
+</span></code></pre></div></div>
+
+<h2 id="5-终极杀器xgboost-梯度提升树">5. 终极杀器：XGBoost 梯度提升树</h2>
+<p><strong>场景：</strong> 随机森林是“集思广益”，而 XGBoost（梯度提升树）是<strong>“错题本纠正法”</strong>。它会建一棵树，然后看哪里预测错了��建第二棵树专门纠正第一棵树的错误，循环往复。它是 Kaggle 比赛结构化数据绝对的王者。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># XGBoost 不属于 sklearn，它是一个独立的牛逼库
+</span><span class="kn">from</span> <span class="n">xgboost</span> <span class="kn">import</span> <span class="n">XGBRegressor</span>
+
+<span class="c1"># 1. 基础版调用
+</span><span class="n">my_model</span> <span class="o">=</span> <span class="nc">XGBRegressor</span><span class="p">()</span>
+<span class="n">my_model</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">my_model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">)</span>
+
+<span class="c1"># 2. 🌟 进阶调参版 (这是你拿高分的关键)
+</span><span class="n">my_model</span> <span class="o">=</span> <span class="nc">XGBRegressor</span><span class="p">(</span>
+    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="c1"># 要建多少棵树 (循环多少次)。数值大一点(100-1000)
+</span>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="c1"># 学习率：每次纠正错误的步子跨多大。越小越精细，但需要配更大的 n_estimators
+</span>    <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span> <span class="c1"># 利用电脑的几个CPU核心来算，4代表四核，能加快运行速度
+</span><span class="p">)</span>
+
+<span class="c1"># 早期停止机制 (early_stopping_rounds)
+# 防止跑1000棵树跑到过拟合：如果在验证集上连续 5 次(5棵树)误差都没有降低，就立刻停止训练！
+</span><span class="n">my_model</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> 
+             <span class="n">early_stopping_rounds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> 
+             <span class="n">eval_set</span><span class="o">=</span><span class="p">[(</span><span class="n">X_valid</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">)],</span> <span class="c1"># 必须告诉它拿什么数据当考卷来看有没有降低误差
+</span>             <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>                 <span class="c1"># 不要把每棵树的过程都打印出来吵我眼睛
+</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">my_model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="6-数据泄露-data-leakage">6. 数据泄露 (Data Leakage)</h2>
+<p><em>（这里没有需要记忆的语法，但是概念极其重要）</em>
+<strong>场景：</strong> 你训练模型时考了 100 分，一上线到真实环境就崩溃。为什么？因为<strong>考题提前泄露到了训练资料里</strong>。
+<strong>常见泄漏：</strong> 
+我们要预测“这个人会不会得肺炎”。你在用作特征的表格 <code class="language-plaintext highlighter-rouge">X</code> 里，包含了一列叫“是否吃过治肺炎的抗生素”。
+在真实世界里，他一定是先得了肺炎，医生才会给他开药吃。但如果你的模型看到了他“吃了治肺炎的药”，它就直接断定“这个人有肺炎”。
+这就属于把 <strong>预测发生时间点之后的信息 (Target Leakage)</strong> 泄露进去了。
+<strong>对策：</strong> 在训练前，仔细排查所有的特征（列），把那些只有在“预测目标发生之后”才会产生的数据剔除掉！</p>
+
+<hr />
+<h3 id="结语与复习建议">结语与复习建议</h3>
+
+<p>看完了不要焦虑！<strong>数据科学就是乐高积木。</strong>
+你在 Kaggle 写代码的时候，流程永远是这几步：</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">pd.read_csv</code> (引入数据)</li>
+  <li><code class="language-plaintext highlighter-rouge">dropna</code>, <code class="language-plaintext highlighter-rouge">SimpleImputer</code>, <code class="language-plaintext highlighter-rouge">OneHotEncoder</code> (洗干净数据)</li>
+  <li><code class="language-plaintext highlighter-rouge">X</code> 和 <code class="language-plaintext highlighter-rouge">y</code>, <code class="language-plaintext highlighter-rouge">train_test_split</code> (分切特征和目标)</li>
+  <li><code class="language-plaintext highlighter-rouge">model = RandomForestRegressor()</code> 或 <code class="language-plaintext highlighter-rouge">XGBRegressor()</code> (请出模型)</li>
+  <li><code class="language-plaintext highlighter-rouge">model.fit(X, y)</code> (训练)</li>
+  <li><code class="language-plaintext highlighter-rouge">model.predict()</code> 和 <code class="language-plaintext highlighter-rouge">mean_absolute_error()</code> (预测和评分)</li>
+</ol>
+
+<p>这三门课程（<strong>数据可视化、特征工程、SQL基础</strong>）是让你从“初级调包侠”进阶为“Kaggle 竞赛高手”的必经之路。</p>
+
+<p>你提到希望有极度详细（上万字级别）的拆解。受限于单次回答的字数上限，我为你提炼了<strong>最核心、最浓缩、最能直接复制粘贴使用的“千字纯干货”</strong>。这不仅是一份代码速查表，更是一份<strong>思维导图</strong>。</p>
+
+<p>请记住我们的原则：<strong>不要背单词，理解它的“业务场景”，然后复制粘贴！</strong></p>
+
+<hr />
+
+<h1 id="-第一部分数据可视化-data-visualization">🎨 第一部分：数据可视化 (Data Visualization)</h1>
+<p><em>使用的核心武器：<code class="language-plaintext highlighter-rouge">Seaborn</code> (建立在 Matplotlib 之上的高级画图库)</em></p>
+
+<p><strong>核心心法：</strong> 画图不是为了好看，而是为了<strong>“找规律”</strong>和<strong>“看异常”</strong>。Kaggle 把画图分为三大场景：<strong>趋势 (Trends)、关系 (Relationships)、分布 (Distributions)</strong>。</p>
+
+<h3 id="0-每次画图前的起手式">0. 每次画图前的“起手式”</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+
+<span class="c1"># 把图表的默认尺寸设大一点，宽16，高6，免得挤在一起看不清
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span> 
+
+<span class="c1"># 设定图表的整体风格，"darkgrid" 是带灰色网格的背景，看起来最专业
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">set_style</span><span class="p">(</span><span class="sh">"</span><span class="s">darkgrid</span><span class="sh">"</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<h3 id="1--场景一看趋势-trends---折线图">1. 📈 场景一：看“趋势” (Trends) -&gt; 折线图</h3>
+<p><strong>业务场景：</strong> 随着<strong>时间</strong>推移，数据是怎么变化的？比如：Spotify 上某首歌每天的播放量、比特币每天的价格。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 读取时间序列数据（注意：要把日期那一列设为行索引 index_col，并解析日期 parse_dates）
+</span><span class="n">spotify_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">spotify.csv</span><span class="sh">"</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="sh">"</span><span class="s">Date</span><span class="sh">"</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># 语法逻辑：sns.lineplot(data=你的表格)
+# 它会自动把行索引（日期）作为 X 轴，把表格里的数值作为 Y 轴
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">spotify_data</span><span class="p">)</span>
+
+<span class="c1"># 如果你只想画其中一列（比如只看 Shape of You 这首歌）
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">spotify_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Shape of You</span><span class="sh">'</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sh">"</span><span class="s">Shape of You</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">spotify_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Despacito</span><span class="sh">'</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sh">"</span><span class="s">Despacito</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># 加上标题
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Daily Global Streams of Popular Songs</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="2--场景二看关系-relationships---条形图热力图散点图">2. 📊 场景二：看“关系” (Relationships) -&gt; 条形图、热力图、散点图</h3>
+<p><strong>业务场景：</strong> 两个不同的变量之间有什么关系？比如：不同平台的游戏评分对比（条形图）；抽烟和肺癌有没有关系（散点图）。</p>
+
+<p><strong>条形图 (Bar Chart)：适合分类数据对比</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 语法逻辑：x轴放类别，y轴放数值
+# 比如看不同游戏平台 (Platform) 的平均赛车游戏得分 (Racing)
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">ign_data</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">ign_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Racing</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="c1"># 因为平台名字可能很长，横着放会重叠，所以把图转个90度
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><strong>热力图 (Heatmap)：适合看一张二维大表的“颜色深浅”</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 经常用来代替枯燥的数字表格。颜色越深代表数值越大。
+# annot=True 的意思是：把具体的数字也写在颜色方块上面
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ign_data</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><strong>散点图 (Scatter Plot)：适合看两个连续数字特征的关系</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 比如：BMI指数 (x) 和 医疗费用 (y) 的关系
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">insurance_data</span><span class="p">[</span><span class="sh">'</span><span class="s">bmi</span><span class="sh">'</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">insurance_data</span><span class="p">[</span><span class="sh">'</span><span class="s">charges</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="c1"># 🌟 进阶：回归线散点图 (Regression Plot)
+# 不仅画散点，还顺便帮你用 AI 拟合一条直线，一眼看出正相关还是负相关
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">regplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">insurance_data</span><span class="p">[</span><span class="sh">'</span><span class="s">bmi</span><span class="sh">'</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">insurance_data</span><span class="p">[</span><span class="sh">'</span><span class="s">charges</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="c1"># 🌟 杀手锏：带颜色的散点图 (Color-coded Scatter Plot)
+# 加一个参数 `hue` (色调)
+# 比如：不仅看 BMI 和费用的关系，还要把抽烟的人标成红色，不抽烟的标成蓝色！
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">insurance_data</span><span class="p">[</span><span class="sh">'</span><span class="s">bmi</span><span class="sh">'</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">insurance_data</span><span class="p">[</span><span class="sh">'</span><span class="s">charges</span><span class="sh">'</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="n">insurance_data</span><span class="p">[</span><span class="sh">'</span><span class="s">smoker</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="c1"># 终极形态：两条回归线
+# 直接用 lmplot，它会给抽烟和不抽烟的人各画一条趋势线！
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">lmplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="sh">"</span><span class="s">bmi</span><span class="sh">"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="sh">"</span><span class="s">charges</span><span class="sh">"</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="sh">"</span><span class="s">smoker</span><span class="sh">"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">insurance_data</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="3--场景三看分布-distributions---直方图密度图">3. 📉 场景三：看“分布” (Distributions) -&gt; 直方图、密度图</h3>
+<p><strong>业务场景：</strong> 这个数据集中在哪一块？有没有极端值？比如：这家医院大部分乳腺癌肿瘤是多大？</p>
+
+<p><strong>直方图 (Histogram)：把数据切成一个个小区间数个数</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 看看良性肿瘤 (B) 的面积分布
+# a 意思是你的数据序列，kde=False 表示不画平滑曲线
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">histplot</span><span class="p">(</span><span class="n">cancer_b_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Area (mean)</span><span class="sh">'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><strong>核密度估计图 (KDE Plot)：平滑版的直方图，像一座座小山</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 只要曲线，不要一根根的柱子。shade=True 把山底下的面积涂上颜色
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cancer_b_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Area (mean)</span><span class="sh">'</span><span class="p">],</span> <span class="n">fill</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># 🌟 多组数据对比分布 (非常常用！)
+# 在同一张图上，对比良性(B)和恶性(M)肿瘤的大小分布
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cancer_b_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Area (mean)</span><span class="sh">'</span><span class="p">],</span> <span class="n">fill</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">"</span><span class="s">Benign (良性)</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cancer_m_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Area (mean)</span><span class="sh">'</span><span class="p">],</span> <span class="n">fill</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">"</span><span class="s">Malignant (恶性)</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">legend</span><span class="p">()</span> <span class="c1"># 显示右上角的标签图例
+</span></code></pre></div></div>
+
+<hr />
+
+<h1 id="️-第二部分特征工程-feature-engineering">🛠️ 第二部分：特征工程 (Feature Engineering)</h1>
+<p><em>这是拉开 Kaggle 选手差距的最核心课程。如果说模型是“厨房里的锅”，那特征就是“食材”。烂食材绝对炒不出好菜（Garbage in, Garbage out）。特征工程就是<strong>“切配、腌制食材”</strong>的过程。</em></p>
+
+<h3 id="1-互信息-mutual-information-mi">1. 互信息 (Mutual Information, MI)</h3>
+<p><strong>场景：</strong> 数据集里有 80 多个列（特征），到底哪些列对预测房价最有用？我不能盲猜，需要用数学来打分。
+<strong>逻辑：</strong> 互信息就像是衡量两个变量“八卦关联度”的指标。MI 分数越高，说明这个特征对预测目标越有用。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">mutual_info_regression</span>
+
+<span class="c1"># 这是一个固定的模板函数，直接复制保存即可！
+</span><span class="k">def</span> <span class="nf">make_mi_scores</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="c1"># 先把特征里的文本(object)转成模型勉强能看懂的数字序号，因为 MI 计算需要数字
+</span>    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">.</span><span class="nf">copy</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">colname</span> <span class="ow">in</span> <span class="n">X</span><span class="p">.</span><span class="nf">select_dtypes</span><span class="p">([</span><span class="sh">"</span><span class="s">object</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">category</span><span class="sh">"</span><span class="p">]):</span>
+        <span class="n">X</span><span class="p">[</span><span class="n">colname</span><span class="p">],</span> <span class="n">_</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">colname</span><span class="p">].</span><span class="nf">factorize</span><span class="p">()</span>
+    
+    <span class="c1"># 获取所有的离散特征(整数类型)，告诉算法哪些是分类变量
+</span>    <span class="n">discrete_features</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="p">.</span><span class="n">api</span><span class="p">.</span><span class="n">types</span><span class="p">.</span><span class="nf">is_integer_dtype</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">X</span><span class="p">.</span><span class="n">dtypes</span><span class="p">]</span>
+    
+    <span class="c1"># 🌟 核心计算代码：计算 X 里所有列和 y 的互信息分数
+</span>    <span class="n">mi_scores</span> <span class="o">=</span> <span class="nf">mutual_info_regression</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">discrete_features</span><span class="o">=</span><span class="n">discrete_features</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    
+    <span class="c1"># 把分数整理成好看的 Pandas 表格，并从大到小排序
+</span>    <span class="n">mi_scores</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">Series</span><span class="p">(</span><span class="n">mi_scores</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">"</span><span class="s">MI Scores</span><span class="sh">"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">X</span><span class="p">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">mi_scores</span> <span class="o">=</span> <span class="n">mi_scores</span><span class="p">.</span><span class="nf">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mi_scores</span>
+
+<span class="c1"># 运行并打印分数
+</span><span class="n">mi_scores</span> <span class="o">=</span> <span class="nf">make_mi_scores</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">mi_scores</span><span class="p">.</span><span class="nf">head</span><span class="p">())</span> 
+</code></pre></div></div>
+
+<h3 id="2-创建新特征-creating-features">2. 创建新特征 (Creating Features)</h3>
+<p><strong>场景：</strong> 现有的列不够用。比如有“地上建筑面积”和“地下室面积”，其实模型更想知道“总面积”。我们要人工帮它算出来。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 1. 数学变换 (Mathematical Transforms)
+# 比例/比率：比如 楼层高度 / 楼层面积
+</span><span class="n">autos</span><span class="p">[</span><span class="sh">"</span><span class="s">stroke_ratio</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">autos</span><span class="p">.</span><span class="n">stroke</span> <span class="o">/</span> <span class="n">autos</span><span class="p">.</span><span class="n">bore</span>
+<span class="c1"># 对数变换：当某个金额差距极大（比如有的房子10万，有的1000万），取对数可以让数据分布更正常
+</span><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="n">accidents</span><span class="p">[</span><span class="sh">"</span><span class="s">LogWindSpeed</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">accidents</span><span class="p">.</span><span class="n">WindSpeed</span><span class="p">.</span><span class="nf">apply</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">log1p</span><span class="p">)</span>
+
+<span class="c1"># 2. 计数 (Counts)
+# 统计一辆车上有多少个表明“它很危险”的配置
+</span><span class="n">roadway_features</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">Amenity</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Bump</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Crossing</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">GiveWay</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Junction</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">NoExit</span><span class="sh">"</span><span class="p">]</span>
+<span class="c1"># 语法：选中这些列 -&gt; 沿着横向(axis=1)求和(sum)
+</span><span class="n">accidents</span><span class="p">[</span><span class="sh">"</span><span class="s">RoadwayFeatures</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">accidents</span><span class="p">[</span><span class="n">roadway_features</span><span class="p">].</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 3. 拆解特征 (Building-Up and Breaking-Down)
+# 拆解文本：从 "1-2-2023" 里拆出年份和月份
+# 拆解字符串特征极度重要，比如从名字里拆出 Title (Mr, Mrs, Miss)
+</span><span class="n">customer</span><span class="p">[</span><span class="sh">"</span><span class="s">Type</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">customer</span><span class="p">[</span><span class="sh">"</span><span class="s">Policy</span><span class="sh">"</span><span class="p">].</span><span class="nb">str</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s"> </span><span class="sh">"</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h3 id="3-k-means-聚类-clustering">3. K-Means 聚类 (Clustering)</h3>
+<p><strong>场景：</strong> 用“无监督学习”来创造特征。比如预测加州的房价，我们可以根据经纬度，用聚类算法把地理位置分成 6 个“商圈/板块”。这个“板块编号”就是一个超级强大的新特征！</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+
+<span class="c1"># 挑出你想用来聚类的列 (比如经度和纬度)
+</span><span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">Longitude</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Latitude</span><span class="sh">"</span><span class="p">]</span>
+<span class="n">X_cluster</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">features</span><span class="p">]</span>
+
+<span class="c1"># 定义聚类算法：分成 6 类 (n_clusters=6)
+</span><span class="n">kmeans</span> <span class="o">=</span> <span class="nc">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># 训练并直接输出每一行属于哪个类！把结果作为新的一列加到原表里
+</span><span class="n">df</span><span class="p">[</span><span class="sh">"</span><span class="s">Cluster</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kmeans</span><span class="p">.</span><span class="nf">fit_predict</span><span class="p">(</span><span class="n">X_cluster</span><span class="p">)</span>
+
+<span class="c1"># 现在，原本单纯的经纬度，变成了很有商业意义的 "板块 0", "板块 1" ...
+</span></code></pre></div></div>
+
+<h3 id="4-主成分分析-pca">4. 主成分分析 (PCA)</h3>
+<p><strong>场景：</strong> 数据集里有 10 个描述车身尺寸的特征（长、宽、高、轴距…），它们高度重合。PCA 可以把这 10 个特征浓缩成 2 个“主成分”（比如 PC1代表“车体大小”，PC2代表“底盘运动性”）。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="c1"># 取出需要降维/浓缩的特征
+</span><span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">wheel-base</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">length</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">width</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">height</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">curb-weight</span><span class="sh">"</span><span class="p">]</span>
+<span class="n">X_pca</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">features</span><span class="p">]</span>
+
+<span class="c1"># 数据标准化极其重要！做 PCA 前必须把数据缩放到同一个尺度 (不然数值大的列会霸占结果)
+</span><span class="n">X_scaled</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_pca</span> <span class="o">-</span> <span class="n">X_pca</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">X_pca</span><span class="p">.</span><span class="nf">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># 定义 PCA，提取所有的主成分
+</span><span class="n">pca</span> <span class="o">=</span> <span class="nc">PCA</span><span class="p">()</span>
+<span class="n">X_components</span> <span class="o">=</span> <span class="n">pca</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+
+<span class="c1"># 把算出来的矩阵变成好读的 DataFrame，列名叫 PC1, PC2...
+</span><span class="n">component_names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="sh">"</span><span class="s">PC</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="sh">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">X_components</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+<span class="n">X_pca_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">X_components</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">component_names</span><span class="p">)</span>
+
+<span class="c1"># PCA 最核心的是看懂 "Loadings"（成分载荷）
+# 它告诉你 PC1 到底是由哪些原始特征组成的
+</span><span class="n">loadings</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">pca</span><span class="p">.</span><span class="n">components_</span><span class="p">.</span><span class="n">T</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">component_names</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">X_pca</span><span class="p">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">loadings</span><span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h1 id="️-第三部分sql-基础-intro-to-sql">🗄️ 第三部分：SQL 基础 (Intro to SQL)</h1>
+<p><em>Kaggle 中的 SQL 课程非常特殊。它不是在普通的数据库里查，而是教你用 Python 调用 Google 的大数据平台 <strong>BigQuery</strong>。你可以把它当成用 SQL 语言去操作几百 GB 的超大云端 CSV。</em></p>
+
+<p><strong>核心心法：</strong> 无论多复杂的 SQL，永远跑不出这个骨架：<code class="language-plaintext highlighter-rouge">SELECT (拿什么) FROM (从哪拿) WHERE (条件) GROUP BY (分组) ORDER BY (排序)</code>。</p>
+
+<h3 id="1-接入-bigquery-数据库">1. 接入 BigQuery 数据库</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 导入 Google 云端大数据库的 API
+</span><span class="kn">from</span> <span class="n">google.cloud</span> <span class="kn">import</span> <span class="n">bigquery</span>
+
+<span class="c1"># 创建一个客户端（相当于打开数据库连接软件）
+</span><span class="n">client</span> <span class="o">=</span> <span class="n">bigquery</span><span class="p">.</span><span class="nc">Client</span><span class="p">()</span>
+
+<span class="c1"># 找到名叫 "hacker_news" 的公开数据库
+</span><span class="n">dataset_ref</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="nf">dataset</span><span class="p">(</span><span class="sh">"</span><span class="s">hacker_news</span><span class="sh">"</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="sh">"</span><span class="s">bigquery-public-data</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># 获取并查看这个数据库的���息
+</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="nf">get_dataset</span><span class="p">(</span><span class="n">dataset_ref</span><span class="p">)</span>
+<span class="n">tables</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="nf">list_tables</span><span class="p">(</span><span class="n">dataset</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">table</span><span class="p">.</span><span class="n">table_id</span><span class="p">)</span> <span class="c1"># 打印里面所有表的名字，比如 "full", "comments"
+</span></code></pre></div></div>
+
+<h3 id="2-最核心的查询select-from-where">2. 最核心的查询：SELECT, FROM, WHERE</h3>
+<p><strong>业务场景：</strong> 帮我从 <code class="language-plaintext highlighter-rouge">full</code> 表里，找出所有类型是 “job” 的记录，只要它们的 <code class="language-plaintext highlighter-rouge">title</code> (标题) 和 <code class="language-plaintext highlighter-rouge">text</code> (内容)。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 在 Python 里，SQL 语句其实就是一个长长的字符串 (用三个引号包起来可以换行)
+</span><span class="n">query</span> <span class="o">=</span> <span class="sh">"""</span><span class="s">
+        SELECT title, text
+        FROM `bigquery-public-data.hacker_news.full`
+        WHERE type = </span><span class="sh">"</span><span class="s">job</span><span class="sh">"</span><span class="s">
+        </span><span class="sh">"""</span>
+
+<span class="c1"># 🌟 安全第一：查询大数据是要扣钱的！Kaggle 教了一个绝招防止查询过大
+# 设置最大计算量为 1 GB。如果你写的 SQL 需要扫超过 1GB 的数据，它会直接报错阻止你。
+</span><span class="n">safe_config</span> <span class="o">=</span> <span class="n">bigquery</span><span class="p">.</span><span class="nc">QueryJobConfig</span><span class="p">(</span><span class="n">maximum_bytes_billed</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">)</span>
+
+<span class="c1"># 真正去云端执行查询
+</span><span class="n">query_job</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="nf">query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">job_config</span><span class="o">=</span><span class="n">safe_config</span><span class="p">)</span>
+
+<span class="c1"># 把查到的结果下载下来，直接转成你最熟悉的 Pandas DataFrame！
+# 后面你想怎么分析就怎么分析！
+</span><span class="n">jobs_df</span> <span class="o">=</span> <span class="n">query_job</span><span class="p">.</span><span class="nf">to_dataframe</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="3-分组统计group-by-having-count">3. 分组统计：GROUP BY, HAVING, COUNT()</h3>
+<p><strong>业务场景：</strong> 统计 hacker_news 上每天有多少篇帖子。只要那些发帖量超过 1000 的日子。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">query</span> <span class="o">=</span> <span class="sh">"""</span><span class="s">
+        SELECT `by` AS author, COUNT(id) AS NumPosts
+        FROM `bigquery-public-data.hacker_news.full`
+        GROUP BY `by`                  -- 按作者分组
+        HAVING COUNT(id) &gt; 1000        -- HAVING 是在分组后进行过滤
+        ORDER BY NumPosts DESC         -- ORDER BY: 按帖子数量排序，DESC 表示降序(从大到小)
+        </span><span class="sh">"""</span>
+<span class="c1"># 注意：在 SQL 里，把列名重命名叫 AS。
+# COUNT(id) 意思是数一数这个组里有多少个 ID。
+</span></code></pre></div></div>
+
+<h3 id="4-拆解日期extract">4. 拆解日期：EXTRACT</h3>
+<p><strong>业务场景：</strong> 表里的日期往往精确到秒（2023-05-12 14:22:11）。我只想统计“每个星期的第几天 (Day of Week)”发生的事故最多。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">query</span> <span class="o">=</span> <span class="sh">"""</span><span class="s">
+        SELECT EXTRACT(DAYOFWEEK FROM timestamp_of_crash) AS day_of_week, 
+               COUNT(consecutive_number) AS num_accidents
+        FROM `bigquery-public-data.nhtsa_traffic_fatalities.accident_2015`
+        GROUP BY day_of_week
+        ORDER BY num_accidents DESC
+        </span><span class="sh">"""</span>
+<span class="c1"># EXTRACT(DAYOFWEEK FROM ...) 能够直接把一长串时间戳，扣成数字 1-7 (星期天到星期六)。
+# 其他常用：EXTRACT(YEAR FROM...), EXTRACT(MONTH FROM...)
+</span></code></pre></div></div>
+
+<h3 id="5-多表联合join">5. 多表联合：JOIN</h3>
+<p><strong>业务场景：</strong> 有两张表。一张表记录了用户的 ID 和姓名 (<code class="language-plaintext highlighter-rouge">users</code> 表)；另一张表记录了每个回帖的 ID、内容和作者的用户 ID (<code class="language-plaintext highlighter-rouge">comments</code> 表)。我想把它们拼起来，看具体是谁发了什么。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># INNER JOIN 就像两张表的联姻。ON 后面写联姻的条件（两边共有的身份证号）。
+</span><span class="n">query</span> <span class="o">=</span> <span class="sh">"""</span><span class="s">
+        SELECT u.name, c.text
+        FROM `bigquery-public-data.hacker_news.users` AS u
+        INNER JOIN `bigquery-public-data.hacker_news.comments` AS c
+            ON u.id = c.author
+        </span><span class="sh">"""</span>
+<span class="c1"># 逻辑拆解：
+# 1. 给长长的表名起了短别名：users 叫 u，comments 叫 c
+# 2. 从 u 里面拿 name，从 c 里面拿 text
+# 3. 拼接条件：u 表的 id 必须等于 c 表的 author 字段
+</span></code></pre></div></div>
+<p>完全理解！为了让你彻底拥有一个<strong>“Kaggle 字典级别的外脑”</strong>，我将为你进行<strong>深度扩充</strong>。</p>
+
+<p>在真实的 Kaggle 竞赛中，初学者往往在基础语法上没问题，但在遇到<strong>“高阶图表定制”、“复杂特征构造”</strong>和<strong>“嵌套 SQL 查询”</strong>时会瞬间卡壳。</p>
+
+<p>下面我为你补充这三门课中<strong>最容易遗忘、但也最能拉开分数差距的“高阶进阶语法与实战技巧”</strong>。请将这些代码块一并存入你的速查手册！</p>
+
+<hr />
+
+<h1 id="-深度扩充一数据可视化-data-visualization---高阶掌控">🎨 深度扩充一：数据可视化 (Data Visualization) - 高阶掌控</h1>
+
+<p>在 Kaggle 的中后期，你不再只是画单张图，而是需要把好几个图拼在一起对比，或者处理密密麻麻重叠在一起的百万级数据点。</p>
+
+<h3 id="1-多图拼接子图绘制-subplots">1. 多图拼接：子图绘制 (Subplots)</h3>
+<p><strong>业务场景：</strong> 领导或评委不想看 5 张分开的图，他们希望在一个面板里看到“不同年龄段”和“不同性别”的消费分布，方便左右对比。</p>
+
+<p>```python name=data_viz_subplots.py
+import matplotlib.pyplot as plt
+import seaborn as sns</p>
+
+<h1 id="创建一个大画板-figure-和多个子画板-axes">创建一个大画板 (Figure) 和多个子画板 (Axes)</h1>
+<h1 id="nrows1-ncols2-意思是1-行-2-列共2张小图">nrows=1, ncols=2 意思是：1 行 2 列（共2张小图）</h1>
+<h1 id="figsize14-6-控制整个大画板的尺寸">figsize=(14, 6) 控制整个大画板的尺寸</h1>
+<p>fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14, 6))</p>
+
+<h1 id="在第一张小图-axes0-上画直方图">在第一张小图 (axes[0]) 上画直方图</h1>
+<p>sns.histplot(data=df[‘Age’], ax=axes[0])
+axes[0].set_title(“Age Distribution”) # 给第一张小图加标题</p>
+
+<h1 id="在第二张小图-axes1-上画散点图">在第二张小图 (axes[1]) 上画散点图</h1>
+<p>sns.scatterplot(x=df[‘Age’], y=df[‘Income’], hue=df[‘Gender’], ax=axes[1])
+axes[1].set_title(“Age vs Income”) # 给第二张小图加标题</p>
+
+<h1 id="自动调整间距防止两张图的字撞在一起">自动调整间距，防止两张图的字撞在一起</h1>
+<p>plt.tight_layout()
+plt.show()</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+### 2. 🌟 分面网格：FacetGrid (Kaggle 大神最爱)
+**业务场景：** 数据里有 10 个不同的城市，你想给每个城市都画一张房价的直方图。手动写 10 次太傻了，FacetGrid 可以一键生成照片墙！
+
+```python name=data_viz_facetgrid.py
+# 步骤 1：按照 'City' (城市) 把画板切分成多个小格子
+# col="City" 意思是每个城市占一列，col_wrap=3 意思是每行最多放 3 张图就换行
+g = sns.FacetGrid(df, col="City", col_wrap=3, height=4)
+
+# 步骤 2：把你想画的图“映射 (map)”到这些小格子里
+# 这里我们要在每个格子里画 'Price' 的直方图 (histplot)
+g.map(sns.histplot, "Price")
+
+# 加一个总标题 (y=1.05 把标题往上抬一点，免得挡住图)
+g.fig.suptitle("House Prices by City", y=1.05)
+</code></pre></div></div>
+
+<hr />
+
+<h1 id="️-深度扩充二特征工程-feature-engineering---夺冠秘籍">🛠️ 深度扩充二：特征工程 (Feature Engineering) - 夺冠秘籍</h1>
+
+<p>如果说之前的 PCA 和聚类是标准动作，那么接下来的<strong>目标编码 (Target Encoding)</strong> 就是 Kaggle 比赛结构化数据中经常用来冲刺前 1% 的绝招。</p>
+
+<h3 id="1--目标编码-target-encoding">1. 🌟 目标编码 (Target Encoding)</h3>
+<p><strong>业务场景：</strong> 假设你有一个特征叫 <code class="language-plaintext highlighter-rouge">Zipcode</code>（邮编），里面有 5000 个不同的邮编。</p>
+<ul>
+  <li>如果用“独热编码 (One-Hot)”，会多出 5000 列，内存直接爆炸，模型也会崩溃。</li>
+  <li>如果用“序号编码 (Ordinal)”，邮编 10001 和 10002 并没有大小之分，模型会被误导。</li>
+  <li><strong>绝招：</strong> 用<strong>“这个邮编里的历史平均房价”</strong>来代替这个邮编！比如 10001 邮编的房子历史平均卖 500 万，就把所有 10001 替换成 500 万。这就叫目标编码。</li>
+</ul>
+
+<p>```python name=feature_engineering_target_encode.py
+import pandas as pd</p>
+<h1 id="category_encoders-是一个专门做特征编码的神器库">category_encoders 是一个专门做特征编码的神器库</h1>
+<p>from category_encoders import MEstimateEncoder</p>
+
+<h1 id="准备好类别特征-x_encode-和-目标变量-y">准备好类别特征 X_encode 和 目标变量 y</h1>
+<p>X_encode = df.select_dtypes([“object”, “category”])
+y = df[‘Price’]</p>
+
+<h1 id="定义目标编码器">定义目标编码器</h1>
+<h1 id="m5-是一种平滑机制-smoothing如果某个偏僻邮编历史上只卖过-1-套房恰好是-1-个亿的豪宅">m=5 是一种平滑机制 (Smoothing)：如果某个偏僻邮编历史上只卖过 1 套房，恰好是 1 个亿的豪宅，</h1>
+<h1 id="直接用-1-亿代替这个邮编就太绝对了m-参数会引入全局平均值来中和这种极端情况">直接用 1 亿代替这个邮编就太绝对了。m 参数会引入全局平均值来“中和”这种极端情况。</h1>
+<p>encoder = MEstimateEncoder(cols=X_encode.columns, m=5.0)</p>
+
+<h1 id="拟合并且转换">拟合并且转换</h1>
+<h1 id="️-极度危险的坑-data-leakage">⚠️ 极度危险的坑 (Data Leakage)：</h1>
+<h1 id="绝对不能把验证集的数据也混在一起算平均值否则等于提前泄露了验证集的答案">绝对不能把验证集的数据也混在一起算平均值！否则等于提前泄露了验证集的答案。</h1>
+<h1 id="正确做法只用训练集-train-来-fit然后分别-transform-训练集和验证集">正确做法：只用训练集 (train) 来 fit，然后分别 transform 训练集和验证集。</h1>
+<p>X_train_encoded = encoder.fit_transform(X_train_encode, y_train)
+X_valid_encoded = encoder.transform(X_valid_encode)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+### 2. 异常值处理 (Outlier Treatment)
+**业务场景：** 预测人的身高，绝大部分在 1.5 - 1.9 米，但数据录入错误，出现了一个 18 米的人。不处理的话，线性模型会被这个 18 米的人严重带偏。
+
+```python name=feature_engineering_outliers.py
+import numpy as np
+
+# 策略 1：盖帽法 (Clipping/Winsorization)
+# 把所有大于 99% 分位数的数据，强制压平到 99% 的数值；小于 1% 的强制拔高到 1% 的数值。
+# 比如身高最高只算到 2.1米，再高的统统算 2.1米。
+lower_bound = df['Height'].quantile(0.01)
+upper_bound = df['Height'].quantile(0.99)
+
+# np.clip 会把超出上下限的值自动截断
+df['Height_Clipped'] = np.clip(df['Height'], lower_bound, upper_bound)
+
+# 策略 2：对数转换 (Log Transformation) -&gt; 专治“长尾分布”
+# 比如收入数据，大部分人月薪 1 万，少部分人月薪 1 个亿。画图出来尾巴拖得很长。
+# 用 np.log1p (即 log(x+1)) 转换后，1 万和 1 亿的差距在模型眼里就没那么夸张了，分布会变得更像正态分布。
+df['Income_Log'] = np.log1p(df['Income'])
+</code></pre></div></div>
+
+<hr />
+
+<h1 id="️-深度扩充三sql-基础与进阶-intro-to--advanced-sql">🗄️ 深度扩充三：SQL 基础与进阶 (Intro to &amp; Advanced SQL)</h1>
+
+<p>Kaggle 的 SQL 课程后半段（Advanced SQL）是很多非计算机专业同学的噩梦。主要是因为代码变得很长，涉及了 <strong>CTE（公共表表达式）</strong> 和 <strong>窗口函数（Window Functions）</strong>。</p>
+
+<h3 id="1--化繁为简的神器cte-with-语句">1. 🌟 化繁为简的神器：CTE (WITH 语句)</h3>
+<p><strong>业务场景：</strong> 你要先计算每个用户的总订单量，然后再从这些人里挑出总订单量大于 10 的，最后再算这些 VIP 用户的平均消费。如果全写在一坨 SQL 里，括号套括号会让人疯掉。
+<strong>逻辑：</strong> <code class="language-plaintext highlighter-rouge">WITH</code> 语句的作用就是<strong>“打草稿”</strong>。先把第一步的中间结果存成一张“虚拟草稿表”，然后再在草稿表上查。</p>
+
+<p>```sql name=advanced_sql_cte.sql</p>
+<h1 id="我们用-with-定义一张草稿表叫-userorders-草稿">我们用 WITH 定义一张草稿表，叫 UserOrders 草稿</h1>
+<p>query_with_cte = “””
+    WITH UserOrders AS (
+        – 这是草稿 1 的内容：统计每个用户的订单总数和总花费
+        SELECT 
+            user_id, 
+            COUNT(order_id) AS total_orders,
+            SUM(spend) AS total_spend
+        FROM <code class="language-plaintext highlighter-rouge">bigquery-public-data.store.orders</code>
+        GROUP BY user_id
+    )</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-- 下面才是真正的正式查询！我们可以直接把 UserOrders 当成真实的表来用！
+SELECT 
+    user_id, 
+    total_spend / total_orders AS avg_spend_per_order
+FROM UserOrders
+WHERE total_orders &gt; 10
+ORDER BY avg_spend_per_order DESC """ ```
+</code></pre></div></div>
+
+<h3 id="2-高维打击窗口函数-window-functions---over--partition-by">2. 高维打击：窗口函数 (Window Functions - OVER &amp; PARTITION BY)</h3>
+<p><strong>业务场景：</strong> 我们有一张员工薪水表。我想在每一行数据的后面，额外加一列，显示<strong>“这个员工所在的部门，平均薪水是多少”</strong>。</p>
+<ul>
+  <li>如果用 <code class="language-plaintext highlighter-rouge">GROUP BY</code>，所有员工的明细行就全消失了，只剩下部门汇总的几行。</li>
+  <li><strong>逻辑：</strong> 窗口函数允许你在<strong>不改变原有行数</strong>的情况下，进行分组统计！就像是打开一个小窗口，看一眼这个组的数据算个平均，然后把结果写在这一行旁边。</li>
+</ul>
+
+<p>```sql name=advanced_sql_window.sql
+query_window = “””
+    SELECT 
+        employee_name,
+        department,
+        salary,
+        – 🌟 窗口函数来啦！
+        – 计算平均工资 (AVG)
+        – OVER 告诉它这是一个窗口操作
+        – PARTITION BY department 意思是：只在当前这个部门的“小窗口”里算平均
+        AVG(salary) OVER (PARTITION BY department) AS dept_avg_salary,</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    -- 进阶用法：部门内薪水排名！
+    -- 在部门内 (PARTITION BY department)，按薪水从高到低 (ORDER BY salary DESC) 给每个人排个名次
+    RANK() OVER (PARTITION BY department ORDER BY salary DESC) AS salary_rank
+    
+FROM `my_company.hr.salaries` """ ``` *这个语法在 Kaggle 分析时序数据（比如计算“过�� 7 天的滚动平均销量”）时极度常用。*
+</code></pre></div></div>
+
+<h3 id="3-数据重组union-all-上下堆叠">3. 数据重组：UNION ALL (上下堆叠)</h3>
+<p><strong>业务场景：</strong> 你有两张表结构完全一样的表，比如一张叫 <code class="language-plaintext highlighter-rouge">2022_sales</code>，一张叫 <code class="language-plaintext highlighter-rouge">2023_sales</code>。你需要把它们像叠汉堡一样上下叠起来变成一张大表。</p>
+
+<p>```sql name=advanced_sql_union.sql
+query_union = “””
+    – 拿出 2022 年的数据
+    SELECT date, product_id, revenue
+    FROM <code class="language-plaintext highlighter-rouge">store.sales_2022</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UNION ALL  -- 上下暴力拼接的胶水！
+
+-- 拿出 2023 年的数据
+SELECT date, product_id, revenue
+FROM `store.sales_2023` """ ```
+</code></pre></div></div>]]></content><author><name>uke</name></author><category term="记忆" /><summary type="html"><![CDATA[这文章100%非我手写，主要是为了便于我查找和记忆最近刚开始学习的各类库（） producted by gemini 3.1pro —]]></summary></entry></feed>

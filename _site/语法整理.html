@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  
+
+
+
+
+<head>
+	<meta charset="utf-8">
+	<title>语法整理 - 羽落天青 | Uke's Blog</title>
+	<link rel="canonical" href="http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html">
+	<meta name="description" content="南大的碎碎念">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http://localhost:4000"},
+  "headline": "语法整理",
+  "abstract": "",
+    "keywords": "记忆",
+    "wordcount": "3016",
+    "image": ["http://localhost:4000/assets/img"],
+  "datePublished": "2026-03-10 22:05:22 +0800",
+  "dateModified": "2026-03-10 22:05:22 +0800",
+  "author": {
+    "@type": "Person",
+    "name": "uke"},
+  "publisher": {
+    "@type":  "Organization",
+    "logo": {
+        "@type": "ImageObject",
+        "encodingFormat": "image/png",
+        "contentUrl": "http://localhost:4000/assets/img/branding/MVM-symbol-black.png",
+        "url": "http://localhost:4000/assets/img/branding/MVM-symbol-black.png"},
+    "name" : "羽落天青 | Uke's Blog"}
+}
+</script>
+<!-- Open Graph data -->
+<meta property="og:url" content="http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html"/>
+<meta property="og:type" content="article"/>
+<meta property="og:title" content="语法整理"/>
+<meta property="og:description" content=""/>
+<meta property="og:image" content="http://localhost:4000/assets/img"/>
+<meta property="og:image:alt" content="语法整理"/>
+<meta property="og:site_name" content="羽落天青 | Uke's Blog" />
+<meta property="article:published_time" content="2026-03-10 22:05:22 +0800" />
+<meta property="article:modified_time" content="2026-03-10 22:05:22 +0800" />
+<meta property="article:tag" content="记忆" />
+<meta property="fb:admins" content="ar.maybach" />
+<!-- Schema.org markup for Google -->
+<meta itemprop="name" content="语法整理">
+<meta itemprop="description" content="">
+<meta itemprop="image" content="http://localhost:4000/assets/img">
+<!-- Twitter Card data -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="">
+<meta name="twitter:title" content="语法整理">
+<meta name="twitter:description" content="">
+<meta name="twitter:creator" content="">
+<meta data-rh="true" name="twitter:label1" content="Word count"/>
+<meta data-rh="true" name="twitter:data1" content="3016"/>
+<meta name="twitter:image:src" content="http://localhost:4000/assets/img/">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#311e3e">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#311e3e">
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Source+Sans+Pro:wght@300;400;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="./assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="./assets/css/main.css">
+	
+
+
+
+
+<link rel="icon" href="./assets/img/favicon/favicon.ico" type="image/x-icon">
+<link rel="apple-touch-icon" href="./assets/img/favicon/favicon.ico">
+<link rel="apple-touch-icon" sizes="72x72" href="./assets/img/favicon/favicon.ico">
+<link rel="apple-touch-icon" sizes="114x114" href="./assets/img/favicon/favicon.ico">
+	
+	<link rel="stylesheet" href="./assets/css/highlighter/syntax-base16.monokai.dark.css">
+	
+</head>
+
+  <body>
+    
+
+
+
+
+<section class="hidden">
+  <div class="post">
+      <a  class="post-list-title" href="./%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html">语法整理</a>
+      
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-03-10T22:05:22+08:00">2026年3月10日</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <span class="page_meta-readtime">
+      63 分钟阅读
+    </span>
+  
+  
+  </span>
+
+        <div class="post-excerpt">
+          <p>这文章100%非我手写，主要是为了便于我查找和记忆最近刚开始学习的各类库（）producted by gemini 3.1pro—</p><h1 id="第一部分pandas-核心语法全解-kaggle-pandas">第一部分：Pandas 核心语法全解 (Kaggle: Pandas)</h1><p>Pandas 是数据科学的基础，它的核心作用就是<strong>“在 Python 里操作 Excel 表格”</strong>。在 Pandas 里，一维数据叫 <code class="language-plaintext highlighter-rouge">Series</code>（一列），二维数据叫 <code class="language-plaintext highlighter-rouge">DataFrame</code>（一张表）。</p><h2 id="1-创建读取与写入-creating-reading-and-writing">1. 创建、读取与写入 (Creating, Reading and Writing)</h2><p><strong>场景：</strong> 数据怎么弄进 Python 里？处理完怎么存下来？</p><div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span> <span class="c1"># 永远的第一步：请出 pandas 大神，并给它起个小名叫 pd</span><span class="c1"># --- 1. 手动创建数据 (常用于自己造测试数据) ---# 创建一个 DataFrame (数据框/二维表)# 语法逻辑：pd.DataFrame(字典) -&gt; 字典的键(Key)变成列名，值(Value)变成这一列的数据</span><span class="n">df_manual</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span> <span class="sh">'</span><span class="s">Yes</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">21</span><span class="p">],</span> <span class="sh">'</span><span class="s">No</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">131</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span><span class="p">})</span><span class="c1"># 创建时指定行索引 (index)</span><span class="n">df_custom_index</span> <span class="o">=</span> <span class="n">pd</span><span...<a class="read-more" href="./%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html"> 阅读全文</a>
+        </div>
+  </div>
+</section>
+<div class="flex-container transparent">
+  
+
+
+
+
+<header class="main-header">
+  <div class="wrapper">
+    <div class="header-flex">
+      <div class="menu-icon-container">
+        <span class="menu-icon"><i class="fa fa-bars" aria-hidden="true"></i></span>
+      </div>
+      <nav class="main-nav">
+        <span class="menu-icon-close"><i class="fa fa-times" aria-hidden="true"></i></span>
+        <ul>
+          <li>
+            <div class="theme-toggle night">
+    <input class="night" type="checkbox" id="theme-switch">
+    <label class="night" for="theme-switch">
+        <div class="toggle night"></div>
+        <div class="names night">             
+        <p class="light night"><svg class="night" width="20" viewBox="0 0 25 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path class="night" d="M12.5 2.49871C11.3401 2.50016 10.2282 2.96156 9.40801 3.78171C8.58785 4.60187 8.12645 5.71383 8.125 6.87371C8.125 7.03947 8.19085 7.19844 8.30806 7.31565C8.42527 7.43286 8.58424 7.49871 8.75 7.49871C8.91576 7.49871 9.07473 7.43286 9.19194 7.31565C9.30915 7.19844 9.375 7.03947 9.375 6.87371C9.37593 6.04519 9.70547 5.25088 10.2913 4.66503C10.8772 4.07918 11.6715 3.74964 12.5 3.74871C12.6658 3.74871 12.8247 3.68286 12.9419 3.56565C13.0592 3.44844 13.125 3.28947 13.125 3.12371C13.125 2.95795 13.0592 2.79898 12.9419 2.68177C12.8247 2.56456 12.6658 2.49871 12.5 2.49871V2.49871ZM12.5 -0.00129131C8.47891 -0.00129131 5.62031 3.26238 5.625 6.88269C5.62487 8.54403 6.22974 10.1486 7.32656 11.3964C8.32891 12.5378 9.29062 14.4007 9.375 14.9987L9.37734 17.9358C9.37744 18.0587 9.41402 18.1787 9.48242 18.2807L10.4395 19.7198C10.4964 19.8055 10.5737 19.8758 10.6644 19.9245C10.7551 19.9731 10.8564 19.9986 10.9594 19.9987H14.0395C14.1426 19.9988 14.2441 19.9734 14.3351 19.9247C14.426 19.8761 14.5034 19.8057 14.5605 19.7198L15.5176 18.28C15.5854 18.1776 15.6219 18.0578 15.6227 17.935L15.625 14.9987C15.7129 14.3846 16.6797 12.5303 17.6734 11.3964C18.5434 10.4028 19.1087 9.17963 19.3015 7.87318C19.4944 6.56673 19.3066 5.23238 18.7608 4.02985C18.215 2.82732 17.3342 1.80757 16.2238 1.09264C15.1135 0.377721 13.8206 -0.00207746 12.5 -0.00129131V-0.00129131ZM14.3727 17.7452L13.7047 18.7487H11.2937L10.6273 17.7452V17.4987H14.3738L14.3727 17.7452ZM14.375 16.2487H10.625L10.6227 14.9987H14.375V16.2487ZM16.7348 10.5725C16.1879 11.1956 15.316 12.4511 14.7594 13.7479H10.243C9.68516 12.4507 8.81328 11.1956 8.26641 10.5725C7.36971 9.5491 6.87599 8.2344 6.87734 6.87371C6.87031 3.8659 9.23594 1.24871 12.5 1.24871C15.602 1.24871 18.125 3.77176 18.125 6.87371C18.1249 8.23456 17.6305 9.54904 16.7336 10.5725H16.7348ZM3.75 6.87371C3.75 6.70795 3.68415 6.54898 3.56694 6.43177C3.44973 6.31456 3.29076 6.24871 3.125 6.24871H0.625C0.45924 6.24871 0.300269 6.31456 0.183058 6.43177C0.065848 6.54898 0 6.70795 0 6.87371C0 7.03947 0.065848 7.19844 0.183058 7.31565C0.300269 7.43286 0.45924 7.49871 0.625 7.49871H3.125C3.29076 7.49871 3.44973 7.43286 3.56694 7.31565C3.68415 7.19844 3.75 7.03947 3.75 6.87371ZM20.625 2.49871C20.7221 2.49849 20.8178 2.4759 20.9047 2.43269L23.4047 1.18269C23.5529 1.10852 23.6657 0.978483 23.718 0.821201C23.7704 0.66392 23.7582 0.492273 23.684 0.344021C23.6473 0.270614 23.5964 0.205161 23.5344 0.151397C23.4724 0.0976336 23.4004 0.0566132 23.3225 0.0306781C23.1652 -0.0217002 22.9936 -0.00945342 22.8453 0.0647243L20.3453 1.31472C20.2194 1.37771 20.1184 1.48136 20.0588 1.60889C19.9991 1.73643 19.9843 1.88037 20.0166 2.0174C20.049 2.15442 20.1267 2.2765 20.2371 2.36386C20.3475 2.45122 20.4842 2.49873 20.625 2.49871ZM24.375 6.24871H21.875C21.7092 6.24871 21.5503 6.31456 21.4331 6.43177C21.3158 6.54898 21.25 6.70795 21.25 6.87371C21.25 7.03947 21.3158 7.19844 21.4331 7.31565C21.5503 7.43286 21.7092 7.49871 21.875 7.49871H24.375C24.5408 7.49871 24.6997 7.43286 24.8169 7.31565C24.9342 7.19844 25 7.03947 25 6.87371C25 6.70795 24.9342 6.54898 24.8169 6.43177C24.6997 6.31456 24.5408 6.24871 24.375 6.24871ZM4.65469 1.31472L2.15469 0.0647243C2.08128 0.0279952 2.00136 0.00608435 1.91948 0.00024269C1.83761 -0.00559897 1.75539 0.004743 1.67751 0.0306781C1.52023 0.0830564 1.39019 0.195769 1.31602 0.344021C1.24184 0.492273 1.22959 0.66392 1.28197 0.821201C1.33435 0.978483 1.44706 1.10852 1.59531 1.18269L4.09531 2.43269C4.18223 2.4759 4.27794 2.49849 4.375 2.49871C4.5158 2.49873 4.65248 2.45122 4.7629 2.36386C4.87332 2.2765 4.951 2.15442 4.98337 2.0174C5.01574 1.88037 5.0009 1.73643 4.94124 1.60889C4.88158 1.48136 4.78061 1.37771 4.65469 1.31472ZM23.4047 12.5647L20.9047 11.3147C20.7564 11.2405 20.5847 11.2283 20.4274 11.2807C20.2701 11.3332 20.14 11.4459 20.0658 11.5942C19.9916 11.7425 19.9794 11.9142 20.0318 12.0715C20.0842 12.2289 20.197 12.3589 20.3453 12.4331L22.8453 13.6831C22.9936 13.7573 23.1653 13.7695 23.3226 13.7171C23.4799 13.6647 23.61 13.5519 23.6842 13.4036C23.7584 13.2553 23.7706 13.0836 23.7182 12.9263C23.6658 12.769 23.553 12.6389 23.4047 12.5647V12.5647ZM4.375 11.2487C4.27794 11.2489 4.18223 11.2715 4.09531 11.3147L1.59531 12.5647C1.44701 12.6389 1.33425 12.769 1.28183 12.9263C1.25588 13.0042 1.24552 13.0864 1.25135 13.1683C1.25719 13.2502 1.27909 13.3302 1.31582 13.4036C1.35255 13.477 1.40338 13.5425 1.46542 13.5963C1.52745 13.6501 1.59947 13.6911 1.67737 13.7171C1.83469 13.7695 2.00638 13.7573 2.15469 13.6831L4.65469 12.4331C4.78083 12.3702 4.88202 12.2666 4.94183 12.1389C5.00164 12.0113 5.01656 11.8672 4.98417 11.7301C4.95178 11.5929 4.87397 11.4707 4.76339 11.3833C4.65281 11.2959 4.51594 11.2485 4.375 11.2487V11.2487Z" /></svg></p>
+        <p class="dark night"><svg class="night" width="20" viewBox="0 0 25 21" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path class="night" d="M6.39614 3.72646C7.50591 1.56178 9.72622 0.00900831 12.4782 0.00114817C13.8006 -0.00388798 15.0965 0.375153 16.2101 1.09278C17.3237 1.8104 18.2079 2.83612 18.7564 4.04682C19.3049 5.25751 19.4945 6.60175 19.3024 7.91818C19.1103 9.23461 18.5447 10.4673 17.6735 11.4683C17.5227 11.6416 17.3516 11.859 17.1739 12.1069L9.47856 6.12184C9.65443 5.45016 10.046 4.85578 10.5924 4.43118C11.1387 4.00657 11.8093 3.77554 12.4997 3.77401C12.6654 3.77401 12.8244 3.70776 12.9416 3.58984C13.0588 3.47191 13.1247 3.31197 13.1247 3.1452C13.1247 2.97843 13.0588 2.81849 12.9416 2.70057C12.8244 2.58264 12.6654 2.51639 12.4997 2.51639C11.6212 2.5173 10.7634 2.78383 10.0374 3.28141C9.31146 3.77899 8.75092 4.48463 8.42856 5.30674L6.39614 3.72646ZM6.39614 10.0841C6.64968 10.5817 6.96225 11.0465 7.327 11.4683C7.97231 12.2091 8.98169 13.7568 9.36645 15.0624C9.36645 15.0726 9.36919 15.0828 9.37075 15.093H12.8372L6.39614 10.0841ZM9.37466 16.3502V17.8574C9.37584 18.1045 9.44934 18.3458 9.58599 18.5511L10.2536 19.5607C10.3675 19.7335 10.5221 19.8753 10.7037 19.9734C10.8852 20.0715 11.0881 20.1229 11.2942 20.1231H13.7047C13.9107 20.1231 14.1135 20.0718 14.2951 19.9739C14.4766 19.876 14.6313 19.7345 14.7454 19.5619L15.4129 18.5511C15.5492 18.3451 15.622 18.1033 15.6223 17.8558V17.2581L14.4528 16.3502H9.37466Z"/>
+            <path class="night" d="M0.131556 1.2363L0.898352 0.243172C0.948738 0.177883 1.01142 0.123229 1.08282 0.0823368C1.15423 0.0414448 1.23294 0.0151171 1.31446 0.00486006C1.39598 -0.00539702 1.47872 0.000617709 1.55793 0.0225602C1.63714 0.0445026 1.71127 0.0819422 1.77609 0.132737L24.7585 18.0039C24.8894 18.1062 24.9745 18.2567 24.9952 18.4221C25.0158 18.5876 24.9703 18.7545 24.8687 18.8862L24.1015 19.8794C24.0511 19.9446 23.9884 19.9992 23.917 20.0401C23.8457 20.0809 23.767 20.1072 23.6855 20.1175C23.6041 20.1277 23.5214 20.1217 23.4422 20.0998C23.363 20.0779 23.2889 20.0405 23.2241 19.9898L0.241322 2.1186C0.110489 2.01624 0.0254259 1.86578 0.00484145 1.70032C-0.015743 1.53486 0.0298368 1.36795 0.131556 1.2363V1.2363Z"/>
+            </svg></p>
+        </div>
+    </label>
+</div>
+          </li>
+          <li>
+            <a href="./">
+              <div class="left">
+                首页
+              </div>  
+              <div class="right">
+                <svg width="24px" aria-hidden="true" focusable="false" role="img" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g><rect x="83.534" y="40.929" width="3.997" height="20.071"/></g><path d="M16.466,41.931l33.548-25.123L92.81,48.877l2.396-3.198L50.015,11.814L4.794,45.679l2.396,3.199l5.279-3.954v42.763h75.062  V61h-3.997v22.69H64.598V54.068H35.402V83.69H16.466V41.931z M39.399,58.065h21.202V83.69H39.399V58.065z"/></svg>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="./archive.html">
+              <div class="left">
+                全部文章
+              </div>
+              <div class="right">
+                <svg width="24px" aria-hidden="true" focusable="false" role="img" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="-3 3 64 64"><g><path d="M60.992,31.985c0-15.979-13-28.978-28.979-28.978c-15.994,0-29.006,12.999-29.006,28.978   c0,15.994,13.012,29.007,29.006,29.007v-2c-14.891,0-27.006-12.115-27.006-27.007c0-14.875,12.115-26.978,27.006-26.978   c14.876,0,26.979,12.103,26.979,26.978c0,8.945-4.479,17.329-11.804,22.338l0.874-10.062l-1.992-0.174l-1.135,13.071l13.042,1.136   l0.174-1.992l-9.183-0.799C56.443,50.079,60.992,41.321,60.992,31.985z"/><polygon points="33.014,12.682 31.014,12.682 31.014,32.398 39.811,41.224 41.227,39.812 33.014,31.572  "/></g></svg>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="./tags.html">
+              <div class="left">
+                标签
+              </div>
+              <div class="right">
+                <svg width="24px" aria-hidden="true" focusable="false" role="img" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><g><path d="M75.244,15.066c-2.59,0-5.027,1.012-6.857,2.843c-3.781,3.785-3.778,9.94,0.002,13.724    c1.831,1.833,4.266,2.843,6.857,2.843s5.026-1.01,6.861-2.843c3.781-3.785,3.781-9.943-0.002-13.724    C80.275,16.076,77.838,15.066,75.244,15.066z M78.766,28.252c-1.871,1.869-5.129,1.869-6.996,0c-1.929-1.931-1.931-5.069-0.002-7    c0.934-0.934,2.175-1.448,3.498-1.448c1.322,0,2.564,0.515,3.5,1.448C80.691,23.183,80.691,26.321,78.766,28.252z M94.632,41.027    l0.005-28.872c0-3.745-3.05-6.792-6.792-6.792L58.973,5.368l-1.237-0.004c-1.893,0-4.75,0-6.617,1.869L7.008,51.342    c-1.06,1.059-1.645,2.467-1.645,3.966s0.583,2.908,1.644,3.968l33.717,33.717c1.058,1.06,2.467,1.645,3.966,1.645    s2.908-0.585,3.968-1.645l44.106-44.111c1.893-1.886,1.88-4.604,1.869-7.227L94.632,41.027z M90.022,46.139L45.913,90.25    c-0.654,0.65-1.792,0.652-2.443,0L9.752,56.532c-0.328-0.327-0.507-0.762-0.507-1.225c0-0.462,0.18-0.894,0.507-1.221    L53.861,9.976c0.676-0.674,2.284-0.731,3.874-0.731l1.237,0.004l28.872-0.004c1.604,0,2.909,1.306,2.909,2.911l-0.005,28.872    l0.005,0.642C90.76,43.585,90.769,45.392,90.022,46.139z"/></g></svg>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="./about.html">
+              <div class="left">
+                关于
+              </div>
+              <div class="right">
+                <svg width='24px' aria-hidden="true" focusable="false" role="img" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 846.66 846.66"><g><path d="M351.26 453.22c-276.42,134.06 -224.86,336.22 -224.73,336.8 6.03,25.41 -32.58,34.56 -38.6,9.15 -0.15,-0.65 -55.78,-219.32 218.87,-367.66 -60.98,-39 -100.02,-106.82 -100.02,-182.56 0,-119.6 96.95,-216.55 216.55,-216.55 119.6,0 216.55,96.95 216.55,216.55 0,75.74 -39.04,143.56 -100.02,182.56 274.65,148.34 219.02,367.01 218.87,367.66 -6.02,25.41 -44.63,16.26 -38.6,-9.15 0.13,-0.58 51.69,-202.74 -224.73,-336.8 -22.55,7.96 -46.8,12.29 -72.07,12.29 -25.27,0 -49.52,-4.33 -72.07,-12.29zm72.07 -381.14c-97.68,0 -176.87,79.19 -176.87,176.87 0,97.69 79.19,176.87 176.87,176.87 97.68,0 176.87,-79.18 176.87,-176.87 0,-97.68 -79.19,-176.87 -176.87,-176.87z"/></g></svg>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="./subscribe.html">
+              <div class="left">
+                订阅
+              </div>
+              <div class="right">
+                <svg width='24px' aria-hidden="true" focusable="false" role="img" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M80 352c26.467 0 48 21.533 48 48s-21.533 48-48 48-48-21.533-48-48 21.533-48 48-48m0-32c-44.183 0-80 35.817-80 80s35.817 80 80 80 80-35.817 80-80-35.817-80-80-80zm367.996 147.615c-6.448-237.848-198.06-429.164-435.61-435.61C5.609 31.821 0 37.229 0 44.007v8.006c0 6.482 5.146 11.816 11.626 11.994 220.81 6.05 398.319 183.913 404.367 404.367.178 6.48 5.512 11.626 11.994 11.626h8.007c6.778 0 12.185-5.609 12.002-12.385zm-144.245-.05c-6.347-158.132-133.207-284.97-291.316-291.316C5.643 175.976 0 181.45 0 188.247v8.005c0 6.459 5.114 11.72 11.567 11.989 141.134 5.891 254.301 119.079 260.192 260.192.269 6.453 5.531 11.567 11.989 11.567h8.005c6.798 0 12.271-5.643 11.998-12.435z"></path></svg>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <div class="logo"><a href="./">羽落天青 | Uke's Blog</a></div>
+      <div class="search-icon-container">
+        <span class="search-icon"><a><i class="fa fa-search" aria-hidden="true"></i></a></span>
+      </div>
+    </div>
+  </div>
+</header> <!-- End Header -->
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="语法整理">
+
+<meta itemprop="datePublished" content="2026-03-10T22:05:22+08:00">
+
+    <div class="page-image">
+      <div class="cover-image" style="background: url('./assets/img/') center no-repeat; background-size: cover;"></div>
+    </div>
+    <div class="wrapper">
+      <div class="page-content">
+        <div class="header-page">
+          <h1 class="page-title">语法整理</h1>
+          
+
+  <span class = "post-page-meta">
+  
+    <p class="page_meta">
+  
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-03-10T22:05:22+08:00">2026年3月10日</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <span class="page_meta-readtime">
+      63 分钟阅读
+    </span>
+  
+  
+    </p>
+  
+  </span>
+
+        </div>
+        <aside class="sidebar side" id="sidebar">
+    
+
+
+
+<div class="tag-cloud">
+    
+        <ul class="tags side">
+            
+                <li><a href="./tag.html?tag=%E8%AE%B0%E5%BF%86" class="tag side">记忆</a></li>
+            
+    
+        </ul>
+</div>
+    <div class="share-options side">
+    <div class="share-hover side">
+        <span class="share-button side"><svg fill="currentColor" width="25" height="25" class="side"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg></span>
+        <div class="share-icons side" id="sidebar-icons">
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=语法整理&url=http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html" title="分享到 Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html" title="分享到 Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html&title=语法整理" title="分享到 Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
+            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html&title=语法整理&summary=&source=http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html" title="分享到 LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a class="email" href="mailto:?subject=语法整理&body=%0A%0A继续阅读：http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html" title="通过邮件分享" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+            <a class="copy-link" onclick="copyToClipboard()" title="复制链接" rel="nofollow" target="_blank"><svg width="20px" fill="currentColor" class="side" viewBox="0 0 18 18"><path d="M16.94 1.1A3.7 3.7 0 0 0 14.3 0c-1 0-1.94.39-2.64 1.1L7.43 5.3c-.91.92-2.09 3.2 0 5.27a.75.75 0 0 0 .82.16c.09-.03.17-.09.24-.15a.74.74 0 0 0 0-1.06c-1.16-1.15-.77-2.39-.02-3.16l4.24-4.22a2.2 2.2 0 0 1 1.58-.65c.6 0 1.16.23 1.58.65.86.87.86 2.29 0 3.16L12.7 8.47a.74.74 0 0 0 1.04 1.05l3.17-3.16a3.73 3.73 0 0 0 0-5.27h.03zM9.54 7.4a.74.74 0 0 0 0 1.06c1.16 1.15.76 2.39 0 3.16l-4.22 4.22c-.42.42-.99.65-1.59.65a2.23 2.23 0 0 1-1.58-3.82l3.17-3.16A.73.73 0 0 0 5.54 9a.78.78 0 0 0-.22-.52.77.77 0 0 0-1.05 0L1.1 11.64A3.72 3.72 0 0 0 3.74 18c1 0 1.94-.39 2.65-1.1l4.23-4.2c.21-.22.94-1.02 1.13-2.2.18-1.12-.2-2.15-1.12-3.07-.27-.27-.78-.27-1.06 0l-.02-.02z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></a>
+        </div>
+    </div>
+    <div class='alert' style='font-size:.6em;color:var(--accent);text-align:center;'></div>
+</div>
+</aside>
+
+        
+        
+        <p>这文章100%非我手写，主要是为了便于我查找和记忆最近刚开始学习的各类库（）
+producted by gemini 3.1pro
+—</p>
+
+<h1 id="第一部分pandas-核心语法全解-kaggle-pandas">第一部分：Pandas 核心语法全解 (Kaggle: Pandas)</h1>
+<p>Pandas 是数据科学的基础，它的核心作用就是<strong>“在 Python 里操作 Excel 表格”</strong>。在 Pandas 里，一维数据叫 <code class="language-plaintext highlighter-rouge">Series</code>（一列），二维数据叫 <code class="language-plaintext highlighter-rouge">DataFrame</code>（一张表）。</p>
+
+<h2 id="1-创建读取与写入-creating-reading-and-writing">1. 创建、读取与写入 (Creating, Reading and Writing)</h2>
+<p><strong>场景：</strong> 数据怎么弄进 Python 里？处理完怎么存下来？</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span> <span class="c1"># 永远的第一步：请出 pandas 大神，并给它起个小名叫 pd
+</span>
+<span class="c1"># --- 1. 手动创建数据 (常用于自己造测试数据) ---
+# 创建一个 DataFrame (数据框/二维表)
+# 语法逻辑：pd.DataFrame(字典) -&gt; 字典的键(Key)变成列名，值(Value)变成这一列的数据
+</span><span class="n">df_manual</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span>
+    <span class="sh">'</span><span class="s">Yes</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">21</span><span class="p">],</span> 
+    <span class="sh">'</span><span class="s">No</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">131</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="p">})</span>
+
+<span class="c1"># 创建时指定行索引 (index)
+</span><span class="n">df_custom_index</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span>
+    <span class="sh">'</span><span class="s">Bob</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sh">'</span><span class="s">I liked it.</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">It was awful.</span><span class="sh">'</span><span class="p">],</span> 
+    <span class="sh">'</span><span class="s">Sue</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sh">'</span><span class="s">Pretty good.</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Bland.</span><span class="sh">'</span><span class="p">]</span>
+<span class="p">},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">Product A</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Product B</span><span class="sh">'</span><span class="p">])</span> <span class="c1"># 不写 index 默认是 0, 1, 2...
+</span>
+<span class="c1"># 创建一个 Series (序列/一列数据)
+</span><span class="n">s</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">Series</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">a</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">b</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">c</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">d</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">e</span><span class="sh">'</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="sh">'</span><span class="s">Numbers</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># --- 2. 🌟 读取外部数据 (Kaggle 最常用) ---
+# 读取 CSV 文件，并把它存进变量 df 中
+# 语法逻辑：pd.read_csv("文件路径")
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">../input/titanic/train.csv</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># 读取时，直接把某一列作为行索引 (比如把 ID 列当成行号)
+</span><span class="n">df_wine</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">wine-reviews.csv</span><span class="sh">"</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+
+<span class="c1"># --- 3. 检查数据长什么样 ---
+# 查看前 5 行 (如果不填数字，默认是 5；想看 10 行就写 df.head(10))
+</span><span class="n">df</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span> 
+<span class="c1"># 查看数据的行数和列数 (注意 shape 不是函数，后面没有括号)
+</span><span class="n">df</span><span class="p">.</span><span class="n">shape</span> <span class="c1"># 返回结果例如：(1309, 12) 代表 1309行，12列
+</span>
+<span class="c1"># --- 4. 保存/写入数据 ---
+# 把处理好的数据存成新的 CSV 文件
+# index=False 的意思是：不要把行号（0,1,2,3...）也当成一列保存进去
+</span><span class="n">df</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">my_submission.csv</span><span class="sh">"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<h2 id="2-索引选择与赋值-indexing-selecting--assigning">2. 索引、选择与赋值 (Indexing, Selecting &amp; Assigning)</h2>
+<p><strong>场景：</strong> 这张表有 1 万行 50 列，我只想把其中某几行、某几列单独拎出来看。
+<strong>💡 避坑指南：</strong> Pandas 有自己独特的定位方式 <code class="language-plaintext highlighter-rouge">iloc</code> 和 <code class="language-plaintext highlighter-rouge">loc</code>。</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">iloc</code> = <strong>i</strong>ndex <strong>loc</strong>ation (基于<strong>数字位置</strong>找人，就像找“第3排第5列的同学”)</li>
+  <li><code class="language-plaintext highlighter-rouge">loc</code> = <strong>loc</strong>ation (基于<strong>标签名字</strong>找人，就像找“叫张三的同学”)</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># --- 1. 获取整列数据 ---
+# 提取名为 'country' 的列，以下两种写法完全等价：
+</span><span class="n">countries</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">country</span>    <span class="c1"># 写法 1 (类似调用属性，列名有空格时不能用)
+</span><span class="n">countries</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">country</span><span class="sh">'</span><span class="p">]</span> <span class="c1"># 写法 2 🌟 (推荐写法，更稳妥)
+</span>
+<span class="c1"># --- 2. 基于位置的提取：iloc (纯数字) ---
+</span><span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>          <span class="c1"># 提取第一行的数据 (Python 从 0 开始)
+</span><span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>       <span class="c1"># 提取第一列的数据 (冒号 : 代表“所有行”)
+</span><span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>      <span class="c1"># 提取第一列的 前 3 行 (第0, 1, 2行)
+</span><span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>     <span class="c1"># 提取第一列的 第 1 到 2 行 (注意：1:3 左闭右开，不包含3)
+</span><span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">0</span><span class="p">]</span> <span class="c1"># 提取第一列的 第 0, 1, 2 行 (传入一个列表)
+</span><span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:]</span>        <span class="c1"># 提取最后 5 行数据
+</span>
+<span class="c1"># --- 3. 基于标签的提取：loc (名字) ---
+# 提取第一行，但列名为 'country' 的数据
+</span><span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="sh">'</span><span class="s">country</span><span class="sh">'</span><span class="p">]</span> 
+<span class="c1"># 提取所有行，包含 'taster_name', 'taster_twitter_handle', 'points' 这三列
+</span><span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="sh">'</span><span class="s">taster_name</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">taster_twitter_handle</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">points</span><span class="sh">'</span><span class="p">]]</span>
+
+<span class="c1"># --- 4. 🌟 条件选择 (Conditional Selection，极度重要) ---
+# 找出所有来自 'Italy' 的酒 (此时返回的是一堆 True 和 False)
+</span><span class="n">df</span><span class="p">.</span><span class="n">country</span> <span class="o">==</span> <span class="sh">'</span><span class="s">Italy</span><span class="sh">'</span> 
+<span class="c1"># 把上面的条件套进 loc 里，就能把来自意大利的行全拿出来！
+</span><span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">.</span><span class="n">country</span> <span class="o">==</span> <span class="sh">'</span><span class="s">Italy</span><span class="sh">'</span><span class="p">]</span> 
+
+<span class="c1"># 多条件查找：使用 &amp; (并且)，| (或者)
+# 找出来自意大利 并且 分数大于等于 90 的酒
+</span><span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">.</span><span class="n">country</span> <span class="o">==</span> <span class="sh">'</span><span class="s">Italy</span><span class="sh">'</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">points</span> <span class="o">&gt;=</span> <span class="mi">90</span><span class="p">)]</span> <span class="c1"># 注意每个条件必须加括号 ()
+</span>
+<span class="c1"># 找出来自意大利 或者 来自法国的酒
+</span><span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">.</span><span class="n">country</span> <span class="o">==</span> <span class="sh">'</span><span class="s">Italy</span><span class="sh">'</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">country</span> <span class="o">==</span> <span class="sh">'</span><span class="s">France</span><span class="sh">'</span><span class="p">)]</span>
+
+<span class="c1"># 更优雅的写法：使用 isin (在...里面)
+</span><span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">.</span><span class="n">country</span><span class="p">.</span><span class="nf">isin</span><span class="p">([</span><span class="sh">'</span><span class="s">Italy</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">France</span><span class="sh">'</span><span class="p">])]</span>
+
+<span class="c1"># 找出价格不是空的行 (notnull: 非空；isnull: 是空)
+</span><span class="n">df</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">.</span><span class="n">price</span><span class="p">.</span><span class="nf">notnull</span><span class="p">()]</span>
+
+<span class="c1"># --- 5. 赋值 (Assigning Data) ---
+# 简单粗暴：把某一列的所有值都变成一样
+</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">critic</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="sh">'</span><span class="s">everyone</span><span class="sh">'</span> <span class="c1"># 增加一列名为 'critic'，所有的值都是 'everyone'
+# 按倒序赋予行号
+</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">index_backwards</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<h2 id="3-统计函数与映射-summary-functions-and-maps">3. 统计函数与映射 (Summary Functions and Maps)</h2>
+<p><strong>场景：</strong> 我想知道数据的平均值、最大值？我想对某一列的所有数据统一做个数学运算（比如都乘以10）？</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># --- 1. 统计函数 ---
+# 🌟 describe(): 数据科学家的最爱，一键生成全方位体检报告
+# 会显示这列的：数量(count), 平均值(mean), 标准差(std), 最小值(min), 25%分位数, 最大值(max)
+</span><span class="n">df</span><span class="p">.</span><span class="n">points</span><span class="p">.</span><span class="nf">describe</span><span class="p">()</span> 
+<span class="n">df</span><span class="p">.</span><span class="nf">describe</span><span class="p">()</span> <span class="c1"># 甚至可以对整个表里所有数值型的列直接体检
+</span>
+<span class="c1"># 单独获取某一项统计值
+</span><span class="n">df</span><span class="p">.</span><span class="n">points</span><span class="p">.</span><span class="nf">mean</span><span class="p">()</span> <span class="c1"># 平均分
+</span><span class="n">df</span><span class="p">.</span><span class="n">points</span><span class="p">.</span><span class="nf">median</span><span class="p">()</span> <span class="c1"># 中位数
+</span><span class="n">df</span><span class="p">.</span><span class="n">country</span><span class="p">.</span><span class="nf">unique</span><span class="p">()</span> <span class="c1"># 看这列都有哪些不重复的值 (比如一共有多少个国家)
+</span><span class="n">df</span><span class="p">.</span><span class="n">country</span><span class="p">.</span><span class="nf">value_counts</span><span class="p">()</span> <span class="c1"># 🌟 统计每个国家分别出现了多少次 (极度常用)
+</span>
+<span class="c1"># --- 2. 数据映射 (Map / Apply) ---
+# 场景：你想让某一列的每一个数据，都经过某种处理
+# 比如：把所有分数都减去这列的平均分 (计算均值中心化)
+</span><span class="n">review_points_mean</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">points</span><span class="p">.</span><span class="nf">mean</span><span class="p">()</span>
+
+<span class="c1"># 方法 A：使用 map()，通常用于处理一列 (Series)
+# 语法逻辑：列.map(函数)。这里 lambda p: p - mean 是个匿名函数，意思是“给我一个 p，我返回 p 减去均值”
+</span><span class="n">df</span><span class="p">.</span><span class="n">points</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span> <span class="o">-</span> <span class="n">review_points_mean</span><span class="p">)</span>
+
+<span class="c1"># 方法 B：使用 apply()，通常用于处理整行或整表 (DataFrame)
+# axis='columns' 代表把每一行的数据传进去
+</span><span class="k">def</span> <span class="nf">remean_points</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+    <span class="n">row</span><span class="p">.</span><span class="n">points</span> <span class="o">=</span> <span class="n">row</span><span class="p">.</span><span class="n">points</span> <span class="o">-</span> <span class="n">review_points_mean</span>
+    <span class="k">return</span> <span class="n">row</span>
+
+<span class="n">df</span><span class="p">.</span><span class="nf">apply</span><span class="p">(</span><span class="n">remean_points</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="sh">'</span><span class="s">columns</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># 🌟 Kaggle 捷径：Pandas 支持直接用加减乘除 (向量化操作，比 map/apply 快得多！)
+# 上面的逻辑，完全可以直接这么写：
+</span><span class="n">df</span><span class="p">.</span><span class="n">points</span> <span class="o">-</span> <span class="n">df</span><span class="p">.</span><span class="n">points</span><span class="p">.</span><span class="nf">mean</span><span class="p">()</span>
+<span class="c1"># 拼接两列字符串：
+</span><span class="n">df</span><span class="p">.</span><span class="n">country</span> <span class="o">+</span> <span class="sh">"</span><span class="s"> - </span><span class="sh">"</span> <span class="o">+</span> <span class="n">df</span><span class="p">.</span><span class="n">region_1</span>
+</code></pre></div></div>
+
+<h2 id="4-分组与排序-grouping-and-sorting">4. 分组与排序 (Grouping and Sorting)</h2>
+<p><strong>场景：</strong> 类似于 Excel 里的“数据透视表”。我想知道“每个国家的最贵葡萄酒是多少钱？”或者“各个性别的平均幸存率是多少？”</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># --- 1. 分组分析：groupby ---
+# 统计各个国家 (country) 分别有多少款酒
+# 语法逻辑：按什么分组 -&gt; 选一列去统计 -&gt; 怎么统计
+</span><span class="n">df</span><span class="p">.</span><span class="nf">groupby</span><span class="p">(</span><span class="sh">'</span><span class="s">country</span><span class="sh">'</span><span class="p">).</span><span class="n">points</span><span class="p">.</span><span class="nf">count</span><span class="p">()</span>
+
+<span class="c1"># 计算每个国家最便宜的酒 (取 price 列的最小值 min)
+</span><span class="n">df</span><span class="p">.</span><span class="nf">groupby</span><span class="p">(</span><span class="sh">'</span><span class="s">country</span><span class="sh">'</span><span class="p">).</span><span class="n">price</span><span class="p">.</span><span class="nf">min</span><span class="p">()</span>
+
+<span class="c1"># apply 也能结合 groupby 使用
+# 找出每个国家的第一款酒
+</span><span class="n">df</span><span class="p">.</span><span class="nf">groupby</span><span class="p">(</span><span class="sh">'</span><span class="s">country</span><span class="sh">'</span><span class="p">).</span><span class="nf">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># --- 2. 🌟 agg(): 一次性计算多个统计指标 ---
+# 计算��个国家酒的长度(数量)、最低分、最高分
+</span><span class="n">df</span><span class="p">.</span><span class="nf">groupby</span><span class="p">([</span><span class="sh">'</span><span class="s">country</span><span class="sh">'</span><span class="p">]).</span><span class="n">price</span><span class="p">.</span><span class="nf">agg</span><span class="p">([</span><span class="nb">len</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">])</span>
+
+<span class="c1"># --- 3. 多重分组 (Multi-Index) ---
+# 按 国家 且 按 省份 分组，看最高分
+# 结果的行索引会有两层：第一层是国家，第二层是省份
+</span><span class="n">countries_reviewed</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="nf">groupby</span><span class="p">([</span><span class="sh">'</span><span class="s">country</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">province</span><span class="sh">'</span><span class="p">]).</span><span class="n">description</span><span class="p">.</span><span class="nf">agg</span><span class="p">([</span><span class="nb">len</span><span class="p">])</span>
+
+<span class="c1"># 遇到多层索引，我们通常用 reset_index() 把它变回普通的扁平表格，方便后续处理
+</span><span class="n">countries_reviewed</span> <span class="o">=</span> <span class="n">countries_reviewed</span><span class="p">.</span><span class="nf">reset_index</span><span class="p">()</span>
+
+<span class="c1"># --- 4. 排序：sort_values ---
+# 把刚刚算出来的数据，按照国家名字的字母顺序排 (默认升序 Ascending)
+</span><span class="n">countries_reviewed</span><span class="p">.</span><span class="nf">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="sh">'</span><span class="s">len</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># 从大到小排 (降序)：加参数 ascending=False
+</span><span class="n">countries_reviewed</span><span class="p">.</span><span class="nf">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="sh">'</span><span class="s">len</span><span class="sh">'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># 多列排序：先按国家名字排，如果国家名字一样，再按数量排
+</span><span class="n">countries_reviewed</span><span class="p">.</span><span class="nf">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">country</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">len</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="c1"># 按照索引(行号)排序：
+</span><span class="n">countries_reviewed</span><span class="p">.</span><span class="nf">sort_index</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h2 id="5-数据类型与缺失值-data-types-and-missing-values">5. 数据类型与缺失值 (Data Types and Missing Values)</h2>
+<p><strong>场景：</strong> 数据集经常是脏的。有的是数字被存成了文本，有的是格子直接是空的 (NaN)。怎么揪出它们并处理掉？</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># --- 1. 数据类型 (Dtypes) ---
+# 查看某一列的数据类型 (int64 整数, float64 浮点数, object 文本/字符串)
+</span><span class="n">df</span><span class="p">.</span><span class="n">price</span><span class="p">.</span><span class="n">dtype</span>
+<span class="n">df</span><span class="p">.</span><span class="n">dtypes</span> <span class="c1"># 查看所有列的数据类型
+</span>
+<span class="c1"># 类型转换 (astype)
+# 比如把本来是 64位浮点数 的 points 列，硬改成 64位整数
+</span><span class="n">df</span><span class="p">.</span><span class="n">points</span><span class="p">.</span><span class="nf">astype</span><span class="p">(</span><span class="sh">'</span><span class="s">int64</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># --- 2. 处理缺失值 (Missing Data) ---
+# 在 Pandas 里，空值通常显示为 NaN (Not a Number)
+</span>
+<span class="c1"># 找出 country 这一列为空值的所有行
+</span><span class="n">df</span><span class="p">[</span><span class="n">pd</span><span class="p">.</span><span class="nf">isnull</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">country</span><span class="p">)]</span>
+
+<span class="c1"># 🌟 填补空值 (fillna)
+# 遇到空缺的区域(region_2)，统一填成 'Unknown'
+</span><span class="n">df</span><span class="p">.</span><span class="n">region_2</span><span class="p">.</span><span class="nf">fillna</span><span class="p">(</span><span class="sh">"</span><span class="s">Unknown</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># 🌟 替换数据 (replace)
+# 把数据里所有的 '@kerinokeefe' 替换成 'kerinokeefe'
+</span><span class="n">df</span><span class="p">.</span><span class="n">taster_twitter_handle</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="sh">"</span><span class="s">@kerinokeefe</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">kerinokeefe</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="6-重命名与合并-renaming-and-combining">6. 重命名与合并 (Renaming and Combining)</h2>
+<p><strong>场景：</strong> 列名太长或有错别字，想改掉。或者有两张表需要拼在一起。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># --- 1. 重命名 (rename) ---
+# 改列名：把 'points' 列改名叫 'score' (用字典形式提供对应关系)
+</span><span class="n">df</span><span class="p">.</span><span class="nf">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="sh">'</span><span class="s">points</span><span class="sh">'</span><span class="p">:</span> <span class="sh">'</span><span class="s">score</span><span class="sh">'</span><span class="p">})</span>
+
+<span class="c1"># 改行名 (改索引名)：把索引 0 和 1 改名叫 'firstEntry' 和 'secondEntry'
+</span><span class="n">df</span><span class="p">.</span><span class="nf">rename</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="sh">'</span><span class="s">firstEntry</span><span class="sh">'</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="sh">'</span><span class="s">secondEntry</span><span class="sh">'</span><span class="p">})</span>
+
+<span class="c1"># 更改坐标轴名称：
+</span><span class="n">df</span><span class="p">.</span><span class="nf">rename_axis</span><span class="p">(</span><span class="sh">"</span><span class="s">wines</span><span class="sh">"</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="sh">'</span><span class="s">rows</span><span class="sh">'</span><span class="p">).</span><span class="nf">rename_axis</span><span class="p">(</span><span class="sh">"</span><span class="s">fields</span><span class="sh">"</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="sh">'</span><span class="s">columns</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># --- 2. 合并：concat (简单粗暴的上下/左右拼接) ---
+# 有两份格式一模一样的表格，把它们上下堆叠起来
+# 语法逻辑：pd.concat([表1, 表2])
+</span><span class="n">canadian_youtube</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">../input/youtube-new/CAvideos.csv</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">british_youtube</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">../input/youtube-new/GBvideos.csv</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">pd</span><span class="p">.</span><span class="nf">concat</span><span class="p">([</span><span class="n">canadian_youtube</span><span class="p">,</span> <span class="n">british_youtube</span><span class="p">])</span>
+
+<span class="c1"># --- 3. 合并：join (类似于 SQL 里的 Join，按索引拼接不同的列) ---
+# 左边的表和右边的表通过共有的行索引(index)拼在一起
+</span><span class="n">left</span> <span class="o">=</span> <span class="n">canadian_youtube</span><span class="p">.</span><span class="nf">set_index</span><span class="p">([</span><span class="sh">'</span><span class="s">title</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">trending_date</span><span class="sh">'</span><span class="p">])</span>
+<span class="n">right</span> <span class="o">=</span> <span class="n">british_youtube</span><span class="p">.</span><span class="nf">set_index</span><span class="p">([</span><span class="sh">'</span><span class="s">title</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">trending_date</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="c1"># lsuffix 和 rsuffix 用于处理两边有同名列的情况
+</span><span class="n">left</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">right</span><span class="p">,</span> <span class="n">lsuffix</span><span class="o">=</span><span class="sh">'</span><span class="s">_CAN</span><span class="sh">'</span><span class="p">,</span> <span class="n">rsuffix</span><span class="o">=</span><span class="sh">'</span><span class="s">_UK</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h1 id="第二部分机器学习入门-kaggle-intro-to-machine-learning">第二部分：机器学习入门 (Kaggle: Intro to Machine Learning)</h1>
+<p>这门课带你走完一次<strong>最基础的机器学习全流程</strong>。核心库是 <code class="language-plaintext highlighter-rouge">Scikit-Learn</code> (简称 <code class="language-plaintext highlighter-rouge">sklearn</code>)。</p>
+
+<p>在 sklearn 中，不管是哪种算法，都有一个固定的 <strong>“三板斧”语法</strong>：</p>
+<ol>
+  <li><strong>定义模型</strong> <code class="language-plaintext highlighter-rouge">model = 算法名()</code></li>
+  <li><strong>拟合/训练</strong> <code class="language-plaintext highlighter-rouge">model.fit(X, y)</code></li>
+  <li><strong>预测</strong> <code class="language-plaintext highlighter-rouge">model.predict(X_新数据)</code></li>
+</ol>
+
+<h2 id="1-准备数据-selecting-data-for-modeling">1. 准备数据 (Selecting Data for Modeling)</h2>
+<p>机器学习要搞清楚两个概念：</p>
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">y</code> (Target / 目标变量)：</strong> 你想预测的东西（比如房价）。习惯上用<strong>小写字母</strong>。</li>
+  <li><strong><code class="language-plaintext highlighter-rouge">X</code> (Features / 特征)：</strong> 你用来进行预测的线索（比如面积、房间数）。习惯上用<strong>大写字母</strong>。</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="n">melbourne_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">melb_data.csv</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># 只要数据里有空值，我们先简单粗暴地全删掉（dropna），否则模型会报错
+</span><span class="n">melbourne_data</span> <span class="o">=</span> <span class="n">melbourne_data</span><span class="p">.</span><span class="nf">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># --- 1. 选择目标 y ---
+</span><span class="n">y</span> <span class="o">=</span> <span class="n">melbourne_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Price</span><span class="sh">'</span><span class="p">]</span>
+
+<span class="c1"># --- 2. 选择特征 X ---
+# 我们把觉得对预测房价有用的列名写成一个列表
+</span><span class="n">melbourne_features</span> <span class="o">=</span> <span class="p">[</span><span class="sh">'</span><span class="s">Rooms</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Bathroom</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Landsize</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Lattitude</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Longtitude</span><span class="sh">'</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">melbourne_data</span><span class="p">[</span><span class="n">melbourne_features</span><span class="p">]</span>
+
+<span class="c1"># 在丢进模型前，先看一眼我们的特征数据长什么样
+</span><span class="n">X</span><span class="p">.</span><span class="nf">describe</span><span class="p">()</span>
+<span class="n">X</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h2 id="2-你的第一个机器学习模型-your-first-ml-model">2. 你的第一个机器学习模型 (Your First ML Model)</h2>
+<p>我们使用<strong>决策树 (Decision Tree)</strong>，它就像是一个不断在做“如果…那么…”判断的流程图。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeRegressor</span>
+
+<span class="c1"># 1. 定义模型：指定模型类型
+# random_state=1 的作用是“固定随机种子”。
+# 机器学习里有很多随机初始化的过程，固定这个数字能保证你每次跑出的结果一模一样，方便查错。
+</span><span class="n">melbourne_model</span> <span class="o">=</span> <span class="nc">DecisionTreeRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 2. 拟合/训练模型：把线索(X)和答案(y)都喂给它，让它找规律
+</span><span class="n">melbourne_model</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># 3. 预测：给它新的线索，让它猜答案
+# 这里我们只是拿训练集前5行测试一下它能不能跑通
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">我们正在为以下5套房子做预测：</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="nf">head</span><span class="p">())</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">预测结果如下：</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">melbourne_model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="nf">head</span><span class="p">()))</span>
+</code></pre></div></div>
+
+<h2 id="3-模型验证-model-validation">3. 模型验证 (Model Validation)</h2>
+<p><strong>场景：</strong> 刚才我们拿平时练习的题（训练集）去考模型，它当然会做。要想知道它到底聪不聪明，必须得拿没见过的卷子（验证集）来考它！</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 引入“平均绝对误差”工具 (Mean Absolute Error, MAE)
+# MAE = |真实值 - 预测值| 的平均。比如预测房价和真实房价平均差了多少钱。
+</span><span class="kn">from</span> <span class="n">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_absolute_error</span>
+<span class="c1"># 引入“切分数据”的工具
+</span><span class="kn">from</span> <span class="n">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="c1"># --- 1. 切分数据集 ---
+# train_test_split 会把数据洗牌后，按比例(默认3:1)切成两份。
+# 分别得到：训练特征, 验证特征, 训练答案, 验证答案
+</span><span class="n">train_X</span><span class="p">,</span> <span class="n">val_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">val_y</span> <span class="o">=</span> <span class="nf">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># --- 2. 重新用训练集训练模型 ---
+</span><span class="n">melbourne_model</span> <span class="o">=</span> <span class="nc">DecisionTreeRegressor</span><span class="p">()</span>
+<span class="n">melbourne_model</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span> <span class="c1"># 此时只喂给它训练卷子
+</span>
+<span class="c1"># --- 3. 用验证集进行预测 ---
+</span><span class="n">val_predictions</span> <span class="o">=</span> <span class="n">melbourne_model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">val_X</span><span class="p">)</span> <span class="c1"># 考它验证卷子上的题
+</span>
+<span class="c1"># --- 4. 判卷打分 ---
+# 对比模型猜的答案(val_predictions)和真实答案(val_y)
+</span><span class="nf">print</span><span class="p">(</span><span class="nf">mean_absolute_error</span><span class="p">(</span><span class="n">val_y</span><span class="p">,</span> <span class="n">val_predictions</span><span class="p">))</span> 
+</code></pre></div></div>
+
+<h2 id="4-欠拟合与过拟合-underfitting-and-overfitting">4. 欠拟合与过拟合 (Underfitting and Overfitting)</h2>
+<p><strong>场景：</strong></p>
+<ul>
+  <li><strong>过拟合 (Overfitting)：</strong> 模型死记硬背了训练集，连异常的噪点都背下来了，遇到新题完全不会做（树太深，叶子太多）。</li>
+  <li><strong>欠拟合 (Underfitting)：</strong> 模型根本没学会，找出来的规律太简单（树太浅，只有两三片叶子）。
+在 sklearn 中，控制树深浅的参数是 <code class="language-plaintext highlighter-rouge">max_leaf_nodes</code>（最大叶子节点数）。</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 我们写一个小函数，专门用来对比不同 max_leaf_nodes 的 MAE 误差得分
+</span><span class="k">def</span> <span class="nf">get_mae</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="p">,</span> <span class="n">train_X</span><span class="p">,</span> <span class="n">val_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">val_y</span><span class="p">):</span>
+    <span class="c1"># 用指定的叶子数量建树
+</span>    <span class="n">model</span> <span class="o">=</span> <span class="nc">DecisionTreeRegressor</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="o">=</span><span class="n">max_leaf_nodes</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">model</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span>
+    <span class="n">preds_val</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">val_X</span><span class="p">)</span>
+    <span class="n">mae</span> <span class="o">=</span> <span class="nf">mean_absolute_error</span><span class="p">(</span><span class="n">val_y</span><span class="p">,</span> <span class="n">preds_val</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mae</span>
+
+<span class="c1"># 测试不同的树深度：5叶, 50叶, 500叶, 5000叶
+# 我们要找出哪种叶子数量下的 mae 最小！
+</span><span class="k">for</span> <span class="n">max_leaf_nodes</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">5000</span><span class="p">]:</span>
+    <span class="n">my_mae</span> <span class="o">=</span> <span class="nf">get_mae</span><span class="p">(</span><span class="n">max_leaf_nodes</span><span class="p">,</span> <span class="n">train_X</span><span class="p">,</span> <span class="n">val_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">val_y</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Max leaf nodes: %d  </span><span class="se">\t\t</span><span class="s"> Mean Absolute Error:  %d</span><span class="sh">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">max_leaf_nodes</span><span class="p">,</span> <span class="n">my_mae</span><span class="p">))</span>
+
+<span class="c1"># 结论通常是中间某个数字最好（比如50），5就是欠拟合，5000就是过拟合。
+</span></code></pre></div></div>
+
+<h2 id="5-随机森林-random-forests">5. 随机森林 (Random Forests)</h2>
+<p><strong>场景：</strong> 决策树有一个大缺点——它很不稳定。随机森林通过“集思广益”解决了这个问题：建很多棵不同的小决策树，然后大家投票决定预测结果。
+<strong>💡 重点：</strong> 在 Kaggle 中，随机森林通常是默认起手式，因为它的默认参数效果就很好了！</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+<span class="kn">from</span> <span class="n">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_absolute_error</span>
+
+<span class="c1"># 语法和决策树一模一样！只是名字换了。
+</span><span class="n">forest_model</span> <span class="o">=</span> <span class="nc">RandomForestRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># 1. 定义模型
+</span><span class="n">forest_model</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span>                   <span class="c1"># 2. 训练模型
+</span><span class="n">melb_preds</span> <span class="o">=</span> <span class="n">forest_model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">val_X</span><span class="p">)</span>             <span class="c1"># 3. 预测结果
+</span>
+<span class="nf">print</span><span class="p">(</span><span class="nf">mean_absolute_error</span><span class="p">(</span><span class="n">val_y</span><span class="p">,</span> <span class="n">melb_preds</span><span class="p">))</span>        <span class="c1"># 4. 评估结果 (你会发现比单棵决策树低多了！)
+</span></code></pre></div></div>
+
+<hr />
+
+<h1 id="第三部分机器学习进阶-kaggle-intermediate-machine-learning">第三部分：机器学习进阶 (Kaggle: Intermediate Machine Learning)</h1>
+<p>真实世界的数据是很残酷的：充满了缺失值、文本符号。如果不做处理，模型一跑就崩溃。这门课教你<strong>如何科学地把“脏数据”洗成机器学习喜欢的“纯数字矩阵”</strong>。</p>
+
+<h2 id="1-缺失值处理-missing-values">1. 缺失值处理 (Missing Values)</h2>
+<p>当发现特征中有空值 (NaN) 时的三种策略。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 策略 1：简单粗暴地扔掉有缺失值的“列” (Drop Columns)
+# 虽然会丢失信息，但最简单。
+# 获取有缺失值的列名
+</span><span class="n">cols_with_missing</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">X_train</span><span class="p">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">X_train</span><span class="p">[</span><span class="n">col</span><span class="p">].</span><span class="nf">isnull</span><span class="p">().</span><span class="nf">any</span><span class="p">()]</span>
+<span class="c1"># 删掉这些列 (注意，训练集删了，验证集也必须删同样的列，保持对齐！)
+</span><span class="n">reduced_X_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">.</span><span class="nf">drop</span><span class="p">(</span><span class="n">cols_with_missing</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># axis=1 代表删除列
+</span><span class="n">reduced_X_valid</span> <span class="o">=</span> <span class="n">X_valid</span><span class="p">.</span><span class="nf">drop</span><span class="p">(</span><span class="n">cols_with_missing</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># ---------------------------------------------
+# 策略 2：🌟 插补法 (Imputation) 
+# 用这一列的平均值、中位数去填补空洞。这是最常用的方法！
+</span><span class="kn">from</span> <span class="n">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+
+<span class="c1"># 定义插补器，默认策略就是算平均值 (mean)
+</span><span class="n">my_imputer</span> <span class="o">=</span> <span class="nc">SimpleImputer</span><span class="p">()</span>
+
+<span class="c1"># ⚠️ 非常重要的语法坑：
+# 对于训练集，我们需要让插补器去“找规律”(fit)并且“执行转换”(transform)，所以用 fit_transform
+</span><span class="n">imputed_X_train</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">my_imputer</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+<span class="c1"># 对于验证集/测试集，我们直接用刚才学到的平均值去“执行转换”，千万不能再让它找新规律了！所以只用 transform
+</span><span class="n">imputed_X_valid</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">my_imputer</span><span class="p">.</span><span class="nf">transform</span><span class="p">(</span><span class="n">X_valid</span><span class="p">))</span>
+
+<span class="c1"># 填补后，原来的列名会丢失（变成0,1,2列），把它重新贴回去
+</span><span class="n">imputed_X_train</span><span class="p">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">.</span><span class="n">columns</span>
+<span class="n">imputed_X_valid</span><span class="p">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">X_valid</span><span class="p">.</span><span class="n">columns</span>
+
+<span class="c1"># ---------------------------------------------
+# 策略 3：扩展插补法 (An Extension to Imputation)
+# 填补了平均值，但为了告诉模型“这里原本是空的，是我填的”，我们再额外加一列布尔值(True/False)标记
+</span><span class="n">X_train_plus</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">.</span><span class="nf">copy</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols_with_missing</span><span class="p">:</span>
+    <span class="n">X_train_plus</span><span class="p">[</span><span class="n">col</span> <span class="o">+</span> <span class="sh">'</span><span class="s">_was_missing</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">X_train_plus</span><span class="p">[</span><span class="n">col</span><span class="p">].</span><span class="nf">isnull</span><span class="p">()</span>
+<span class="c1"># 标记完之后，再按策略 2 进行填补即可。
+</span></code></pre></div></div>
+
+<h2 id="2-处理分类变量-categorical-variables">2. 处理分类变量 (Categorical Variables)</h2>
+<p>机器学习无法理解 “Red” 或者 “Honda” 这种文本字符串。我们需要把文本转成数字。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 找到数据类型为 'object' (即文本)的分类列
+</span><span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_train</span><span class="p">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="sh">'</span><span class="s">object</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">object_cols</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">s</span><span class="p">].</span><span class="n">index</span><span class="p">)</span>
+
+<span class="c1"># ---------------------------------------------
+# 策略 1：序号编码 (Ordinal Encoding)
+# 把不同的文本按顺序编成 1,2,3...
+# 适用于：有明显大小/顺序关系的词，比如 "差", "良", "优" -&gt; 1, 2, 3
+</span><span class="kn">from</span> <span class="n">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OrdinalEncoder</span>
+
+<span class="n">label_X_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">.</span><span class="nf">copy</span><span class="p">()</span>
+<span class="n">label_X_valid</span> <span class="o">=</span> <span class="n">X_valid</span><span class="p">.</span><span class="nf">copy</span><span class="p">()</span>
+
+<span class="n">ordinal_encoder</span> <span class="o">=</span> <span class="nc">OrdinalEncoder</span><span class="p">()</span>
+<span class="n">label_X_train</span><span class="p">[</span><span class="n">object_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">ordinal_encoder</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">object_cols</span><span class="p">])</span>
+<span class="n">label_X_valid</span><span class="p">[</span><span class="n">object_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">ordinal_encoder</span><span class="p">.</span><span class="nf">transform</span><span class="p">(</span><span class="n">X_valid</span><span class="p">[</span><span class="n">object_cols</span><span class="p">])</span>
+
+<span class="c1"># ---------------------------------------------
+# 策略 2：🌟 独热编码 (One-Hot Encoding)
+# 创建新的列，用 0 和 1 表示是否拥有该属性。
+# 比如一列是颜色（红/黄/蓝），会变成三列（是否红：1/0，是否黄：1/0，是否蓝：1/0）
+# 适用于：没有顺序大小之分的词，比如 "猫", "狗", "鸟"。
+</span><span class="kn">from</span> <span class="n">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+
+<span class="c1"># handle_unknown='ignore': 验证集遇到没见过的词，直接全标为0，不会报错退出
+# sparse_output=False: 要求输出一个完整的普通矩阵
+</span><span class="n">OH_encoder</span> <span class="o">=</span> <span class="nc">OneHotEncoder</span><span class="p">(</span><span class="n">handle_unknown</span><span class="o">=</span><span class="sh">'</span><span class="s">ignore</span><span class="sh">'</span><span class="p">,</span> <span class="n">sparse_output</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="c1"># 返回的是 numpy 矩阵
+</span><span class="n">OH_cols_train</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">OH_encoder</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">object_cols</span><span class="p">]))</span>
+<span class="n">OH_cols_valid</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">OH_encoder</span><span class="p">.</span><span class="nf">transform</span><span class="p">(</span><span class="n">X_valid</span><span class="p">[</span><span class="n">object_cols</span><span class="p">]))</span>
+
+<span class="c1"># 重新把由于转换丢掉的索引贴回去
+</span><span class="n">OH_cols_train</span><span class="p">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">.</span><span class="n">index</span>
+<span class="n">OH_cols_valid</span><span class="p">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">X_valid</span><span class="p">.</span><span class="n">index</span>
+
+<span class="c1"># 把之前不需要转换的数字特征(num_X_train) 和 刚转化好的独热特征(OH_cols_train) 拼合在一起
+# pd.concat 再次出场！
+# OH_X_train = pd.concat([num_X_train, OH_cols_train], axis=1)
+</span></code></pre></div></div>
+
+<h2 id="3--数据流水线-pipelines---强烈推荐">3. 🌟 数据流水线 (Pipelines) - 强烈推荐！</h2>
+<p><strong>场景：</strong> 你会发现前面处理缺失值和分类变量的代码又长又臭。一旦数据分了训练集、验证集、测试集，你就要反反复复写 <code class="language-plaintext highlighter-rouge">fit_transform</code> 和 <code class="language-plaintext highlighter-rouge">transform</code>。
+<strong>流水线的作用：</strong> 把“数据清洗”和“模型训练”打包成一根管子。丢进去脏数据，管子那头直接吐出预测结果！这是专业数据科学家的标志。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="n">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="n">sklearn.compose</span> <span class="kn">import</span> <span class="n">ColumnTransformer</span>
+<span class="kn">from</span> <span class="n">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="n">sklearn.impute</span> <span class="kn">import</span> <span class="n">SimpleImputer</span>
+<span class="kn">from</span> <span class="n">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+<span class="kn">from</span> <span class="n">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+<span class="kn">from</span> <span class="n">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_absolute_error</span>
+
+<span class="c1"># 假设此时有数值特征(numerical_cols)和分类特征(categorical_cols)
+</span>
+<span class="c1"># ================================
+# 第一步：定义预处理步骤 (Preprocessing)
+# ================================
+# 数值型数据的处理：填补缺失值 (常数填补)
+</span><span class="n">numerical_transformer</span> <span class="o">=</span> <span class="nc">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="sh">'</span><span class="s">constant</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="c1"># 分类型数据的处理：也是一个流水线！先填补缺失值(最频繁出现的值)，再进行独热编码
+</span><span class="n">categorical_transformer</span> <span class="o">=</span> <span class="nc">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">(</span><span class="sh">'</span><span class="s">imputer</span><span class="sh">'</span><span class="p">,</span> <span class="nc">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="sh">'</span><span class="s">most_frequent</span><span class="sh">'</span><span class="p">)),</span>
+    <span class="p">(</span><span class="sh">'</span><span class="s">onehot</span><span class="sh">'</span><span class="p">,</span> <span class="nc">OneHotEncoder</span><span class="p">(</span><span class="n">handle_unknown</span><span class="o">=</span><span class="sh">'</span><span class="s">ignore</span><span class="sh">'</span><span class="p">))</span>
+<span class="p">])</span>
+
+<span class="c1"># 把这俩预处理步骤组合起来 (ColumnTransformer)
+# 意思：当数据流过来时，数值列交给 numerical_transformer 处理，分类列交给 categorical_transformer 处理
+</span><span class="n">preprocessor</span> <span class="o">=</span> <span class="nc">ColumnTransformer</span><span class="p">(</span>
+    <span class="n">transformers</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">num</span><span class="sh">'</span><span class="p">,</span> <span class="n">numerical_transformer</span><span class="p">,</span> <span class="n">numerical_cols</span><span class="p">),</span>
+        <span class="p">(</span><span class="sh">'</span><span class="s">cat</span><span class="sh">'</span><span class="p">,</span> <span class="n">categorical_transformer</span><span class="p">,</span> <span class="n">categorical_cols</span><span class="p">)</span>
+    <span class="p">])</span>
+
+<span class="c1"># ================================
+# 第二步：定义模型 (Define the Model)
+# ================================
+</span><span class="n">model</span> <span class="o">=</span> <span class="nc">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># ================================
+# 第三步：组装超级大管子 (Create Pipeline)
+# ================================
+</span><span class="n">my_pipeline</span> <span class="o">=</span> <span class="nc">Pipeline</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">[(</span><span class="sh">'</span><span class="s">preprocessor</span><span class="sh">'</span><span class="p">,</span> <span class="n">preprocessor</span><span class="p">),</span>
+                              <span class="p">(</span><span class="sh">'</span><span class="s">model</span><span class="sh">'</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+                             <span class="p">])</span>
+
+<span class="c1"># ================================
+# 见证奇迹的时刻
+# ================================
+# 直接把脏的、混杂着文本和空缺的 X_train 喂给流水线！
+</span><span class="n">my_pipeline</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span> 
+
+<span class="c1"># 直接把脏的 X_valid 喂给它，它会自动先清洗，然后预测！
+</span><span class="n">preds</span> <span class="o">=</span> <span class="n">my_pipeline</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">)</span>
+
+<span class="n">score</span> <span class="o">=</span> <span class="nf">mean_absolute_error</span><span class="p">(</span><span class="n">y_valid</span><span class="p">,</span> <span class="n">preds</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">'</span><span class="s">MAE:</span><span class="sh">'</span><span class="p">,</span> <span class="n">score</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="4-交叉验证-cross-validation">4. 交叉验证 (Cross-Validation)</h2>
+<p><strong>场景：</strong> 数据集太小，如果只切分一次训练集和验证集（比如拿20%出来验证），验证集可能碰巧包含的都是很简单/很难的数据，得分骗了你。
+<strong>做法：</strong> 把数据切成 5 份。跑 5 次模型。每次拿其中 1 份当考卷，其余 4 份当教材。最后把 5 次考试的成绩平均一下。这就叫 5折交叉验证（5-Fold CV）。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
+<span class="kn">from</span> <span class="n">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="c1"># 我们直接复用上面的 my_pipeline! （这就是为什么一定要学流水线）
+</span>
+<span class="c1"># cross_val_score 函数直接搞定：
+# cv=5: 折数为 5 折
+# scoring: 评估标准。注意 sklearn 中很多评分规定“越大越好”，由于误差是越小越好，
+# 所以它使用“负的 MAE (neg_mean_absolute_error)”。出来的分数是负数。
+</span><span class="n">scores</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="nf">cross_val_score</span><span class="p">(</span><span class="n">my_pipeline</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                              <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                              <span class="n">scoring</span><span class="o">=</span><span class="sh">'</span><span class="s">neg_mean_absolute_error</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">MAE scores:</span><span class="se">\n</span><span class="sh">"</span><span class="p">,</span> <span class="n">scores</span><span class="p">)</span>             <span class="c1"># 会打印出 5 个误差分数
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Average MAE score (across experiments):</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">scores</span><span class="p">.</span><span class="nf">mean</span><span class="p">())</span>                       <span class="c1"># 取平均，这才是模型真实可靠的水平
+</span></code></pre></div></div>
+
+<h2 id="5-终极杀器xgboost-梯度提升树">5. 终极杀器：XGBoost 梯度提升树</h2>
+<p><strong>场景：</strong> 随机森林是“集思广益”，而 XGBoost（梯度提升树）是<strong>“错题本纠正法”</strong>。它会建一棵树，然后看哪里预测错了��建第二棵树专门纠正第一棵树的错误，循环往复。它是 Kaggle 比赛结构化数据绝对的王者。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># XGBoost 不属于 sklearn，它是一个独立的牛逼库
+</span><span class="kn">from</span> <span class="n">xgboost</span> <span class="kn">import</span> <span class="n">XGBRegressor</span>
+
+<span class="c1"># 1. 基础版调用
+</span><span class="n">my_model</span> <span class="o">=</span> <span class="nc">XGBRegressor</span><span class="p">()</span>
+<span class="n">my_model</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">my_model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">)</span>
+
+<span class="c1"># 2. 🌟 进阶调参版 (这是你拿高分的关键)
+</span><span class="n">my_model</span> <span class="o">=</span> <span class="nc">XGBRegressor</span><span class="p">(</span>
+    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="c1"># 要建多少棵树 (循环多少次)。数值大一点(100-1000)
+</span>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="c1"># 学习率：每次纠正错误的步子跨多大。越小越精细，但需要配更大的 n_estimators
+</span>    <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span> <span class="c1"># 利用电脑的几个CPU核心来算，4代表四核，能加快运行速度
+</span><span class="p">)</span>
+
+<span class="c1"># 早期停止机制 (early_stopping_rounds)
+# 防止跑1000棵树跑到过拟合：如果在验证集上连续 5 次(5棵树)误差都没有降低，就立刻停止训练！
+</span><span class="n">my_model</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> 
+             <span class="n">early_stopping_rounds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> 
+             <span class="n">eval_set</span><span class="o">=</span><span class="p">[(</span><span class="n">X_valid</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">)],</span> <span class="c1"># 必须告诉它拿什么数据当考卷来看有没有降低误差
+</span>             <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>                 <span class="c1"># 不要把每棵树的过程都打印出来吵我眼睛
+</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">my_model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="6-数据泄露-data-leakage">6. 数据泄露 (Data Leakage)</h2>
+<p><em>（这里没有需要记忆的语法，但是概念极其重要）</em>
+<strong>场景：</strong> 你训练模型时考了 100 分，一上线到真实环境就崩溃。为什么？因为<strong>考题提前泄露到了训练资料里</strong>。
+<strong>常见泄漏：</strong> 
+我们要预测“这个人会不会得肺炎”。你在用作特征的表格 <code class="language-plaintext highlighter-rouge">X</code> 里，包含了一列叫“是否吃过治肺炎的抗生素”。
+在真实世界里，他一定是先得了肺炎，医生才会给他开药吃。但如果你的模型看到了他“吃了治肺炎的药”，它就直接断定“这个人有肺炎”。
+这就属于把 <strong>预测发生时间点之后的信息 (Target Leakage)</strong> 泄露进去了。
+<strong>对策：</strong> 在训练前，仔细排查所有的特征（列），把那些只有在“预测目标发生之后”才会产生的数据剔除掉！</p>
+
+<hr />
+
+<h3 id="结语与复习建议">结语与复习建议</h3>
+
+<p>看完了不要焦虑！<strong>数据科学就是乐高积木。</strong>
+你在 Kaggle 写代码的时候，流程永远是这几步：</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">pd.read_csv</code> (引入数据)</li>
+  <li><code class="language-plaintext highlighter-rouge">dropna</code>, <code class="language-plaintext highlighter-rouge">SimpleImputer</code>, <code class="language-plaintext highlighter-rouge">OneHotEncoder</code> (洗干净数据)</li>
+  <li><code class="language-plaintext highlighter-rouge">X</code> 和 <code class="language-plaintext highlighter-rouge">y</code>, <code class="language-plaintext highlighter-rouge">train_test_split</code> (分切特征和目标)</li>
+  <li><code class="language-plaintext highlighter-rouge">model = RandomForestRegressor()</code> 或 <code class="language-plaintext highlighter-rouge">XGBRegressor()</code> (请出模型)</li>
+  <li><code class="language-plaintext highlighter-rouge">model.fit(X, y)</code> (训练)</li>
+  <li><code class="language-plaintext highlighter-rouge">model.predict()</code> 和 <code class="language-plaintext highlighter-rouge">mean_absolute_error()</code> (预测和评分)</li>
+</ol>
+
+<p>这三门课程（<strong>数据可视化、特征工程、SQL基础</strong>）是让你从“初级调包侠”进阶为“Kaggle 竞赛高手”的必经之路。</p>
+
+<p>你提到希望有极度详细（上万字级别）的拆解。受限于单次回答的字数上限，我为你提炼了<strong>最核心、最浓缩、最能直接复制粘贴使用的“千字纯干货”</strong>。这不仅是一份代码速查表，更是一份<strong>思维导图</strong>。</p>
+
+<p>请记住我们的原则：<strong>不要背单词，理解它的“业务场景”，然后复制粘贴！</strong></p>
+
+<hr />
+
+<h1 id="-第一部分数据可视化-data-visualization">🎨 第一部分：数据可视化 (Data Visualization)</h1>
+<p><em>使用的核心武器：<code class="language-plaintext highlighter-rouge">Seaborn</code> (建立在 Matplotlib 之上的高级画图库)</em></p>
+
+<p><strong>核心心法：</strong> 画图不是为了好看，而是为了<strong>“找规律”</strong>和<strong>“看异常”</strong>。Kaggle 把画图分为三大场景：<strong>趋势 (Trends)、关系 (Relationships)、分布 (Distributions)</strong>。</p>
+
+<h3 id="0-每次画图前的起手式">0. 每次画图前的“起手式”</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+
+<span class="c1"># 把图表的默认尺寸设大一点，宽16，高6，免得挤在一起看不清
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span> 
+
+<span class="c1"># 设定图表的整体风格，"darkgrid" 是带灰色网格的背景，看起来最专业
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">set_style</span><span class="p">(</span><span class="sh">"</span><span class="s">darkgrid</span><span class="sh">"</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<h3 id="1--场景一看趋势-trends---折线图">1. 📈 场景一：看“趋势” (Trends) -&gt; 折线图</h3>
+<p><strong>业务场景：</strong> 随着<strong>时间</strong>推移，数据是怎么变化的？比如：Spotify 上某首歌每天的播放量、比特币每天的价格。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 读取时间序列数据（注意：要把日期那一列设为行索引 index_col，并解析日期 parse_dates）
+</span><span class="n">spotify_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">spotify.csv</span><span class="sh">"</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="sh">"</span><span class="s">Date</span><span class="sh">"</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># 语法逻辑：sns.lineplot(data=你的表格)
+# 它会自动把行索引（日期）作为 X 轴，把表格里的数值作为 Y 轴
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">spotify_data</span><span class="p">)</span>
+
+<span class="c1"># 如果你只想画其中一列（比如只看 Shape of You 这首歌）
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">spotify_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Shape of You</span><span class="sh">'</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sh">"</span><span class="s">Shape of You</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">spotify_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Despacito</span><span class="sh">'</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sh">"</span><span class="s">Despacito</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># 加上标题
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">title</span><span class="p">(</span><span class="sh">"</span><span class="s">Daily Global Streams of Popular Songs</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="2--场景二看关系-relationships---条形图热力图散点图">2. 📊 场景二：看“关系” (Relationships) -&gt; 条形图、热力图、散点图</h3>
+<p><strong>业务场景：</strong> 两个不同的变量之间有什么关系？比如：不同平台的游戏评分对比（条形图）；抽烟和肺癌有没有关系（散点图）。</p>
+
+<p><strong>条形图 (Bar Chart)：适合分类数据对比</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 语法逻辑：x轴放类别，y轴放数值
+# 比如看不同游戏平台 (Platform) 的平均赛车游戏得分 (Racing)
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">ign_data</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">ign_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Racing</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="c1"># 因为平台名字可能很长，横着放会重叠，所以把图转个90度
+</span><span class="n">plt</span><span class="p">.</span><span class="nf">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><strong>热力图 (Heatmap)：适合看一张二维大表的“颜色深浅”</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 经常用来代替枯燥的数字表格。颜色越深代表数值越大。
+# annot=True 的意思是：把具体的数字也写在颜色方块上面
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">heatmap</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ign_data</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><strong>散点图 (Scatter Plot)：适合看两个连续数字特征的关系</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 比如：BMI指数 (x) 和 医疗费用 (y) 的关系
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">insurance_data</span><span class="p">[</span><span class="sh">'</span><span class="s">bmi</span><span class="sh">'</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">insurance_data</span><span class="p">[</span><span class="sh">'</span><span class="s">charges</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="c1"># 🌟 进阶：回归线散点图 (Regression Plot)
+# 不仅画散点，还顺便帮你用 AI 拟合一条直线，一眼看出正相关还是负相关
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">regplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">insurance_data</span><span class="p">[</span><span class="sh">'</span><span class="s">bmi</span><span class="sh">'</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">insurance_data</span><span class="p">[</span><span class="sh">'</span><span class="s">charges</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="c1"># 🌟 杀手锏：带颜色的散点图 (Color-coded Scatter Plot)
+# 加一个参数 `hue` (色调)
+# 比如：不仅看 BMI 和费用的关系，还要把抽烟的人标成红色，不抽烟的标成蓝色！
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">insurance_data</span><span class="p">[</span><span class="sh">'</span><span class="s">bmi</span><span class="sh">'</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">insurance_data</span><span class="p">[</span><span class="sh">'</span><span class="s">charges</span><span class="sh">'</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="n">insurance_data</span><span class="p">[</span><span class="sh">'</span><span class="s">smoker</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="c1"># 终极形态：两条回归线
+# 直接用 lmplot，它会给抽烟和不抽烟的人各画一条趋势线！
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">lmplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="sh">"</span><span class="s">bmi</span><span class="sh">"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="sh">"</span><span class="s">charges</span><span class="sh">"</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="sh">"</span><span class="s">smoker</span><span class="sh">"</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">insurance_data</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="3--场景三看分布-distributions---直方图密度图">3. 📉 场景三：看“分布” (Distributions) -&gt; 直方图、密度图</h3>
+<p><strong>业务场景：</strong> 这个数据集中在哪一块？有没有极端值？比如：这家医院大部分乳腺癌肿瘤是多大？</p>
+
+<p><strong>直方图 (Histogram)：把数据切成一个个小区间数个数</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 看看良性肿瘤 (B) 的面积分布
+# a 意思是你的数据序列，kde=False 表示不画平滑曲线
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">histplot</span><span class="p">(</span><span class="n">cancer_b_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Area (mean)</span><span class="sh">'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><strong>核密度估计图 (KDE Plot)：平滑版的直方图，像一座座小山</strong></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 只要曲线，不要一根根的柱子。shade=True 把山底下的面积涂上颜色
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cancer_b_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Area (mean)</span><span class="sh">'</span><span class="p">],</span> <span class="n">fill</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># 🌟 多组数据对比分布 (非常常用！)
+# 在同一张图上，对比良性(B)和恶性(M)肿瘤的大小分布
+</span><span class="n">sns</span><span class="p">.</span><span class="nf">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cancer_b_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Area (mean)</span><span class="sh">'</span><span class="p">],</span> <span class="n">fill</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">"</span><span class="s">Benign (良性)</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">cancer_m_data</span><span class="p">[</span><span class="sh">'</span><span class="s">Area (mean)</span><span class="sh">'</span><span class="p">],</span> <span class="n">fill</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">"</span><span class="s">Malignant (恶性)</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="nf">legend</span><span class="p">()</span> <span class="c1"># 显示右上角的标签图例
+</span></code></pre></div></div>
+
+<hr />
+
+<h1 id="️-第二部分特征工程-feature-engineering">🛠️ 第二部分：特征工程 (Feature Engineering)</h1>
+<p><em>这是拉开 Kaggle 选手差距的最核心课程。如果说模型是“厨房里的锅”，那特征就是“食材”。烂食材绝对炒不出好菜（Garbage in, Garbage out）。特征工程就是<strong>“切配、腌制食材”</strong>的过程。</em></p>
+
+<h3 id="1-互信息-mutual-information-mi">1. 互信息 (Mutual Information, MI)</h3>
+<p><strong>场景：</strong> 数据集里有 80 多个列（特征），到底哪些列对预测房价最有用？我不能盲猜，需要用数学来打分。
+<strong>逻辑：</strong> 互信息就像是衡量两个变量“八卦关联度”的指标。MI 分数越高，说明这个特征对预测目标越有用。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">mutual_info_regression</span>
+
+<span class="c1"># 这是一个固定的模板函数，直接复制保存即可！
+</span><span class="k">def</span> <span class="nf">make_mi_scores</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="c1"># 先把特征里的文本(object)转成模型勉强能看懂的数字序号，因为 MI 计算需要数字
+</span>    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">.</span><span class="nf">copy</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">colname</span> <span class="ow">in</span> <span class="n">X</span><span class="p">.</span><span class="nf">select_dtypes</span><span class="p">([</span><span class="sh">"</span><span class="s">object</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">category</span><span class="sh">"</span><span class="p">]):</span>
+        <span class="n">X</span><span class="p">[</span><span class="n">colname</span><span class="p">],</span> <span class="n">_</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">colname</span><span class="p">].</span><span class="nf">factorize</span><span class="p">()</span>
+    
+    <span class="c1"># 获取所有的离散特征(整数类型)，告诉算法哪些是分类变量
+</span>    <span class="n">discrete_features</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="p">.</span><span class="n">api</span><span class="p">.</span><span class="n">types</span><span class="p">.</span><span class="nf">is_integer_dtype</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">X</span><span class="p">.</span><span class="n">dtypes</span><span class="p">]</span>
+    
+    <span class="c1"># 🌟 核心计算代码：计算 X 里所有列和 y 的互信息分数
+</span>    <span class="n">mi_scores</span> <span class="o">=</span> <span class="nf">mutual_info_regression</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">discrete_features</span><span class="o">=</span><span class="n">discrete_features</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    
+    <span class="c1"># 把分数整理成好看的 Pandas 表格，并从大到小排序
+</span>    <span class="n">mi_scores</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">Series</span><span class="p">(</span><span class="n">mi_scores</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sh">"</span><span class="s">MI Scores</span><span class="sh">"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">X</span><span class="p">.</span><span class="n">columns</span><span class="p">)</span>
+    <span class="n">mi_scores</span> <span class="o">=</span> <span class="n">mi_scores</span><span class="p">.</span><span class="nf">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mi_scores</span>
+
+<span class="c1"># 运行并打印分数
+</span><span class="n">mi_scores</span> <span class="o">=</span> <span class="nf">make_mi_scores</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">mi_scores</span><span class="p">.</span><span class="nf">head</span><span class="p">())</span> 
+</code></pre></div></div>
+
+<h3 id="2-创建新特征-creating-features">2. 创建新特征 (Creating Features)</h3>
+<p><strong>场景：</strong> 现有的列不够用。比如有“地上建筑面积”和“地下室面积”，其实模型更想知道“总面积”。我们要人工帮它算出来。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 1. 数学变换 (Mathematical Transforms)
+# 比例/比率：比如 楼层高度 / 楼层面积
+</span><span class="n">autos</span><span class="p">[</span><span class="sh">"</span><span class="s">stroke_ratio</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">autos</span><span class="p">.</span><span class="n">stroke</span> <span class="o">/</span> <span class="n">autos</span><span class="p">.</span><span class="n">bore</span>
+<span class="c1"># 对数变换：当某个金额差距极大（比如有的房子10万，有的1000万），取对数可以让数据分布更正常
+</span><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="n">accidents</span><span class="p">[</span><span class="sh">"</span><span class="s">LogWindSpeed</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">accidents</span><span class="p">.</span><span class="n">WindSpeed</span><span class="p">.</span><span class="nf">apply</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">log1p</span><span class="p">)</span>
+
+<span class="c1"># 2. 计数 (Counts)
+# 统计一辆车上有多少个表明“它很危险”的配置
+</span><span class="n">roadway_features</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">Amenity</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Bump</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Crossing</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">GiveWay</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Junction</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">NoExit</span><span class="sh">"</span><span class="p">]</span>
+<span class="c1"># 语法：选中这些列 -&gt; 沿着横向(axis=1)求和(sum)
+</span><span class="n">accidents</span><span class="p">[</span><span class="sh">"</span><span class="s">RoadwayFeatures</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">accidents</span><span class="p">[</span><span class="n">roadway_features</span><span class="p">].</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 3. 拆解特征 (Building-Up and Breaking-Down)
+# 拆解文本：从 "1-2-2023" 里拆出年份和月份
+# 拆解字符串特征极度重要，比如从名字里拆出 Title (Mr, Mrs, Miss)
+</span><span class="n">customer</span><span class="p">[</span><span class="sh">"</span><span class="s">Type</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">customer</span><span class="p">[</span><span class="sh">"</span><span class="s">Policy</span><span class="sh">"</span><span class="p">].</span><span class="nb">str</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s"> </span><span class="sh">"</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div></div>
+
+<h3 id="3-k-means-聚类-clustering">3. K-Means 聚类 (Clustering)</h3>
+<p><strong>场景：</strong> 用“无监督学习”来创造特征。比如预测加州的房价，我们可以根据经纬度，用聚类算法把地理位置分成 6 个“商圈/板块”。这个“板块编号”就是一个超级强大的新特征！</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+
+<span class="c1"># 挑出你想用来聚类的列 (比如经度和纬度)
+</span><span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">Longitude</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Latitude</span><span class="sh">"</span><span class="p">]</span>
+<span class="n">X_cluster</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">features</span><span class="p">]</span>
+
+<span class="c1"># 定义聚类算法：分成 6 类 (n_clusters=6)
+</span><span class="n">kmeans</span> <span class="o">=</span> <span class="nc">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># 训练并直接输出每一行属于哪个类！把结果作为新的一列加到原表里
+</span><span class="n">df</span><span class="p">[</span><span class="sh">"</span><span class="s">Cluster</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kmeans</span><span class="p">.</span><span class="nf">fit_predict</span><span class="p">(</span><span class="n">X_cluster</span><span class="p">)</span>
+
+<span class="c1"># 现在，原本单纯的经纬度，变成了很有商业意义的 "板块 0", "板块 1" ...
+</span></code></pre></div></div>
+
+<h3 id="4-主成分分析-pca">4. 主成分分析 (PCA)</h3>
+<p><strong>场景：</strong> 数据集里有 10 个描述车身尺寸的特征（长、宽、高、轴距…），它们高度重合。PCA 可以把这 10 个特征浓缩成 2 个“主成分”（比如 PC1代表“车体大小”，PC2代表“底盘运动性”）。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="c1"># 取出需要降维/浓缩的特征
+</span><span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">wheel-base</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">length</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">width</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">height</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">curb-weight</span><span class="sh">"</span><span class="p">]</span>
+<span class="n">X_pca</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">features</span><span class="p">]</span>
+
+<span class="c1"># 数据标准化极其重要！做 PCA 前必须把数据缩放到同一个尺度 (不然数值大的列会霸占结果)
+</span><span class="n">X_scaled</span> <span class="o">=</span> <span class="p">(</span><span class="n">X_pca</span> <span class="o">-</span> <span class="n">X_pca</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span> <span class="o">/</span> <span class="n">X_pca</span><span class="p">.</span><span class="nf">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># 定义 PCA，提取所有的主成分
+</span><span class="n">pca</span> <span class="o">=</span> <span class="nc">PCA</span><span class="p">()</span>
+<span class="n">X_components</span> <span class="o">=</span> <span class="n">pca</span><span class="p">.</span><span class="nf">fit_transform</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+
+<span class="c1"># 把算出来的矩阵变成好读的 DataFrame，列名叫 PC1, PC2...
+</span><span class="n">component_names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="sh">"</span><span class="s">PC</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="sh">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">X_components</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+<span class="n">X_pca_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">X_components</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">component_names</span><span class="p">)</span>
+
+<span class="c1"># PCA 最核心的是看懂 "Loadings"（成分载荷）
+# 它告诉你 PC1 到底是由哪些原始特征组成的
+</span><span class="n">loadings</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">pca</span><span class="p">.</span><span class="n">components_</span><span class="p">.</span><span class="n">T</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">component_names</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">X_pca</span><span class="p">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">loadings</span><span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h1 id="️-第三部分sql-基础-intro-to-sql">🗄️ 第三部分：SQL 基础 (Intro to SQL)</h1>
+<p><em>Kaggle 中的 SQL 课程非常特殊。它不是在普通的数据库里查，而是教你用 Python 调用 Google 的大数据平台 <strong>BigQuery</strong>。你可以把它当成用 SQL 语言去操作几百 GB 的超大云端 CSV。</em></p>
+
+<p><strong>核心心法：</strong> 无论多复杂的 SQL，永远跑不出这个骨架：<code class="language-plaintext highlighter-rouge">SELECT (拿什么) FROM (从哪拿) WHERE (条件) GROUP BY (分组) ORDER BY (排序)</code>。</p>
+
+<h3 id="1-接入-bigquery-数据库">1. 接入 BigQuery 数据库</h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 导入 Google 云端大数据库的 API
+</span><span class="kn">from</span> <span class="n">google.cloud</span> <span class="kn">import</span> <span class="n">bigquery</span>
+
+<span class="c1"># 创建一个客户端（相当于打开数据库连接软件）
+</span><span class="n">client</span> <span class="o">=</span> <span class="n">bigquery</span><span class="p">.</span><span class="nc">Client</span><span class="p">()</span>
+
+<span class="c1"># 找到名叫 "hacker_news" 的公开数据库
+</span><span class="n">dataset_ref</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="nf">dataset</span><span class="p">(</span><span class="sh">"</span><span class="s">hacker_news</span><span class="sh">"</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="sh">"</span><span class="s">bigquery-public-data</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># 获取并查看这个数据库的���息
+</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="nf">get_dataset</span><span class="p">(</span><span class="n">dataset_ref</span><span class="p">)</span>
+<span class="n">tables</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">client</span><span class="p">.</span><span class="nf">list_tables</span><span class="p">(</span><span class="n">dataset</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">table</span><span class="p">.</span><span class="n">table_id</span><span class="p">)</span> <span class="c1"># 打印里面所有表的名字，比如 "full", "comments"
+</span></code></pre></div></div>
+
+<h3 id="2-最核心的查询select-from-where">2. 最核心的查询：SELECT, FROM, WHERE</h3>
+<p><strong>业务场景：</strong> 帮我从 <code class="language-plaintext highlighter-rouge">full</code> 表里，找出所有类型是 “job” 的记录，只要它们的 <code class="language-plaintext highlighter-rouge">title</code> (标题) 和 <code class="language-plaintext highlighter-rouge">text</code> (内容)。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 在 Python 里，SQL 语句其实就是一个长长的字符串 (用三个引号包起来可以换行)
+</span><span class="n">query</span> <span class="o">=</span> <span class="sh">"""</span><span class="s">
+        SELECT title, text
+        FROM `bigquery-public-data.hacker_news.full`
+        WHERE type = </span><span class="sh">"</span><span class="s">job</span><span class="sh">"</span><span class="s">
+        </span><span class="sh">"""</span>
+
+<span class="c1"># 🌟 安全第一：查询大数据是要扣钱的！Kaggle 教了一个绝招防止查询过大
+# 设置最大计算量为 1 GB。如果你写的 SQL 需要扫超过 1GB 的数据，它会直接报错阻止你。
+</span><span class="n">safe_config</span> <span class="o">=</span> <span class="n">bigquery</span><span class="p">.</span><span class="nc">QueryJobConfig</span><span class="p">(</span><span class="n">maximum_bytes_billed</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">)</span>
+
+<span class="c1"># 真正去云端执行查询
+</span><span class="n">query_job</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="nf">query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">job_config</span><span class="o">=</span><span class="n">safe_config</span><span class="p">)</span>
+
+<span class="c1"># 把查到的结果下载下来，直接转成你最熟悉的 Pandas DataFrame！
+# 后面你想怎么分析就怎么分析！
+</span><span class="n">jobs_df</span> <span class="o">=</span> <span class="n">query_job</span><span class="p">.</span><span class="nf">to_dataframe</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="3-分组统计group-by-having-count">3. 分组统计：GROUP BY, HAVING, COUNT()</h3>
+<p><strong>业务场景：</strong> 统计 hacker_news 上每天有多少篇帖子。只要那些发帖量超过 1000 的日子。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">query</span> <span class="o">=</span> <span class="sh">"""</span><span class="s">
+        SELECT `by` AS author, COUNT(id) AS NumPosts
+        FROM `bigquery-public-data.hacker_news.full`
+        GROUP BY `by`                  -- 按作者分组
+        HAVING COUNT(id) &gt; 1000        -- HAVING 是在分组后进行过滤
+        ORDER BY NumPosts DESC         -- ORDER BY: 按帖子数量排序，DESC 表示降序(从大到小)
+        </span><span class="sh">"""</span>
+<span class="c1"># 注意：在 SQL 里，把列名重命名叫 AS。
+# COUNT(id) 意思是数一数这个组里有多少个 ID。
+</span></code></pre></div></div>
+
+<h3 id="4-拆解日期extract">4. 拆解日期：EXTRACT</h3>
+<p><strong>业务场景：</strong> 表里的日期往往精确到秒（2023-05-12 14:22:11）。我只想统计“每个星期的第几天 (Day of Week)”发生的事故最多。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">query</span> <span class="o">=</span> <span class="sh">"""</span><span class="s">
+        SELECT EXTRACT(DAYOFWEEK FROM timestamp_of_crash) AS day_of_week, 
+               COUNT(consecutive_number) AS num_accidents
+        FROM `bigquery-public-data.nhtsa_traffic_fatalities.accident_2015`
+        GROUP BY day_of_week
+        ORDER BY num_accidents DESC
+        </span><span class="sh">"""</span>
+<span class="c1"># EXTRACT(DAYOFWEEK FROM ...) 能够直接把一长串时间戳，扣成数字 1-7 (星期天到星期六)。
+# 其他常用：EXTRACT(YEAR FROM...), EXTRACT(MONTH FROM...)
+</span></code></pre></div></div>
+
+<h3 id="5-多表联合join">5. 多表联合：JOIN</h3>
+<p><strong>业务场景：</strong> 有两张表。一张表记录了用户的 ID 和姓名 (<code class="language-plaintext highlighter-rouge">users</code> 表)；另一张表记录了每个回帖的 ID、内容和作者的用户 ID (<code class="language-plaintext highlighter-rouge">comments</code> 表)。我想把它们拼起来，看具体是谁发了什么。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># INNER JOIN 就像两张表的联姻。ON 后面写联姻的条件（两边共有的身份证号）。
+</span><span class="n">query</span> <span class="o">=</span> <span class="sh">"""</span><span class="s">
+        SELECT u.name, c.text
+        FROM `bigquery-public-data.hacker_news.users` AS u
+        INNER JOIN `bigquery-public-data.hacker_news.comments` AS c
+            ON u.id = c.author
+        </span><span class="sh">"""</span>
+<span class="c1"># 逻辑拆解：
+# 1. 给长长的表名起了短别名：users 叫 u，comments 叫 c
+# 2. 从 u 里面拿 name，从 c 里面拿 text
+# 3. 拼接条件：u 表的 id 必须等于 c 表的 author 字段
+</span></code></pre></div></div>
+<p>完全理解！为了让你彻底拥有一个<strong>“Kaggle 字典级别的外脑”</strong>，我将为你进行<strong>深度扩充</strong>。</p>
+
+<p>在真实的 Kaggle 竞赛中，初学者往往在基础语法上没问题，但在遇到<strong>“高阶图表定制”、“复杂特征构造”</strong>和<strong>“嵌套 SQL 查询”</strong>时会瞬间卡壳。</p>
+
+<p>下面我为你补充这三门课中<strong>最容易遗忘、但也最能拉开分数差距的“高阶进阶语法与实战技巧”</strong>。请将这些代码块一并存入你的速查手册！</p>
+
+<hr />
+
+<h1 id="-深度扩充一数据可视化-data-visualization---高阶掌控">🎨 深度扩充一：数据可视化 (Data Visualization) - 高阶掌控</h1>
+
+<p>在 Kaggle 的中后期，你不再只是画单张图，而是需要把好几个图拼在一起对比，或者处理密密麻麻重叠在一起的百万级数据点。</p>
+
+<h3 id="1-多图拼接子图绘制-subplots">1. 多图拼接：子图绘制 (Subplots)</h3>
+<p><strong>业务场景：</strong> 领导或评委不想看 5 张分开的图，他们希望在一个面板里看到“不同年龄段”和“不同性别”的消费分布，方便左右对比。</p>
+
+<p>```python name=data_viz_subplots.py
+import matplotlib.pyplot as plt
+import seaborn as sns</p>
+
+<h1 id="创建一个大画板-figure-和多个子画板-axes">创建一个大画板 (Figure) 和多个子画板 (Axes)</h1>
+<h1 id="nrows1-ncols2-意思是1-行-2-列共2张小图">nrows=1, ncols=2 意思是：1 行 2 列（共2张小图）</h1>
+<h1 id="figsize14-6-控制整个大画板的尺寸">figsize=(14, 6) 控制整个大画板的尺寸</h1>
+<p>fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14, 6))</p>
+
+<h1 id="在第一张小图-axes0-上画直方图">在第一张小图 (axes[0]) 上画直方图</h1>
+<p>sns.histplot(data=df[‘Age’], ax=axes[0])
+axes[0].set_title(“Age Distribution”) # 给第一张小图加标题</p>
+
+<h1 id="在第二张小图-axes1-上画散点图">在第二张小图 (axes[1]) 上画散点图</h1>
+<p>sns.scatterplot(x=df[‘Age’], y=df[‘Income’], hue=df[‘Gender’], ax=axes[1])
+axes[1].set_title(“Age vs Income”) # 给第二张小图加标题</p>
+
+<h1 id="自动调整间距防止两张图的字撞在一起">自动调整间距，防止两张图的字撞在一起</h1>
+<p>plt.tight_layout()
+plt.show()</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+### 2. 🌟 分面网格：FacetGrid (Kaggle 大神最爱)
+**业务场景：** 数据里有 10 个不同的城市，你想给每个城市都画一张房价的直方图。手动写 10 次太傻了，FacetGrid 可以一键生成照片墙！
+
+```python name=data_viz_facetgrid.py
+# 步骤 1：按照 'City' (城市) 把画板切分成多个小格子
+# col="City" 意思是每个城市占一列，col_wrap=3 意思是每行最多放 3 张图就换行
+g = sns.FacetGrid(df, col="City", col_wrap=3, height=4)
+
+# 步骤 2：把你想画的图“映射 (map)”到这些小格子里
+# 这里我们要在每个格子里画 'Price' 的直方图 (histplot)
+g.map(sns.histplot, "Price")
+
+# 加一个总标题 (y=1.05 把标题往上抬一点，免得挡住图)
+g.fig.suptitle("House Prices by City", y=1.05)
+</code></pre></div></div>
+
+<hr />
+
+<h1 id="️-深度扩充二特征工程-feature-engineering---夺冠秘籍">🛠️ 深度扩充二：特征工程 (Feature Engineering) - 夺冠秘籍</h1>
+
+<p>如果说之前的 PCA 和聚类是标准动作，那么接下来的<strong>目标编码 (Target Encoding)</strong> 就是 Kaggle 比赛结构化数据中经常用来冲刺前 1% 的绝招。</p>
+
+<h3 id="1--目标编码-target-encoding">1. 🌟 目标编码 (Target Encoding)</h3>
+<p><strong>业务场景：</strong> 假设你有一个特征叫 <code class="language-plaintext highlighter-rouge">Zipcode</code>（邮编），里面有 5000 个不同的邮编。</p>
+<ul>
+  <li>如果用“独热编码 (One-Hot)”，会多出 5000 列，内存直接爆炸，模型也会崩溃。</li>
+  <li>如果用“序号编码 (Ordinal)”，邮编 10001 和 10002 并没有大小之分，模型会被误导。</li>
+  <li><strong>绝招：</strong> 用<strong>“这个邮编里的历史平均房价”</strong>来代替这个邮编！比如 10001 邮编的房子历史平均卖 500 万，就把所有 10001 替换成 500 万。这就叫目标编码。</li>
+</ul>
+
+<p>```python name=feature_engineering_target_encode.py
+import pandas as pd</p>
+<h1 id="category_encoders-是一个专门做特征编码的神器库">category_encoders 是一个专门做特征编码的神器库</h1>
+<p>from category_encoders import MEstimateEncoder</p>
+
+<h1 id="准备好类别特征-x_encode-和-目标变量-y">准备好类别特征 X_encode 和 目标变量 y</h1>
+<p>X_encode = df.select_dtypes([“object”, “category”])
+y = df[‘Price’]</p>
+
+<h1 id="定义目标编码器">定义目标编码器</h1>
+<h1 id="m5-是一种平滑机制-smoothing如果某个偏僻邮编历史上只卖过-1-套房恰好是-1-个亿的豪宅">m=5 是一种平滑机制 (Smoothing)：如果某个偏僻邮编历史上只卖过 1 套房，恰好是 1 个亿的豪宅，</h1>
+<h1 id="直接用-1-亿代替这个邮编就太绝对了m-参数会引入全局平均值来中和这种极端情况">直接用 1 亿代替这个邮编就太绝对了。m 参数会引入全局平均值来“中和”这种极端情况。</h1>
+<p>encoder = MEstimateEncoder(cols=X_encode.columns, m=5.0)</p>
+
+<h1 id="拟合并且转换">拟合并且转换</h1>
+<h1 id="️-极度危险的坑-data-leakage">⚠️ 极度危险的坑 (Data Leakage)：</h1>
+<h1 id="绝对不能把验证集的数据也混在一起算平均值否则等于提前泄露了验证集的答案">绝对不能把验证集的数据也混在一起算平均值！否则等于提前泄露了验证集的答案。</h1>
+<h1 id="正确做法只用训练集-train-来-fit然后分别-transform-训练集和验证集">正确做法：只用训练集 (train) 来 fit，然后分别 transform 训练集和验证集。</h1>
+<p>X_train_encoded = encoder.fit_transform(X_train_encode, y_train)
+X_valid_encoded = encoder.transform(X_valid_encode)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+### 2. 异常值处理 (Outlier Treatment)
+**业务场景：** 预测人的身高，绝大部分在 1.5 - 1.9 米，但数据录入错误，出现了一个 18 米的人。不处理的话，线性模型会被这个 18 米的人严重带偏。
+
+```python name=feature_engineering_outliers.py
+import numpy as np
+
+# 策略 1：盖帽法 (Clipping/Winsorization)
+# 把所有大于 99% 分位数的数据，强制压平到 99% 的数值；小于 1% 的强制拔高到 1% 的数值。
+# 比如身高最高只算到 2.1米，再高的统统算 2.1米。
+lower_bound = df['Height'].quantile(0.01)
+upper_bound = df['Height'].quantile(0.99)
+
+# np.clip 会把超出上下限的值自动截断
+df['Height_Clipped'] = np.clip(df['Height'], lower_bound, upper_bound)
+
+# 策略 2：对数转换 (Log Transformation) -&gt; 专治“长尾分布”
+# 比如收入数据，大部分人月薪 1 万，少部分人月薪 1 个亿。画图出来尾巴拖得很长。
+# 用 np.log1p (即 log(x+1)) 转换后，1 万和 1 亿的差距在模型眼里就没那么夸张了，分布会变得更像正态分布。
+df['Income_Log'] = np.log1p(df['Income'])
+</code></pre></div></div>
+
+<hr />
+
+<h1 id="️-深度扩充三sql-基础与进阶-intro-to--advanced-sql">🗄️ 深度扩充三：SQL 基础与进阶 (Intro to &amp; Advanced SQL)</h1>
+
+<p>Kaggle 的 SQL 课程后半段（Advanced SQL）是很多非计算机专业同学的噩梦。主要是因为代码变得很长，涉及了 <strong>CTE（公共表表达式）</strong> 和 <strong>窗口函数（Window Functions）</strong>。</p>
+
+<h3 id="1--化繁为简的神器cte-with-语句">1. 🌟 化繁为简的神器：CTE (WITH 语句)</h3>
+<p><strong>业务场景：</strong> 你要先计算每个用户的总订单量，然后再从这些人里挑出总订单量大于 10 的，最后再算这些 VIP 用户的平均消费。如果全写在一坨 SQL 里，括号套括号会让人疯掉。
+<strong>逻辑：</strong> <code class="language-plaintext highlighter-rouge">WITH</code> 语句的作用就是<strong>“打草稿”</strong>。先把第一步的中间结果存成一张“虚拟草稿表”，然后再在草稿表上查。</p>
+
+<p>```sql name=advanced_sql_cte.sql</p>
+<h1 id="我们用-with-定义一张草稿表叫-userorders-草稿">我们用 WITH 定义一张草稿表，叫 UserOrders 草稿</h1>
+<p>query_with_cte = “””
+    WITH UserOrders AS (
+        – 这是草稿 1 的内容：统计每个用户的订单总数和总花费
+        SELECT 
+            user_id, 
+            COUNT(order_id) AS total_orders,
+            SUM(spend) AS total_spend
+        FROM <code class="language-plaintext highlighter-rouge">bigquery-public-data.store.orders</code>
+        GROUP BY user_id
+    )</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-- 下面才是真正的正式查询！我们可以直接把 UserOrders 当成真实的表来用！
+SELECT 
+    user_id, 
+    total_spend / total_orders AS avg_spend_per_order
+FROM UserOrders
+WHERE total_orders &gt; 10
+ORDER BY avg_spend_per_order DESC """ ```
+</code></pre></div></div>
+
+<h3 id="2-高维打击窗口函数-window-functions---over--partition-by">2. 高维打击：窗口函数 (Window Functions - OVER &amp; PARTITION BY)</h3>
+<p><strong>业务场景：</strong> 我们有一张员工薪水表。我想在每一行数据的后面，额外加一列，显示<strong>“这个员工所在的部门，平均薪水是多少”</strong>。</p>
+<ul>
+  <li>如果用 <code class="language-plaintext highlighter-rouge">GROUP BY</code>，所有员工的明细行就全消失了，只剩下部门汇总的几行。</li>
+  <li><strong>逻辑：</strong> 窗口函数允许你在<strong>不改变原有行数</strong>的情况下，进行分组统计！就像是打开一个小窗口，看一眼这个组的数据算个平均，然后把结果写在这一行旁边。</li>
+</ul>
+
+<p>```sql name=advanced_sql_window.sql
+query_window = “””
+    SELECT 
+        employee_name,
+        department,
+        salary,
+        – 🌟 窗口函数来啦！
+        – 计算平均工资 (AVG)
+        – OVER 告诉它这是一个窗口操作
+        – PARTITION BY department 意思是：只在当前这个部门的“小窗口”里算平均
+        AVG(salary) OVER (PARTITION BY department) AS dept_avg_salary,</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    -- 进阶用法：部门内薪水排名！
+    -- 在部门内 (PARTITION BY department)，按薪水从高到低 (ORDER BY salary DESC) 给每个人排个名次
+    RANK() OVER (PARTITION BY department ORDER BY salary DESC) AS salary_rank
+    
+FROM `my_company.hr.salaries` """ ``` *这个语法在 Kaggle 分析时序数据（比如计算“过�� 7 天的滚动平均销量”）时极度常用。*
+</code></pre></div></div>
+
+<h3 id="3-数据重组union-all-上下堆叠">3. 数据重组：UNION ALL (上下堆叠)</h3>
+<p><strong>业务场景：</strong> 你有两张表结构完全一样的表，比如一张叫 <code class="language-plaintext highlighter-rouge">2022_sales</code>，一张叫 <code class="language-plaintext highlighter-rouge">2023_sales</code>。你需要把它们像叠汉堡一样上下叠起来变成一张大表。</p>
+
+<p>```sql name=advanced_sql_union.sql
+query_union = “””
+    – 拿出 2022 年的数据
+    SELECT date, product_id, revenue
+    FROM <code class="language-plaintext highlighter-rouge">store.sales_2022</code></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UNION ALL  -- 上下暴力拼接的胶水！
+
+-- 拿出 2023 年的数据
+SELECT date, product_id, revenue
+FROM `store.sales_2023` """ ```
+</code></pre></div></div>
+
+
+        <aside class="sidebar inline" id="post-end">
+    
+
+
+
+<div class="tag-cloud">
+    
+        <ul class="tags inline">
+            
+                <li><a href="./tag.html?tag=%E8%AE%B0%E5%BF%86" class="tag inline">记忆</a></li>
+            
+    
+        </ul>
+</div>
+    <div class="share-options inline">
+    <div class="share-hover inline">
+        <span class="share-button inline"><svg fill="currentColor" width="25" height="25" class="inline"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg></span>
+        <div class="share-icons inline" id="post-end-icons">
+            <a class="twitter" href="https://twitter.com/intent/tweet?text=语法整理&url=http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html" title="分享到 Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a class="facebook" href="https://facebook.com/sharer.php?u=http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html" title="分享到 Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a class="reddit" href="http://www.reddit.com/submit?url=http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html&title=语法整理" title="分享到 Reddit" rel="nofollow" target="_blank"><i class="fa fa-reddit" aria-hidden="true"></i></a>
+            <a class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html&title=语法整理&summary=&source=http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html" title="分享到 LinkedIn" rel="nofollow" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a class="email" href="mailto:?subject=语法整理&body=%0A%0A继续阅读：http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html" title="通过邮件分享" rel="nofollow" target="_blank"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+            <a class="copy-link" onclick="copyToClipboard()" title="复制链接" rel="nofollow" target="_blank"><svg width="20px" fill="currentColor" class="inline" viewBox="0 0 18 18"><path d="M16.94 1.1A3.7 3.7 0 0 0 14.3 0c-1 0-1.94.39-2.64 1.1L7.43 5.3c-.91.92-2.09 3.2 0 5.27a.75.75 0 0 0 .82.16c.09-.03.17-.09.24-.15a.74.74 0 0 0 0-1.06c-1.16-1.15-.77-2.39-.02-3.16l4.24-4.22a2.2 2.2 0 0 1 1.58-.65c.6 0 1.16.23 1.58.65.86.87.86 2.29 0 3.16L12.7 8.47a.74.74 0 0 0 1.04 1.05l3.17-3.16a3.73 3.73 0 0 0 0-5.27h.03zM9.54 7.4a.74.74 0 0 0 0 1.06c1.16 1.15.76 2.39 0 3.16l-4.22 4.22c-.42.42-.99.65-1.59.65a2.23 2.23 0 0 1-1.58-3.82l3.17-3.16A.73.73 0 0 0 5.54 9a.78.78 0 0 0-.22-.52.77.77 0 0 0-1.05 0L1.1 11.64A3.72 3.72 0 0 0 3.74 18c1 0 1.94-.39 2.65-1.1l4.23-4.2c.21-.22.94-1.02 1.13-2.2.18-1.12-.2-2.15-1.12-3.07-.27-.27-.78-.27-1.06 0l-.02-.02z" clip-rule="evenodd" fill-rule="evenodd"></path></svg></a>
+        </div>
+    </div>
+    <div class='alert' style='font-size:.6em;color:var(--accent);text-align:center;'></div>
+</div>
+</aside>
+
+        <div class="separator"></div>
+        
+
+
+
+<section class="author-box">
+  <div class="narrow-column">
+    <a href='https://Tiany1Yu.github.io'><img src="./assets/img/Myself.jpg" alt="uke" class="author-img"></a>
+    <ul class="contact-icons">
+      
+      
+      
+      <li class="github"><a class="github" href="http://github.com/Tiany1Yu" target="_blank"><i class="fa fa-github"></i></a></li>
+      
+      
+      <li class="email"><a class="email" href="mailto:tianyi.yu@smail.nju.edu.cn" onclick="return openEmailContact('tianyi.yu@smail.nju.edu.cn')" title="发送邮件"><i class="fa fa-envelope-o"></i></a></li>
+      
+      
+    </ul>
+  </div>
+  <div class="author-desc">
+    <h3>uke</h3>
+    <p>南京大学智能科学与技术的大一新生，写点闲话给大家，也是给自己</p>
+  </div>
+</section>
+
+        
+
+
+
+<div class="recent-box">
+  <h2 class="page-subtitle">最新文章</h2>
+  <div class="recent-list">
+    
+      
+        <div class="recent-item">
+          
+          
+
+          <a href="./hw2.html" class="recent-item-img" style="background: url('./assets/img/posts/20260328-hw2/habo.jpg') center no-repeat; background-size: cover;">
+            <div class="recent-item-title">
+              <span>基于矩阵分解的哈勃深空图像分析与重构</span>
+              
+
+  <span class = "recent-item-meta">
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <p class="page_meta-readtime">
+      16 分钟阅读
+    </p>
+  
+  
+  </span>
+
+            </div>
+          </a>
+        </div>
+      
+    
+      
+        <div class="recent-item">
+          
+          
+
+          <a href="./%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html" class="recent-item-img" style="background: url('./assets/img/posts/20260317-人工智能通识的第一次作业/cover.png') center no-repeat; background-size: cover;">
+            <div class="recent-item-title">
+              <span>人工智能通识的第一次作业</span>
+              
+
+  <span class = "recent-item-meta">
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <p class="page_meta-readtime">
+      10 分钟阅读
+    </p>
+  
+  
+  </span>
+
+            </div>
+          </a>
+        </div>
+      
+    
+      
+        <div class="recent-item">
+          
+          
+
+          <a href="./%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html" class="recent-item-img" style="background: url('./assets/img/posts/20260315-经典机器学习算法/cover.jpg') center no-repeat; background-size: cover;">
+            <div class="recent-item-title">
+              <span>经典机器学习算法</span>
+              
+
+  <span class = "recent-item-meta">
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <p class="page_meta-readtime">
+      4 分钟阅读
+    </p>
+  
+  
+  </span>
+
+            </div>
+          </a>
+        </div>
+      
+    
+      
+        <div class="recent-item">
+          
+          
+
+          <a href="./%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A.html" class="recent-item-img" style="background: url('./assets/img/') center no-repeat; background-size: cover;">
+            <div class="recent-item-title">
+              <span>名词解释</span>
+              
+
+  <span class = "recent-item-meta">
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <p class="page_meta-readtime">
+      1 分钟阅读
+    </p>
+  
+  
+  </span>
+
+            </div>
+          </a>
+        </div>
+      
+    
+  </div>
+</div> <!-- End Recent-Box -->
+
+        <div class="newsletter" id="mc_embed_signup">
+  <h2 class="page-subtitle">订阅更新</h2>
+  <div class="form-container">
+    <p>在这里订阅，第一时间收到最新更新</p>
+    <form action="https://github.us1.list-manage.com/subscribe/post?u=8ece198b3eb260e6838461a60&amp;id=397d90b5f4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+      <label class="screen-reader-text" for="mce-EMAIL">邮箱地址</label>
+      <div class="newsletter-box" id="mc_embed_signup_scroll">
+        <input type="email" name="EMAIL" placeholder="输入邮箱地址" class="email-input" id="mce-EMAIL" required>
+        <input type="submit" value="订阅" name="subscribe" class="subscribe-btn" id="mc-embedded-subscribe">
+      </div>
+    </form>
+  </div>
+</div> <!-- End Newsletter -->
+
+        <section class="comment-area">
+    <div class="comment-wrapper">
+        
+        <div class="row" id="comment-curtain">
+            <div class="col-lg-8 col-sm-10 mr-auto ml-auto">
+                <h2 class="page-subtitle">评论</h2>
+                <div class="comments-trigger" onClick="toggle_comments()">
+                    <i class="fa fa-comments"></i>&nbsp;&nbsp;写评论...
+                </div>
+            </div>
+        </div>
+        
+
+        
+            
+        
+    </div>
+</section> <!-- End Comment Area -->
+      </div>
+    </div> <!-- End Wrapper -->
+  </article>
+  <div class="search-box">
+  <div class="wrapper">
+    <div class="search-grid">
+      <form class="search-form">
+        <div id="search-container">
+          <input type="text" id="search-input" class="search" placeholder="搜索文章">
+        </div>
+      </form>
+      <ul id="results-container" class="results-search"></ul>
+      <div class="icon-close-container">
+        <span class="search-icon-close"><i class="fa fa-times" aria-hidden="true"></i></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+
+
+
+<footer class="main-footer">
+    <div class="footer-wrapper">
+        <div class="logo-symbol">
+            <a class="logo-link" title="羽落天青 | Uke's Blog" href="./">
+                <svg width="45px" height="45px" class="logo-symbol" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" version="1.0" viewBox="0 0 649 649"><g fill="currentColor" stroke="none"><path d="M2938 6380 c-551 -53 -1031 -220 -1478 -514 -306 -201 -588 -470 -810 -771 -276 -374 -475 -850 -559 -1336 -64 -371 -53 -836 29 -1211 155 -712 552 -1347 1130 -1810 450 -360 1021 -589 1640 -659 58 -6 202 -12 320 -12 282 0 503 26 756 87 902 220 1680 841 2079 1661 303 622 402 1333 279 2005 -90 496 -313 984 -634 1390 -111 140 -378 404 -519 513 -456 352 -957 560 -1549 643 -126 17 -558 26 -684 14z m687 -220 c77 -11 189 -32 250 -46 127 -29 345 -94 345 -103 0 -4 -341 -188 -757 -409 l-757 -403 -41 22 c-22 13 -58 26 -79 29 l-40 5 -148 370 c-82 204 -150 377 -153 386 -10 29 325 119 570 153 169 24 174 24 430 21 183 -3 273 -8 380 -25z m-1292 -546 l157 -387 -24 -28 c-13 -16 -30 -44 -36 -64 -6 -19 -17 -35 -23 -35 -7 -1 -382 -54 -834 -119 -453 -64 -823 -115 -823 -111 0 3 43 62 95 132 269 358 584 630 980 844 90 49 321 153 341 154 6 0 81 -174 167 -386z m2026 347 l37 -20 129 -440 128 -440 -35 -39 c-20 -22 -37 -44 -39 -50 -3 -8 -290 13 -929 66 -775 65 -925 80 -928 92 -2 11 223 134 785 432 433 228 794 416 801 417 7 0 30 -8 51 -18z m204 -92 c420 -211 850 -600 1137 -1027 34 -51 60 -95 57 -98 -4 -4 -805 157 -859 172 -10 3 -18 12 -18 21 0 58 -78 133 -137 133 -18 0 -33 2 -33 5 0 3 -52 184 -116 403 -63 218 -117 405 -120 415 -3 9 -3 17 1 17 3 0 42 -19 88 -41z m-913 -894 c494 -41 904 -75 912 -75 7 -1 24 -23 36 -51 l24 -50 -169 -269 -168 -270 -44 0 c-24 0 -63 -9 -86 -21 l-42 -21 -679 402 c-373 222 -688 409 -699 416 -18 13 -18 14 -1 14 10 0 422 -34 916 -75z m-1175 18 l48 -48 -31 -225 c-18 -124 -60 -417 -94 -652 l-62 -428 -44 0 c-24 0 -51 -4 -61 -10 -16 -8 -146 87 -777 566 -418 317 -761 578 -763 580 -3 3 0 9 5 14 8 8 1633 247 1700 249 25 1 42 -9 79 -46z m915 -414 l690 -411 0 -38 0 -37 -147 -46 c-82 -26 -453 -148 -825 -271 l-676 -223 -22 30 -22 29 98 669 c82 557 101 669 114 669 8 0 31 9 50 19 19 11 38 20 43 20 4 1 318 -184 697 -410z m1959 175 c251 -53 457 -97 457 -98 9 -9 123 -247 153 -320 113 -272 189 -599 209 -901 l9 -130 -231 -273 c-224 -265 -232 -273 -264 -270 l-34 3 -418 1013 -419 1013 26 30 c15 16 33 29 41 29 8 0 220 -43 471 -96z m-593 2 c6 -5 804 -1949 802 -1952 -2 -2 -274 272 -605 609 l-600 612 13 32 c20 46 17 82 -9 128 l-23 41 170 271 171 272 40 -6 c22 -3 41 -6 41 -7z m-3341 -611 c402 -307 733 -561 737 -564 31 -26 -38 -31 -947 -65 -516 -19 -941 -33 -944 -30 -2 2 6 77 18 165 49 346 162 693 324 986 44 82 52 91 66 79 9 -7 345 -264 746 -571z m2710 -142 c17 -16 39 -32 48 -38 15 -9 13 -64 -23 -695 -22 -377 -40 -686 -40 -687 0 -2 -8 -3 -19 -3 -10 0 -30 -9 -45 -21 l-27 -21 -342 200 c-188 110 -542 317 -787 460 -245 144 -445 266 -445 273 0 8 312 116 820 285 451 150 822 272 824 273 2 1 18 -11 36 -26z m590 -425 c220 -222 500 -505 623 -629 l223 -225 -17 -31 -18 -30 -585 -82 c-322 -45 -602 -85 -621 -88 -31 -4 -37 -1 -53 27 -11 17 -34 39 -53 47 -19 9 -34 21 -34 27 -1 6 16 316 37 688 l37 678 26 9 c14 5 27 10 30 10 3 1 185 -180 405 -401z m-2587 -114 c-2 -9 -224 -178 -494 -375 l-492 -359 -38 16 c-26 11 -53 14 -84 10 -25 -3 -55 -7 -67 -8 -16 -2 -106 76 -362 316 -204 192 -341 327 -341 338 0 16 10 18 83 19 45 0 431 13 857 28 984 36 942 35 938 15z m59 -88 l22 -23 -104 -467 c-58 -256 -105 -468 -105 -470 0 -2 -14 -6 -32 -10 -17 -3 -47 -18 -65 -32 l-34 -26 -339 122 -338 122 -7 45 c-5 37 -3 47 12 58 10 7 229 169 488 359 258 190 472 346 475 346 3 0 15 -11 27 -24z m1013 -430 c421 -245 769 -452 775 -460 5 -8 7 -18 3 -21 -3 -4 -417 -41 -920 -84 l-913 -77 -16 26 c-9 15 -29 36 -45 47 l-28 21 104 465 105 465 43 7 c27 4 55 17 75 35 18 16 37 28 42 26 6 -2 354 -204 775 -450z m-2307 -276 c-7 -71 -4 -98 10 -126 l15 -30 -206 -248 -206 -248 -27 59 c-140 314 -228 733 -229 1086 l0 138 323 -303 c270 -254 322 -307 320 -328z m5277 366 c-17 -270 -58 -489 -135 -721 -38 -117 -134 -350 -140 -343 -1 2 -35 117 -75 256 l-72 253 26 25 c51 52 58 134 15 189 -21 26 -21 26 -2 48 11 12 102 120 203 240 100 120 184 216 186 214 2 -2 -1 -74 -6 -161z m-642 -487 l21 -41 -456 -782 c-251 -429 -461 -787 -467 -794 -9 -9 -19 -10 -42 -2 l-29 10 -174 676 -174 675 35 37 c20 20 40 51 45 67 l10 30 584 82 c321 44 594 82 605 82 16 1 27 -10 42 -40z m-4015 -145 c301 -109 327 -120 327 -142 0 -12 7 -39 15 -58 l15 -36 -411 -469 c-226 -259 -413 -468 -415 -466 -2 2 1 219 6 483 5 263 10 538 10 610 l0 132 29 12 c16 6 39 23 52 36 13 14 28 23 34 21 5 -2 157 -57 338 -123z m-517 -413 c-3 -262 -9 -527 -12 -589 -8 -134 -2 -135 -120 20 -93 121 -192 278 -272 428 l-61 115 215 257 c181 216 218 255 235 251 l22 -6 -7 -476z m4695 460 c3 -3 43 -133 88 -289 l82 -282 -62 -108 c-75 -130 -175 -278 -265 -392 -140 -176 -514 -528 -595 -558 -13 -5 -72 -13 -130 -17 l-105 -7 -16 40 -16 40 462 796 461 796 45 -6 c25 -4 48 -9 51 -13z m-1736 -69 c-6 -5 -361 -192 -790 -417 -429 -224 -806 -422 -838 -439 -52 -28 -59 -29 -70 -15 -17 22 -78 59 -99 59 -19 0 -16 -14 -68 300 -29 169 -38 246 -30 248 27 9 62 50 74 87 11 32 19 41 43 44 67 8 1683 139 1733 140 30 0 50 -3 45 -7z m90 -62 c10 -11 38 -26 62 -31 38 -10 44 -16 52 -48 90 -346 333 -1280 337 -1292 3 -11 -7 -23 -29 -36 -19 -11 -42 -38 -53 -60 l-19 -40 -1050 297 c-859 244 -1050 301 -1050 315 0 12 239 141 860 465 473 247 863 449 866 449 3 1 14 -8 24 -19z m-2076 -210 c13 0 21 -9 25 -27 10 -47 86 -497 86 -508 0 -5 -13 -19 -29 -29 -35 -24 -57 -59 -66 -108 -4 -22 -14 -39 -24 -42 -143 -41 -861 -236 -870 -236 -7 0 -11 5 -9 11 2 6 190 224 418 484 349 399 416 472 431 464 10 -5 27 -9 38 -9z m1376 -1065 c741 -208 1053 -300 1060 -312 6 -9 24 -32 41 -52 l31 -35 -30 -68 c-34 -77 -25 -71 -205 -139 -310 -116 -653 -180 -984 -183 -97 0 -178 1 -181 4 -89 106 -817 1053 -817 1063 0 18 9 27 23 21 7 -2 485 -137 1062 -299z m-1319 264 c31 -35 81 -51 134 -44 l46 6 380 -487 c208 -268 385 -496 392 -506 13 -17 10 -18 -45 -12 -640 65 -1267 346 -1732 776 l-61 57 42 12 c271 74 805 218 814 218 6 1 19 -9 30 -20z m2814 -563 c0 -5 -223 -138 -278 -165 -24 -13 -46 -20 -49 -18 -2 3 3 19 11 36 12 22 27 33 59 42 27 7 56 26 81 52 35 37 44 41 105 47 36 4 67 8 69 9 1 0 2 -1 2 -3z" transform="translate(0.000000,644.000000) scale(0.100000,-0.100000)"/></g></svg>
+            </a>
+        </div>
+        <div class="copyright">
+          <p>2026 &copy; uke</p>
+        </div>
+        <div class="footer-nav">
+            <div>
+                <a href="./archive.html">
+                    文章
+                </a>
+            </div>
+            <div>
+                <a href="./tags.html">
+                    标签
+                </a>
+            </div>
+            <div>
+                <a href="./about.html">
+                    关于
+                </a>
+            </div>
+        </div>
+    </div>
+</footer> <!-- End Footer -->
+
+</div>
+
+    <div class="top" title="回到顶部">
+      <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="angle-up" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" class="svg-inline--fa fa-angle-up fa-w-8 fa-2x"><path fill="currentColor" d="M136.5 185.1l116 117.8c4.7 4.7 4.7 12.3 0 17l-7.1 7.1c-4.7 4.7-12.3 4.7-17 0L128 224.7 27.6 326.9c-4.7 4.7-12.3 4.7-17 0l-7.1-7.1c-4.7-4.7-4.7-12.3 0-17l116-117.8c4.7-4.6 12.3-4.6 17 .1z" class=""></path></svg>
+    </div>
+    
+
+
+
+
+<!-- JS -->
+
+
+
+
+
+
+
+
+<script>
+(function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var logo = document.getElementById('logo');
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+    storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+    var data = storage.getItem('theme');
+    try {
+        data = JSON.parse(data ? data : '');
+    } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+    }
+    return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+    themeData.nightShift = nightShift;
+    saveThemeData(themeData);
+    html.dataset.theme = nightShift ? 'dark' : 'light';
+    if (nightShift) {
+        logo.setAttribute("src", "./assets/img/branding/MVM-logo-full-dark.svg");
+    } else {
+        logo.setAttribute("src", "./assets/img/branding/MVM-logo-full.svg");
+    }
+    setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+    }, 50);
+    }
+
+    function autoThemeToggle() {
+    // Next time point of theme toggle
+    var now = new Date();
+    var toggleAt = new Date();
+    var hours = now.getHours();
+    var nightShift = hours >= 19 || hours <=7;
+
+    if (nightShift) {
+        if (hours > 7) {
+        toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+    } else {
+        toggleAt.setHours(19);
+    }
+
+    toggleAt.setMinutes(0);
+    toggleAt.setSeconds(0);
+    toggleAt.setMilliseconds(0)
+
+    var delay = toggleAt.getTime() - now.getTime();
+
+    // auto toggle theme mode
+    setTimeout(function() {
+        handleThemeToggle(!nightShift);
+    }, delay);
+
+    return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+    };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+    handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+    var data = autoThemeToggle();
+
+    // Toggle theme by local setting
+    if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+    } else {
+        handleThemeToggle(themeData.nightShift);
+    }
+    } else if (nightModeOption == 'manual') {
+    handleThemeToggle(themeData.nightShift);
+    } else {
+    var nightShift = themeData.nightShift;
+    if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+    }
+    handleThemeToggle(nightShift);
+    }
+})();
+
+function openEmailContact(email) {
+  if (!email) {
+    return false;
+  }
+
+  // Try opening the local mail client first.
+  window.location.href = 'mailto:' + email;
+
+  // Also copy the address as a fallback for environments without a mail handler.
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(email).then(function() {
+      setTimeout(function() {
+        alert('已尝试打开邮件客户端。若没有反应，请手动发送到：' + email + '（邮箱已复制）');
+      }, 250);
+    }, function() {
+      setTimeout(function() {
+        alert('已尝试打开邮件客户端。若没有反应，请手动发送到：' + email);
+      }, 250);
+    });
+  } else {
+    setTimeout(function() {
+      alert('已尝试打开邮件客户端。若没有反应，请手动发送到：' + email);
+    }, 250);
+  }
+
+  return false;
+}
+</script>
+
+<script src="./assets/js/jekyll-search.js"></script>
+<script src="./assets/js/jquery-3.6.0.min.js"></script>
+
+
+  <script>
+    function toggle_comments(){
+      var commentCurtain = document.getElementById('comment-curtain')
+      if (commentCurtain) {
+        commentCurtain.classList.toggle('hide')
+      }
+      var disqusThread = document.getElementById('comment-layout')
+      if (disqusThread) {
+        disqusThread.classList.toggle('show')
+      }
+    }
+
+    function copyToClipboard() {
+      navigator.clipboard.writeText('http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html').then(function() {
+      alerts = document.getElementsByClassName('alert')
+      for (i=0; i < alerts.length; i++){
+        alerts[i].innerHTML='\u00AB链接已复制\u00BB';
+        setTimeout((function(i){ return function(){alerts[i].innerHTML='';}})(i), 1600 );
+      };
+      }, function() {
+        prompt("复制失败，请手动复制此链接：", "http://localhost:4000/%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html");
+      });
+    }
+
+    $(function () {
+      if (document.getElementById('comment-curtain') == null){
+        var disqusThread = document.getElementById('comment-layout')
+        if (disqusThread) {
+          disqusThread.classList.toggle('show')
+        }
+      }
+
+      var tweetTags = document.getElementsByTagName("tweet");
+
+      if (tweetTags != null){
+        for (i=0; i<tweetTags.length; i++){
+          tweetA = document.createElement("a")
+          tweetA.href = 'https://twitter.com/share?text='
+                       + encodeURIComponent(tweetTags[i].textContent)
+                       + '&via=&url='
+                       + window.location.href;
+          tweetA.target = "_blank";
+          tweetA.className = 'twitter';
+          tweetSpanText = document.createElement('span');
+          tweetSpanText.className = 'tweetText';
+          tweetSpanText.appendChild(document.createTextNode(tweetTags[i].textContent));
+          tweetSpanIcon = document.createElement('span');
+          tweetSpanIcon.className = 'tweetIcon';
+          tweetSpanIcon.appendChild(document.createTextNode("一键转推"));
+          tweetI = document.createElement("i");
+          tweetI.className = 'fa fa-twitter';
+          tweetSpanIcon.appendChild(tweetI);
+          tweetA.appendChild(tweetSpanText);
+          tweetA.appendChild(tweetSpanIcon);
+          tweetTags[i].textContent = "";
+          tweetTags[i].appendChild(tweetA);
+        }
+      }
+
+    });
+
+  </script>
+  <!-- Mailchimp linking -->
+  <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/8ece198b3eb260e6838461a60/d20d9fb9aad962399025da52e.js");</script>
+
+
+
+
+
+  <script>
+    // Recover display-math blocks where Markdown stripped \[ ... \] into [ ... ].
+    (function () {
+      var nodes = document.querySelectorAll('.page-content p, .page-content li, .post-excerpt p, .post-excerpt li');
+      for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        if (node.children.length !== 0) {
+          continue;
+        }
+        var text = node.textContent.trim();
+        var looksLikeEquation = /^\[[\s\S]+\]$/.test(text) && (text.indexOf('\\') !== -1 || /[_^=]/.test(text));
+        if (looksLikeEquation) {
+          node.textContent = '\\[' + text.slice(1, -1).trim() + '\\]';
+        }
+      }
+    })();
+  </script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "CommonHTML": { linebreaks: { automatic: true } }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+<script src="./assets/js/main.js"></script>
+<script>
+  SimpleJekyllSearch({
+      searchInput: document.getElementById('search-input'),
+      resultsContainer: document.getElementById('results-container'),
+      json: './search.json',
+      searchResultTemplate: '<li><a href="{url}" title="{description}">{title}</a><p>{description}</p></li>',
+      noResultsText: '未找到相关结果',
+      fuzzy: false,
+      exclude: ['Welcome']
+    });
+</script>
+
+
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-R8SZS2YBZK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-R8SZS2YBZK');
+</script>
+  </body>
+</html>

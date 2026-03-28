@@ -1,6 +1,8 @@
 {
   "posts" : [
     
+    "./hw2.html",
+    
     "./%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html",
     
     "./%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html",
@@ -9,7 +11,9 @@
     
     "./2026-03-14-ai-note.html",
     
-    "./%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2.html"
+    "./%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2.html",
+    
+    "./%E8%AF%AD%E6%B3%95%E6%95%B4%E7%90%86.html"
     
   ]
 }
