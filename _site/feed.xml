@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-03-28T14:05:50+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">羽落天青 | Uke’s Blog</title><subtitle>南大的碎碎念</subtitle><author><name>uke</name></author><entry><title type="html">基于矩阵分解的哈勃深空图像分析与重构</title><link href="http://localhost:4000/hw2.html" rel="alternate" type="text/html" title="基于矩阵分解的哈勃深空图像分析与重构" /><published>2026-03-28T13:37:47+08:00</published><updated>2026-03-28T13:37:47+08:00</updated><id>http://localhost:4000/hw2</id><content type="html" xml:base="http://localhost:4000/hw2.html"><![CDATA[<p>本人没空，文章由ai生成</p>
-
-<h1 id="基于矩阵分解的哈勃深空图像分析与重构">基于矩阵分解的哈勃深空图像分析与重构</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-04-10T10:07:56+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">羽落天青 | Uke’s Blog</title><subtitle>南大的碎碎念</subtitle><author><name>uke</name></author><entry><title type="html">基于矩阵分解的哈勃深空图像分析与重构</title><link href="http://localhost:4000/hw2.html" rel="alternate" type="text/html" title="基于矩阵分解的哈勃深空图像分析与重构" /><published>2026-03-28T13:37:47+08:00</published><updated>2026-03-28T13:37:47+08:00</updated><id>http://localhost:4000/hw2</id><content type="html" xml:base="http://localhost:4000/hw2.html"><![CDATA[<h1 id="基于矩阵分解的哈勃深空图像分析与重构">基于矩阵分解的哈勃深空图像分析与重构</h1>
 
 <p><strong>摘要</strong>：本项目旨在探索高级矩阵分解算法（主要包括奇异值分解 SVD、满秩分解、以及 Cholesky 三角分解）在超高分辨率计算机视觉任务中的应用。我们以哈勃太空望远镜拍摄的极高分辨率彩色星云图为研究对象，分别构建了“基于 SVD 的深空降噪模型”与“基于 ALS 的像素残缺修复（补全）模型”。本文档将详细阐述项目背后的数学原理与工程算法细节，以便团队成员快速理解核心思路并顺利参与后续开发。</p>
 
@@ -54,8 +52,8 @@
 </div>
 
 <div align="center">
-  <img src="/assets/img/posts/20260328-hw2/image/1_Math_Best_PSNR_Blurry.png" />
-  <img src="/assets/img/posts/20260328-hw2/image/2_Visual_Best_Crisp.png" />
+  <img src="/assets/img/posts/20260328-hw2/image/1_Math_Best_PSNR_Blurry.webp" />
+  <img src="/assets/img/posts/20260328-hw2/image/2_Visual_Best_Crisp.webp" />
   <br /><i>图 1-2：左图为数学最优 PSNR 结果，右图为人类视觉最优表现（保留了更多清晰边缘）</i>
 </div>
 
@@ -141,14 +139,14 @@
 <p>在工程代码中，我们直接采用了高度优化的底层数值算法库组件：<code class="language-plaintext highlighter-rouge">scipy.linalg.cho_factor</code>（用于分解得出 $L$）与 <code class="language-plaintext highlighter-rouge">cho_solve</code>（用于执行前后双向代入计算）。这让我们在底层核算中彻底告别了依靠庞大矩阵求逆指令死循环运算死角。在处理丢失率高达 60% 的极端数据损坏案例中，仅仅依靠不过十次的 ALS 循环迭代重铸，模型的均方误差 (MSE) 就展现了极快地断崖式收敛特征，最终在几乎没有任何卡滞感知的情况下，高保真地还原了哈勃深空星云震撼人心的繁复特征原貌。</p>
 
 <div align="center">
-  <img src="/assets/img/posts/20260328-hw2/image/5_最终三图对比.png" />
+  <img src="/assets/img/posts/20260328-hw2/image/5_最终三图对比.webp" />
   <br /><i>图 2-3：最终修复成果大公开——由左至右分别为：Ground Truth (原图)、破损图、以及我们的 ALS+Cholesky 极限修复图。肉眼几乎无法分辨出人工修复的痕迹。</i>
 </div>
 
 <div align="center">
-  <img src="/assets/img/posts/20260328-hw2/image/3_最终原生高清修复图.png" />
+  <img src="/assets/img/posts/20260328-hw2/image/3_最终原生高清修复图.webp" />
   <br /><i>图 2-4：经过算法重构后的单张超高清渲染大图展示，星云的高频细节与原图相比以假乱真。</i>
-</div>]]></content><author><name>uke</name></author><summary type="html"><![CDATA[本人没空，文章由ai生成]]></summary></entry><entry><title type="html">人工智能通识的第一次作业</title><link href="http://localhost:4000/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html" rel="alternate" type="text/html" title="人工智能通识的第一次作业" /><published>2026-03-17T20:10:45+08:00</published><updated>2026-03-17T20:10:45+08:00</updated><id>http://localhost:4000/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A</id><content type="html" xml:base="http://localhost:4000/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html"><![CDATA[<p><strong><em>为展现PCA，kPCA与谱聚类等经典机器学习算法在人脸识别上的应用，我们选取了Olivetti人脸数据集进行分析，采用控制变量法，对PCA-&gt;kmeans，KernelPCA-&gt;kmeans，PCA-&gt;谱聚类，KernelPCA-&gt;谱聚类四种方法进行对比分析，并使用ARI与NMI两种方式评估结果。</em></strong></p>
+</div>]]></content><author><name>uke</name></author><category term="机器学习" /><category term="大作业" /><summary type="html"><![CDATA[基于矩阵分解的哈勃深空图像分析与重构]]></summary></entry><entry><title type="html">人工智能通识的第一次作业</title><link href="http://localhost:4000/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html" rel="alternate" type="text/html" title="人工智能通识的第一次作业" /><published>2026-03-17T20:10:45+08:00</published><updated>2026-03-17T20:10:45+08:00</updated><id>http://localhost:4000/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A</id><content type="html" xml:base="http://localhost:4000/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html"><![CDATA[<p><strong><em>为展现PCA，kPCA与谱聚类等经典机器学习算法在人脸识别上的应用，我们选取了Olivetti人脸数据集进行分析，采用控制变量法，对PCA-&gt;kmeans，KernelPCA-&gt;kmeans，PCA-&gt;谱聚类，KernelPCA-&gt;谱聚类四种方法进行对比分析，并使用ARI与NMI两种方式评估结果。</em></strong></p>
 
 <p><strong><em>导入olivetti数据集，并导入numpy、sklearn、matplotlib库，设置可视化模板，给出所有可视化函数</em></strong></p>
 
