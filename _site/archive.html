@@ -197,6 +197,54 @@
 		<div class="post">
 			
 
+			<a class="post-list-title" href="./hw3.html">文物重构技术实践：基于点云的多碎片配准与可视化</a>
+			
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-04-12T20:22:22+08:00">2026年4月12日</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <span class="page_meta-readtime">
+      16 分钟阅读
+    </span>
+  
+  
+  </span>
+
+			<div class="post-excerpt">
+				<h1 id="文物重构技术实践基于点云的多碎片配准与可视化">文物重构技术实践：基于点云的多碎片配准与可视化</h1><p>这篇记录的是一次基于点云的文物重构实验。目标很明确：先把一个完整文物的三维点云拆成多个碎片，再人为打乱碎片的位置和姿态，最后只依赖几何信息把它们重新对齐回去。整个过程不是做图像识别，也不是做语义推断，核心是点云配准、刚体变换估计和逐步迭代收敛。</p><p>这份文章结合了 <a href="文物重构技术介绍.md">文物重构技术介绍.md</a> 和 <a href="文物重构可视化.ipynb">文物重构可视化.ipynb</a> 的实际输出，按实验流程完整讲一遍原理、步骤和结果。</p><h2 id="1-问题定义">1. 问题定义</h2><p>文物碎裂后的重构，本质上是在做三件事：</p><ol> <li>判断碎片来自同一个整体的哪些位置。</li> <li>估计每个碎片应该如何旋转和平移。</li> <li>让所有碎片在统一坐标系下尽量贴回目标形状。</li></ol><p>在这个实验里，输入不是照片，而是三维点云。点云可以理解为物体表面的离散采样点，每个点包含空间坐标。因为只处理几何坐标，所以这套方法不依赖纹理、颜色或拍摄光照，适合做一个纯几何版的重构演示。</p><h2 id="2-数据如何构造">2. 数据如何构造</h2><p>实验先从完整目标点云出发，然后把它切成多个碎片，再对每个碎片施加随机刚体变换。这个过程模拟了真实文物碎裂后的散落状态。</p><h3 id="21-先有完整目标">2.1 先有完整目标</h3><p>目标点云是原始文物的完整几何形态。 notebook 中既有单个示例，也有多文物批量实验；在多碎片主流程里，点数规模大约是 18000，碎成 5 片左右，足够展示配准效果和误差变化。</p><h3 id="22-再切成碎片">2.2 再切成碎片</h3><p>碎片化不是简单裁切成规则块，而是沿着空间位置和随机掩码生成不规则片段，这样更接近真实断裂边界。每个碎片保留原始表面的一部分点，后续才有可能靠局部几何特征重新匹配回去。</p><h3 id="23-打乱姿态">2.3 打乱姿态</h3><p>每个碎片都会被随机旋转和平移。这样得到的输入已经不再保留原来的空间关系，算法必须重新估计刚体变换。下面这张图就是散乱后的状态，目标物体在中间，碎片被分散到周围。</p><p><img src="/assets/img/posts/20260412-hw3/output_images/1_multifragment_scattered.png" alt="多碎片散乱状态" /></p><h2 id="3-核心原理svd-icp">3. 核心原理：SVD-ICP</h2><p>这套重构方法的核心是 SVD-ICP。它把“找对应点”和“求刚体变换”这两件事结合起来，反复迭代，直到碎片和目标足够接近。</p><h3 id="31-icp-在做什么">3.1 ICP 在做什么</h3><p>ICP 的基本过程可以概括为：</p><ol> <li>对当前碎片中的点，在目标点云中找最近邻。</li> <li>把当前碎片点和这些最近邻构成对应关系。</li> <li>在对应关系下估计最优的旋转和平移。</li> <li>用新的变换更新碎片位置。</li> <li>重复以上步骤，直到误差不再明显下降。</li></ol><p>这里的关键不是一次性算出完美答案，而是让每次迭代都比上一次更接近目标。</p><h3 id="32-svd-为什么能求刚体变换">3.2 SVD 为什么能求刚体变换</h3><p>当对应点已经确定后，问题就变成：给定两组点，如何找到一个旋转矩阵和平移向量，使两组点尽量重合。对这个问题，标准做法是：</p><ol> <li>先减去各自质心，把问题转成纯旋转估计。</li> <li>计算协方差矩阵。</li> <li>对协方差矩阵做奇异值分解。</li> <li>根据分解结果构造最优旋转。</li> <li>再恢复平移量。</li></ol><p>这样得到的是一个刚体变换，不会引入剪切或缩放，符合文物碎片只能平移和旋转的实际设定。</p><h3 id="33-kdtree-的作用">3.3 KDTree 的作用</h3><p>ICP 最耗时的部分之一是最近邻搜索。为了加速查询， notebook 中使用了 cKDTree。它把目标点云预处理成树结构，之后每次查询最近点都比直接暴力搜索快得多。</p><p>更重要的是，目标树可以在一次 ICP 调用里复用，不必每一轮都重建。这样做既减少开销，也让迭代过程更稳定。</p><h3 id="34-为什么要做-trimmed-icp">3.4 为什么要做 trimmed ICP</h3><p>真实碎片和目标之间并不是完美一一对应，边缘点、遮挡点、离群点都会影响配准。如果把所有点都强行纳入对应关系，错误匹配会把结果拉偏。</p><p>所以这里使用了 trimmed ICP 的思路：</p><ol> <li>先找最近邻。</li> <li>按残差大小筛掉一部分最差的对应点。</li> <li>只用保留下来的部分去求 SVD 变换。</li></ol><p>这样做的好处是对离群点更鲁棒，尤其适合碎片边缘不完整、局部形状噪声较大的情况。</p><h2 id="4-单碎片与多碎片的重构策略">4. 单碎片与多碎片的重构策略</h2><h3 id="41-先做多起点粗对齐">4.1 先做多起点粗对齐</h3><p>碎片初始姿态是随机的，直接从一个姿态开始跑 ICP 很容易卡在局部最优。所以 notebook 里用了多起点策略：先给碎片生成多个初始旋转候选，再分别跑 trimmed ICP，最后挑出误差最小的结果。</p><p>这一步的作用是先把大方向找对，避免一开始就进入错误配准。</p><h3 id="42-再按碎片大小顺序处理">4.2 再按碎片大小顺序处理</h3><p>多碎片重构时，较大的碎片通常保留了更多结构信息，形状约束更强，所以先处理它们更容易搭出一个稳定骨架。后续的小碎片再依附这个骨架逐步补齐。</p><p>这和 notebook 中的排序逻辑一致：先按碎片点数从大到小排序，再逐个对齐。</p><h3 id="43-再做逐轮细化">4.3 再做逐轮细化</h3><p>如果只做一次粗配准，碎片虽然已经大致归位，但局部边界往往还会有误差。所以重构完成后还会继续细化：</p><ol> <li>根据当前已对齐结果重新划分目标区域。</li> <li>让每个碎片只对准自己附近的子目标。</li> <li>再执行一轮或多轮 ICP 微调。</li></ol><p>这个过程的作用是减少碎片之间的互相干扰，尤其适合多片同时拼接的情况。</p><h2 id="5-主流程结果">5. 主流程结果</h2><p>主实验的结果一共做了四类可视化：散乱状态、对齐后的残差图、每片误差柱状图，以及整体仪表盘式总结图。</p><h3 id="51-散乱到对齐的整体变化">5.1 散乱到对齐的整体变化</h3><p>下面这张图展示了一个典型的多碎片重构过程。左边是初始散乱状态，右边是配准后的结果，颜色映射的是每个点到目标点云的残差。</p><p><img src="/assets/img/posts/20260412-hw3/output_images/2_multifragment_aligned.png" alt="多碎片对齐结果" /></p><p>可以看到，对齐后大部分点已经回到目标主体附近，残差热区主要集中在边缘和局部形状变化较大的区域。</p><h3 id="52-每个碎片的误差">5.2 每个碎片的误差</h3><p>误差柱状图可以直接看出哪一片更难对齐。一般来说，碎片越大、几何信息越完整，误差越容易稳定；碎片越小或者越细长，误差越容易上升。</p><p><img...<a class="read-more" href="./hw3.html"> 阅读全文</a>
+			</div>
+		</div>
+	
+		<div class="post">
+			
+
 			<a class="post-list-title" href="./hw2.html">基于矩阵分解的哈勃深空图像分析与重构</a>
 			
 
@@ -287,54 +335,6 @@
 
 			<div class="post-excerpt">
 				<p><strong><em>为展现PCA，kPCA与谱聚类等经典机器学习算法在人脸识别上的应用，我们选取了Olivetti人脸数据集进行分析，采用控制变量法，对PCA-&gt;kmeans，KernelPCA-&gt;kmeans，PCA-&gt;谱聚类，KernelPCA-&gt;谱聚类四种方法进行对比分析，并使用ARI与NMI两种方式评估结果。</em></strong></p><p><strong><em>导入olivetti数据集，并导入numpy、sklearn、matplotlib库，设置可视化模板，给出所有可视化函数</em></strong></p><div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span><span class="c1">#这里我们导入了一个好看的模板</span><span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8</span><span class="sh">"</span><span class="p">)</span><span class="n">plt</span><span class="p">.</span><span class="n">rcParams</span><span class="p">.</span><span class="nf">update</span><span class="p">({</span> <span class="sh">"</span><span class="s">figure.dpi</span><span class="sh">"</span><span class="p">:</span> <span class="mi">140</span><span class="p">,</span> <span class="sh">"</span><span class="s">savefig.dpi</span><span class="sh">"</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="sh">"</span><span class="s">font.size</span><span class="sh">"</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span> <span class="sh">"</span><span class="s">font.family</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">sans-serif</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">font.sans-serif</span><span class="sh">"</span><span class="p">:</span> <span class="p">[</span><span class="sh">"</span><span class="s">Microsoft YaHei</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">DejaVu Sans</span><span class="sh">"</span><span class="p">],</span> <span class="sh">"</span><span class="s">axes.titlesize</span><span class="sh">"</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="sh">"</span><span class="s">axes.labelsize</span><span class="sh">"</span><span...<a class="read-more" href="./%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html"> 阅读全文</a>
-			</div>
-		</div>
-	
-		<div class="post">
-			
-
-			<a class="post-list-title" href="./%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html">经典机器学习算法</a>
-			
-
-  <span class = "post-card-meta">
-  
-  
-    <span class="meta-pre"></span>
-  
-  
-    
-      
-      <span class="page_meta-date">
-        <time datetime="2026-03-15T00:35:42+08:00">2026年3月15日</time>
-      </span>
-    
-    
-      <span class="meta-sep"></span>
-    
-  
-  
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <span class="page_meta-readtime">
-      4 分钟阅读
-    </span>
-  
-  
-  </span>
-
-			<div class="post-excerpt">
-				<h1 id="公式只是一些notation习惯了就好正如冯诺依曼说的我们从来没有真正理解数学我们只是习惯了它">公式只是一些notation，习惯了就好。正如冯诺依曼说的，我们从来没有真正理解数学，我们只是习惯了它</h1><p>大模型时代，机器学习算法还抱有生命力吗？</p><p>我的答案是： 我不知道</p><p>但是说实话机器学习的可解释性远好于深度学习，而且在不少问题的准确率应该还是很好的</p><p>但是既然刚接触数据科学，那么这几个经典算法还是先学习一遍</p><h2 id="1决策树">1.决策树</h2><p>分治，不断将数据通过if else 的切片分成各类</p><p>（CART）2叉树递归式的遍历节点，贪心构造一棵树</p><p>切割如何评议？</p><h3 id="引入纯度purity概念">引入纯度purity概念</h3><ul>  <li>    <p>.离散情况</p>    <p>信息熵：\(H(X) = -\sum_{i=1}^{n} p_i \log_2 p_i\)</p>    <p>基尼指数：\(\text{Gini}(D) = 1 - \sum_{i=1}^{K} p_i^2\)</p>    <p>信息熵没啥好解释的</p>    <p>基尼指数是\(\sum_{i=1}^{K} p_i(1-p_i)\)</p>    <p>,即随机抽取两个样本类别不一致的概率之和</p>  </li>  <li>    <p>连续情况（回归树）SSE：\(SSE = \sum_{i \in R_1} (y_i - c_1)^2 + \sum_{i \in R_2} (y_i - c_2)^2\)</p>  </li></ul><p>其中 $c_1, c_2$ 是切分后两个子区域的平均值</p><p>我们采用上述纯度计算方法，纯度为切分成的两个区域自己内部的纯度的节点数加权和</p><h3 id="如何最佳化节点数">如何最佳化节点数</h3><p>CCP剪枝的引入</p><p>定义损失函数 \(R_\alpha(T) = R(T) + \alpha\lvert T \rvert\)</p><p>$\lvert T \rvert$（叶子节点个数）代表模型的复杂度。叶子越多，模型越细碎。</p><p>$\alpha$（超参数）是一个调节权重。当 $\alpha = 0$ 时，不剪枝，树最大。当 $\alpha \to \infty$ 时，剪得只剩根节点。</p><p>[g(t) = \frac{R(t) - R(T_t)}{\lvert T_t \rvert - 1}]</p><p>根据g(t)达到阈值的节点个数，给出几个确定的$\alpha$进行测试集交叉验证</p><h2 id="2随机森林">2.随机森林</h2><h3 id="与决策树对比下呢">与决策树对比下呢</h3><p>单颗树的确能够保证训练集准确率，但往往在测试集上表现并不好</p><p>因此尝试引入多颗树，多个弱学习器来综合出强学习器</p><p>隶属bagging家族</p><p>采用自主取样法，即对N个样本进行N次有放回的抽取</p><p>这具有一定的多样性和随机性，类似alexnet神经网络中的dropout</p><p>OOB数据可作为验证集</p><h3 id="建树">建树</h3><p>一般采用cart树，gini impurity</p><h3 id="如何找最优切分点">如何找最优切分点？</h3><p>先抽m &lt; M 个特征，在 m中找最优解，这更有dropout的味道了</p><p>这样双重随机给予了树多样性</p><p>我们循环T次建T棵树，不进行剪枝</p><p>最后预测阶段 若分类（离散） 那么取多数</p><p>若回归（连续） 那么取平均</p><p><em>强，支持并行计算，从原理上看我感觉显著优于单一决策树</em></p><h2 id="3gbdt-梯度提升决策树">3.GBDT 梯度提升决策树</h2><p>boosting流派 每棵树都是为了修正前一棵树的错误</p><p>这个看起来只能串行计算（to be continued）</p><a class="read-more" href="./%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html"> 阅读全文</a>
 			</div>
 		</div>
 	

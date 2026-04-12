@@ -6,6 +6,8 @@
   "tag" : "大作业",
   "posts" : [
       
+      "./hw3.html",
+      
       "./hw2.html",
       
       "./%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html"
@@ -27,6 +29,8 @@
   {
   "tag" : "机器学习",
   "posts" : [
+      
+      "./hw3.html",
       
       "./hw2.html",
       
