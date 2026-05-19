@@ -474,19 +474,26 @@ blockquote {
     font-weight: 100;
 }
 pre {
-  padding: 16px 32px;
+  margin: 1.35rem 0 1.6rem;
+  padding: 16px 18px;
   overflow-x: auto;
-  font-family: monospace;
-  font-size: 0.75rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.86rem;
+  line-height: 1.65;
+  background: #f6f8fa;
+  border: 1px solid var(--grey4);
+  border-radius: 8px;
 }
 pre code {
   border: 0;
+  background: transparent;
   padding-right: 0;
   padding-left: 0;
+  white-space: pre;
 }
 code {
-  font-family: monospace;
-  font-size: 0.75rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.86em;
 }
 svg {
     vertical-align: middle;
@@ -878,10 +885,52 @@ svg.menu-icon-house {
 .post-card-body {
   position: absolute;
   left: 5%;
-  bottom: 5%;
+  right: 5%;
+  bottom: 32px;
   background-color: #00000099;
-  padding-left: 5px;
-  width: 95%
+  padding: 5px 7px;
+}
+.post-card-corner-meta {
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  bottom: 5%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  pointer-events: none;
+}
+.post-card-corner-meta .post-card-meta {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 4px;
+  background: rgba(0,0,0,.28);
+  color: rgba(255,255,255,.92);
+  font-family: var(--font2), sans-serif;
+  font-size: 11px;
+  font-weight: var(--font2-bold);
+  line-height: 1.25;
+}
+.post-card-corner-meta .page_meta-readtime {
+  color: inherit;
+}
+.content-type-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  margin: 0;
+  padding: 2px 7px;
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 4px;
+  background: rgba(0,0,0,.28);
+  color: rgba(255,255,255,.92);
+  font-family: var(--font2), sans-serif;
+  font-size: 11px;
+  font-weight: var(--font2-bold);
+  line-height: 1.25;
 }
 .post-card-tags{
   font-size: 10px
@@ -1389,12 +1438,43 @@ color: var(--accent);
 }
 /* = = = = = = = = = = Code = = = = = = = = = = */
 .highlighter-rouge {
-  color: var(--main);
+  color: inherit;
   border: none;
   -webkit-border-radius: 3px;
   border-radius: 3px;
-  padding: 0.1rem 0.5rem;
-  line-height: 1.1;
+  padding: 0;
+  line-height: inherit;
+}
+code.highlighter-rouge {
+  padding: 0.08rem 0.34rem;
+  background: var(--grey5);
+  border: 1px solid var(--grey4);
+  color: var(--main);
+}
+div.highlighter-rouge {
+  margin: 1.35rem 0 1.6rem;
+}
+div.highlighter-rouge .highlight {
+  margin: 0;
+  background: #f6f8fa;
+  border: 1px solid var(--grey4);
+  border-radius: 8px;
+  overflow: hidden;
+}
+div.highlighter-rouge pre {
+  margin: 0;
+  padding: 16px 18px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+div.highlighter-rouge code {
+  font-size: inherit;
+  line-height: inherit;
+}
+.highlight .err {
+  color: inherit;
+  background: transparent;
 }
 
 /* = = = = = = = = = = Tweet = = = = = = = = = = = = */
@@ -1483,6 +1563,20 @@ tweet a {
 .about-container p {
   line-height: 1.95;
   letter-spacing: 0.01em;
+}
+.page-content pre,
+.page-content pre code {
+  white-space: pre;
+}
+.page-content .MathJax_Display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}
+.page-content .MathJax,
+.page-content .MathJax_Display {
+  white-space: normal;
 }
 /* full width image in posts */
 img[src$="#full"] {
@@ -1615,8 +1709,8 @@ img + small, img + br + small {
 .recent-item-title {
   position: absolute;
   left: 2.5%;
-  bottom: 2.5%;
-  width: 97.5%;
+  right: 2.5%;
+  bottom: 30px;
   font-size: 12px;
   font-family: var(--font2), sans-serif;
   font-weight: var(--font2-bold);
@@ -1624,7 +1718,33 @@ img + small, img + br + small {
   text-transform: uppercase;
   color: white;
   background-color: #00000099;
-  padding-left: 5px;
+  padding: 4px 6px;
+}
+.recent-item-meta-row {
+  position: absolute;
+  left: 2.5%;
+  right: 2.5%;
+  bottom: 2.5%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+}
+.recent-item-meta-row .post-card-meta {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 4px;
+  background: rgba(0,0,0,.28);
+  color: rgba(255,255,255,.92);
+  font-family: var(--font2), sans-serif;
+  font-size: 10px;
+  font-weight: var(--font2-bold);
+  line-height: 1.25;
+}
+.recent-type-badge {
+  font-size: 10px;
 }
 
 .newsletter {
@@ -1923,6 +2043,37 @@ a.read-more {
 a.read-more:hover {
     text-decoration:underline;
 }
+
+.notes-garden {
+    margin: 80px 0 100px;
+}
+
+.notes-garden-header h1 {
+    margin-bottom: 30px;
+    color: var(--heading);
+}
+
+.note-entry {
+    border-top: 1px solid var(--grey5);
+    padding: 24px 0;
+}
+
+.note-entry:first-child {
+    border-top: 0;
+}
+
+.note-pill {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 2px 8px;
+    border: 1px solid var(--grey4);
+    border-radius: 8px;
+    color: var(--main);
+    font-family: var(--font2);
+    font-size: 12px;
+    line-height: 1.4;
+    vertical-align: middle;
+}
 /* = = = = = = = = = = Animations  = = = = = = = = = = */
 .main-header,
 .page-image,
@@ -2164,4 +2315,3 @@ a.read-more:hover {
     .page__hero-caption{color:#000 !important;background:white !important;opacity:1}
     .page__hero-caption a{color:#000 !important}
     .masthead,.toc,.page__share,.page__related,.pagination,.ads,.page__footer,.page__comments-form,.author__avatar,.author__content,.author__urls-wrapper,.nav__list,.sidebar,.adsbygoogle{display:none !important;height:1px !important}}
-

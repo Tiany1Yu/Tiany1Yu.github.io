@@ -1,0 +1,7 @@
+{%- assign sorted_garden_documents = include.documents -%}
+{%- for sorted_garden_document in sorted_garden_documents -%}
+  {%- assign sorted_garden_time = sorted_garden_document.last_modified_at | default: sorted_garden_document.modified | default: sorted_garden_document.updated | default: sorted_garden_document.date -%}
+  {%- if sorted_garden_document.url and sorted_garden_time -%}
+{{- sorted_garden_time | date: "%s" -}}|{{- sorted_garden_document.url -}}@@garden-key@@
+  {%- endif -%}
+{%- endfor -%}

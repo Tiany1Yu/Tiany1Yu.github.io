@@ -8,10 +8,19 @@
             {% endfor %}
     {% else %}
         <ul class="tags">
-            {% for item in (0..site.tags.size) %}{% unless forloop.last %}
-                {% capture this_word %}{{ tag_words[item] | strip_newlines }}{% endcapture %}
-                <li><a href="{{ relativebase }}tag.html?tag={{ this_word | url_encode }}" class="tag">{{ this_word }} <span>({{ site.tags[this_word].size }})</span></a></li>
-            {% endunless %}{% endfor %}
+            {% assign garden_documents = site.posts | concat: site.notes %}
+            {% for this_word in tag_words %}
+                {% assign this_word = this_word | strip %}
+                {% unless this_word == "" %}
+                    {% assign tag_count = 0 %}
+                    {% for document in garden_documents %}
+                        {% if document.tags contains this_word %}
+                            {% assign tag_count = tag_count | plus: 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    <li><a href="{{ relativebase }}tag.html?tag={{ this_word | url_encode }}" class="tag">{{ this_word }} <span>({{ tag_count }})</span></a></li>
+                {% endunless %}
+            {% endfor %}
     {% endif %}
         </ul>
 </div>

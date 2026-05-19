@@ -2,15 +2,35 @@
 layout: null
 ---
 [
-  {% for post in site.posts %}
-    {
-      "title"       : "{{ post.title | escape }}",
-      "category"    : "{{ post.category }}",
-      "tags"        : "{{ post.tags | join: ', ' }}",
-      "url"         : ".{{ post.url }}",
-      "date"        : "{{ post.date }}",
-      "description" : "{{ post.description }}",
-      "content"     : {{ post.content | strip_html | strip_newlines | normalize_whitespace | jsonify }}
-    } {% unless forloop.last %},{% endunless %}
+  {% assign garden_documents = site.posts | concat: site.notes %}
+  {% capture sorted_document_keys %}
+  {% include sorted-garden-keys.html documents=garden_documents %}
+  {% endcapture %}
+  {% assign sorted_document_keys = sorted_document_keys | strip | split: "@@garden-key@@" | sort | reverse %}
+  {% assign search_json_count = 0 %}
+  {% for sorted_document_key in sorted_document_keys %}
+    {% assign sorted_document_key = sorted_document_key | strip %}
+    {% unless sorted_document_key == "" %}
+      {% assign sorted_document_url = sorted_document_key | split: "|" | last %}
+      {% for post in garden_documents %}
+        {% if post.url == sorted_document_url %}
+          {% if search_json_count > 0 %},{% endif %}
+          {
+            "title"       : {{ post.title | default: "" | jsonify }},
+            "category"    : {{ post.category | default: post.collection | jsonify }},
+            "collection"  : {{ post.collection | default: "" | jsonify }},
+            "type"        : {% if post.collection == "notes" %}"笔记"{% else %}"文章"{% endif %},
+            "tags"        : {{ post.tags | join: ', ' | jsonify }},
+            "url"         : ".{{ post.url }}",
+            "date"        : {{ post.date | jsonify }},
+            "last_modified_at" : {{ post.last_modified_at | default: post.modified | default: post.updated | default: post.date | jsonify }},
+            "description" : {{ post.description | default: "" | jsonify }},
+            "content"     : {{ post.content | strip_html | strip_newlines | normalize_whitespace | jsonify }}
+          }
+          {% assign search_json_count = search_json_count | plus: 1 %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+    {% endunless %}
   {% endfor %}
 ]

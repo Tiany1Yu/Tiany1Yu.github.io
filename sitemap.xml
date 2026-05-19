@@ -5,28 +5,44 @@ sitemap:
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  {% for post in site.posts %}
-    {% unless post.published == false %}
-    <url>
-      <loc>{{ site.url }}{{ post.url }}</loc>
-      {% if post.sitemap.lastmod %}
-        <lastmod>{{ post.sitemap.lastmod | date: "%Y-%m-%d" }}</lastmod>
-      {% elsif post.date %}
-        <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
-      {% else %}
-        <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
-      {% endif %}
-      {% if post.sitemap.changefreq %}
-        <changefreq>{{ post.sitemap.changefreq }}</changefreq>
-      {% else %}
-        <changefreq>daily</changefreq>
-      {% endif %}
-      {% if post.sitemap.priority %}
-        <priority>{{ post.sitemap.priority }}</priority>
-      {% else %}
-        <priority>0.5</priority>
-      {%- endif -%}
-    </url>
+  {% assign garden_documents = site.posts | concat: site.notes %}
+  {% capture sorted_document_keys %}
+  {% include sorted-garden-keys.html documents=garden_documents %}
+  {% endcapture %}
+  {% assign sorted_document_keys = sorted_document_keys | strip | split: "@@garden-key@@" | sort | reverse %}
+  {% for sorted_document_key in sorted_document_keys %}
+    {% assign sorted_document_key = sorted_document_key | strip %}
+    {% unless sorted_document_key == "" %}
+      {% assign sorted_document_url = sorted_document_key | split: "|" | last %}
+      {% for post in garden_documents %}
+        {% if post.url == sorted_document_url %}
+          {% unless post.published == false %}
+          <url>
+            <loc>{{ site.url }}{{ post.url }}</loc>
+            {% if post.sitemap.lastmod %}
+              <lastmod>{{ post.sitemap.lastmod | date: "%Y-%m-%d" }}</lastmod>
+            {% elsif post.last_modified_at or post.modified or post.updated %}
+              <lastmod>{{ post.last_modified_at | default: post.modified | default: post.updated | date_to_xmlschema }}</lastmod>
+            {% elsif post.date %}
+              <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
+            {% else %}
+              <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+            {% endif %}
+            {% if post.sitemap.changefreq %}
+              <changefreq>{{ post.sitemap.changefreq }}</changefreq>
+            {% else %}
+              <changefreq>daily</changefreq>
+            {% endif %}
+            {% if post.sitemap.priority %}
+              <priority>{{ post.sitemap.priority }}</priority>
+            {% else %}
+              <priority>0.5</priority>
+            {%- endif -%}
+          </url>
+          {% endunless %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
     {% endunless %}
   {% endfor %}
   {% for page in site.pages %}

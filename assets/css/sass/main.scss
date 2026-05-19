@@ -53,13 +53,22 @@ blockquote {
 }
 
 pre {
-  padding: 16px 32px;
+  margin: 1.35rem 0 1.6rem;
+  padding: 16px 18px;
   overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.86rem;
+  line-height: 1.65;
+  background: #f6f8fa;
+  border: 1px solid var(--grey4);
+  border-radius: 8px;
 
   code {
     border: 0;
+    background: transparent;
     padding-right: 0;
     padding-left: 0;
+    white-space: pre;
   }
 }
 

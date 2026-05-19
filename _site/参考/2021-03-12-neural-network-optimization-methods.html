@@ -12,6 +12,7 @@
 	<meta name="description" content="Some neural network optimization algorithms mostly to implement momentum when doing back propagation.">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -23,7 +24,7 @@
   "abstract": "Some neural network optimization algorithms mostly to implement momentum when doing back propagation.",
     "keywords": "coding, machine learning, optimization, deep Neural networks",
     "wordcount": "1711",
-    "image": ["http://localhost:4000/assets/imgposts/20210312/nnet_optimization.jpg"],
+    "image": ["http://localhost:4000/assets/img/posts/20210312/nnet_optimization.jpg"],
   "datePublished": "2021-03-12 13:32:20 -0600",
   "dateModified": "2021-03-12 13:32:20 -0600",
   "author": {
@@ -44,7 +45,7 @@
 <meta property="og:type" content="article"/>
 <meta property="og:title" content="Neural Network Optimization Methods and Algorithms"/>
 <meta property="og:description" content="Some neural network optimization algorithms mostly to implement momentum when doing back propagation."/>
-<meta property="og:image" content="http://localhost:4000/assets/imgposts/20210312/nnet_optimization.jpg"/>
+<meta property="og:image" content="http://localhost:4000/assets/img/posts/20210312/nnet_optimization.jpg"/>
 <meta property="og:image:alt" content="Neural Network Optimization Methods and Algorithms"/>
 <meta property="og:site_name" content="羽落天青 | Uke's Blog" />
 <meta property="article:published_time" content="2021-03-12 13:32:20 -0600" />
@@ -54,7 +55,7 @@
 <!-- Schema.org markup for Google -->
 <meta itemprop="name" content="Neural Network Optimization Methods and Algorithms">
 <meta itemprop="description" content="Some neural network optimization algorithms mostly to implement momentum when doing back propagation.">
-<meta itemprop="image" content="http://localhost:4000/assets/imgposts/20210312/nnet_optimization.jpg">
+<meta itemprop="image" content="http://localhost:4000/assets/img/posts/20210312/nnet_optimization.jpg">
 <!-- Twitter Card data -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="">
@@ -64,6 +65,7 @@
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
 <meta data-rh="true" name="twitter:data1" content="1711"/>
 <meta name="twitter:image:src" content="http://localhost:4000/assets/img/posts/20210312/nnet_optimization.jpg">
+
 	<!-- Windows Phone -->
 	<meta name="msapplication-navbutton-color" content="#311e3e">
 	<!-- iOS Safari -->
@@ -86,7 +88,7 @@
 <link rel="apple-touch-icon" sizes="72x72" href="../assets/img/favicon/favicon.ico">
 <link rel="apple-touch-icon" sizes="114x114" href="../assets/img/favicon/favicon.ico">
 	
-	<link rel="stylesheet" href="../assets/css/highlighter/syntax-base16.monokai.dark.css">
+	<link rel="stylesheet" href="../assets/css/highlighter/syntax-github.css">
 	
 </head>
 
@@ -139,7 +141,7 @@
   </span>
 
         <div class="post-excerpt">
-          <p>For the seemingly small project I undertook of <a href="./deep-q-learning-tic-tac-toe.html">creating a machine learning neural network that could learn by itself to play tic-tac-toe</a>, I bumped into the necesity of implementing at least one momentum algorithm for the optimization of the network during backpropagation.</p><p>And since my original post for the TicTacToe project is quite large already, I decided to post separately these optimization methods and how did I implement them in my code.</p><h3 id="adam">Adam</h3><p><a href="https://ruder.io/optimizing-gradient-descent/index.html#adam">source</a></p><p>Adaptive Moment Estimation (Adam) is an optimization method that computes adaptive learning rates for each weight and bias. In addition to storing an exponentially decaying average of...<a class="read-more" href="../%E5%8F%82%E8%80%83/2021-03-12-neural-network-optimization-methods.html"> 阅读全文</a>
+          <a class="read-more" href="../%E5%8F%82%E8%80%83/2021-03-12-neural-network-optimization-methods.html"> 阅读全文</a>
         </div>
   </div>
 </section>
@@ -308,6 +310,7 @@
     
         </ul>
 </div>
+
     <div class="share-options side">
     <div class="share-hover side">
         <span class="share-button side"><svg fill="currentColor" width="25" height="25" class="side"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg></span>
@@ -513,7 +516,7 @@ E[\theta^2]_t &amp;= \beta_1 E[\theta^2]_{t-1} + (1-\beta_1) \theta^2_t \\<br />
 </code></pre></div></div>
 
 <h3 id="complete-code">Complete code</h3>
-<p>All in all the code ended up like this:
+<p>All in all the code ended up like this:<br />
 <a href="https://github.com/amaynez/TicTacToe/blob/b429e5637fe5f61e997f04c01422ad0342565640/entities/Neural_Network.py#L1">view on github</a></p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@staticmethod</span>
@@ -680,6 +683,7 @@ E[\theta^2]_t &amp;= \beta_1 E[\theta^2]_{t-1} + (1-\beta_1) \theta^2_t \\<br />
     
         </ul>
 </div>
+
     <div class="share-options inline">
     <div class="share-hover inline">
         <span class="share-button inline"><svg fill="currentColor" width="25" height="25" class="inline"><g fill-rule="evenodd"><path d="M15.6 5a.42.42 0 0 0 .17-.3.42.42 0 0 0-.12-.33l-2.8-2.79a.5.5 0 0 0-.7 0l-2.8 2.8a.4.4 0 0 0-.1.32c0 .12.07.23.16.3h.02a.45.45 0 0 0 .57-.04l2-2V10c0 .28.23.5.5.5s.5-.22.5-.5V2.93l2.02 2.02c.08.07.18.12.3.13.11.01.21-.02.3-.08v.01"></path><path d="M18 7h-1.5a.5.5 0 0 0 0 1h1.6c.5 0 .9.4.9.9v10.2c0 .5-.4.9-.9.9H6.9a.9.9 0 0 1-.9-.9V8.9c0-.5.4-.9.9-.9h1.6a.5.5 0 0 0 .35-.15A.5.5 0 0 0 9 7.5a.5.5 0 0 0-.15-.35A.5.5 0 0 0 8.5 7H7a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"></path></g></svg></span>
@@ -726,24 +730,104 @@ E[\theta^2]_t &amp;= \beta_1 E[\theta^2]_{t-1} + (1-\beta_1) \theta^2_t \\<br />
 
 
 
+
+
+
+
 <div class="recent-box">
   <h2 class="page-subtitle">最新文章</h2>
   <div class="recent-list">
     
+    
       
-        <div class="recent-item">
+      
+        
+        
           
+        
           
+        
+          
+        
+          
+        
+          
+        
+          
+            
+            
+        
+          <div class="recent-item">
+            
+            
 
-          <a href="../hw3.html" class="recent-item-img" style="background: url('../assets/img/posts/20260412-hw3/output_images/1_excavation_site.png') center no-repeat; background-size: cover;">
-            <div class="recent-item-title">
-              <span>文物重构技术实践：基于点云的多碎片配准与可视化</span>
-              
+            <a href="../notes/2026-05-19-mab.html" class="recent-item-img" style="background: url('../assets/img/notes/20260519-MAB/cover_MAB.png') center no-repeat; background-size: cover;">
+              <div class="recent-item-title">
+                <span class="recent-title-text">MAB</span>
+              </div>
+              <div class="recent-item-meta-row">
+                
 
-  <span class = "recent-item-meta">
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
   
   
   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <span class="page_meta-readtime">
+      8 分钟阅读
+    </span>
+  
+  
+  </span>
+
+                <span class="content-type-badge recent-type-badge">笔记</span>
+              </div>
+            </a>
+          </div>
+          
+        
+      
+    
+      
+      
+        
+        
+          
+            
+            
+        
+          <div class="recent-item">
+            
+            
+
+            <a href="../hw3.html" class="recent-item-img" style="background: url('../assets/img/posts/20260412-hw3/output_images/1_excavation_site.png') center no-repeat; background-size: cover;">
+              <div class="recent-item-title">
+                <span class="recent-title-text">文物重构技术实践：基于点云的多碎片配准与可视化</span>
+              </div>
+              <div class="recent-item-meta-row">
+                
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
   
     
     
@@ -758,33 +842,49 @@ E[\theta^2]_t &amp;= \beta_1 E[\theta^2]_{t-1} + (1-\beta_1) \theta^2_t \\<br />
     
     
     
-    <p class="page_meta-readtime">
+    <span class="page_meta-readtime">
       16 分钟阅读
-    </p>
+    </span>
   
   
   </span>
 
-            </div>
-          </a>
-        </div>
+                <span class="content-type-badge recent-type-badge">文章</span>
+              </div>
+            </a>
+          </div>
+          
+        
       
     
       
-        <div class="recent-item">
+      
+        
+        
           
+        
           
+            
+            
+        
+          <div class="recent-item">
+            
+            
 
-          <a href="../hw2.html" class="recent-item-img" style="background: url('../assets/img/posts/20260328-hw2/habo.jpg') center no-repeat; background-size: cover;">
-            <div class="recent-item-title">
-              <span>基于矩阵分解的哈勃深空图像分析与重构</span>
-              
+            <a href="../hw2.html" class="recent-item-img" style="background: url('../assets/img/posts/20260328-hw2/habo.jpg') center no-repeat; background-size: cover;">
+              <div class="recent-item-title">
+                <span class="recent-title-text">基于矩阵分解的哈勃深空图像分析与重构</span>
+              </div>
+              <div class="recent-item-meta-row">
+                
 
-  <span class = "recent-item-meta">
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
   
   
   
-  
     
     
     
@@ -798,33 +898,51 @@ E[\theta^2]_t &amp;= \beta_1 E[\theta^2]_{t-1} + (1-\beta_1) \theta^2_t \\<br />
     
     
     
-    <p class="page_meta-readtime">
+    <span class="page_meta-readtime">
       18 分钟阅读
-    </p>
+    </span>
   
   
   </span>
 
-            </div>
-          </a>
-        </div>
+                <span class="content-type-badge recent-type-badge">文章</span>
+              </div>
+            </a>
+          </div>
+          
+        
       
     
       
-        <div class="recent-item">
+      
+        
+        
           
+        
           
+        
+          
+            
+            
+        
+          <div class="recent-item">
+            
+            
 
-          <a href="../%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html" class="recent-item-img" style="background: url('../assets/img/posts/20260317-人工智能通识的第一次作业/cover.png') center no-repeat; background-size: cover;">
-            <div class="recent-item-title">
-              <span>人工智能通识的第一次作业</span>
-              
+            <a href="../%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html" class="recent-item-img" style="background: url('../assets/img/posts/20260317-人工智能通识的第一次作业/cover.png') center no-repeat; background-size: cover;">
+              <div class="recent-item-title">
+                <span class="recent-title-text">人工智能通识的第一次作业</span>
+              </div>
+              <div class="recent-item-meta-row">
+                
 
-  <span class = "recent-item-meta">
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
   
   
   
-  
     
     
     
@@ -838,56 +956,25 @@ E[\theta^2]_t &amp;= \beta_1 E[\theta^2]_{t-1} + (1-\beta_1) \theta^2_t \\<br />
     
     
     
-    <p class="page_meta-readtime">
+    <span class="page_meta-readtime">
       10 分钟阅读
-    </p>
+    </span>
   
   
   </span>
 
-            </div>
-          </a>
-        </div>
+                <span class="content-type-badge recent-type-badge">文章</span>
+              </div>
+            </a>
+          </div>
+          
+        
       
     
       
-        <div class="recent-item">
-          
-          
-
-          <a href="../%E7%BB%8F%E5%85%B8%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.html" class="recent-item-img" style="background: url('../assets/img/posts/20260315-经典机器学习算法/cover.jpg') center no-repeat; background-size: cover;">
-            <div class="recent-item-title">
-              <span>经典机器学习算法</span>
-              
-
-  <span class = "recent-item-meta">
-  
-  
-  
-  
+      
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <p class="page_meta-readtime">
-      4 分钟阅读
-    </p>
-  
-  
-  </span>
-
-            </div>
-          </a>
-        </div>
+      
       
     
   </div>
@@ -1241,7 +1328,14 @@ function openEmailContact(email) {
       var nodes = document.querySelectorAll('.page-content p, .page-content li, .post-excerpt p, .post-excerpt li');
       for (var i = 0; i < nodes.length; i++) {
         var node = nodes[i];
-        if (node.children.length !== 0) {
+        var hasOnlyLineBreakChildren = true;
+        for (var j = 0; j < node.children.length; j++) {
+          if (node.children[j].tagName !== 'BR') {
+            hasOnlyLineBreakChildren = false;
+            break;
+          }
+        }
+        if (!hasOnlyLineBreakChildren) {
           continue;
         }
         var text = node.textContent.trim();
@@ -1260,7 +1354,8 @@ function openEmailContact(email) {
       displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
       processEscapes: true
     },
-    "CommonHTML": { linebreaks: { automatic: true } }
+    "CommonHTML": { linebreaks: { automatic: false } },
+    "HTML-CSS": { linebreaks: { automatic: false } }
     });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>

@@ -1,4 +1,77 @@
+param(
+  [string]$RepoRoot = "",
+  [string]$StagingRoot = ""
+)
+
 $ErrorActionPreference = "Stop"
+$Utf8NoBom = New-Object System.Text.UTF8Encoding $false
+
+function ConvertTo-CleanPathText {
+  param([string]$Value)
+
+  if ($null -eq $Value) {
+    return ""
+  }
+
+  $text = $Value.Trim()
+  if ($text.Length -gt 0 -and $text[0] -eq [char]0xFEFF) {
+    $text = $text.Substring(1)
+  }
+
+  $text = $text -replace '[\x00-\x1F]', ''
+  $text = $text.Trim().Trim('"', "'").Trim()
+  $text = $text.Replace('"', '')
+  return $text
+}
+
+function ConvertTo-FullPath {
+  param(
+    [string]$Path,
+    [string]$BasePath
+  )
+
+  $baseText = ConvertTo-CleanPathText -Value $BasePath
+  $pathText = ConvertTo-CleanPathText -Value $Path
+
+  if ([string]::IsNullOrWhiteSpace($pathText)) {
+    return [System.IO.Path]::GetFullPath($baseText)
+  }
+
+  try {
+    if ([System.IO.Path]::IsPathRooted($pathText)) {
+      return [System.IO.Path]::GetFullPath($pathText)
+    }
+
+    return [System.IO.Path]::GetFullPath((Join-Path -Path $baseText -ChildPath $pathText))
+  } catch {
+    throw "Invalid path '$pathText'. Original value: '$Path'. $($_.Exception.Message)"
+  }
+}
+
+function Get-RelativePath {
+  param(
+    [string]$BasePath,
+    [string]$Path
+  )
+
+  $baseFull = [System.IO.Path]::GetFullPath((ConvertTo-CleanPathText -Value $BasePath)).TrimEnd('\', '/')
+  $pathFull = [System.IO.Path]::GetFullPath((ConvertTo-CleanPathText -Value $Path))
+  $baseUri = New-Object System.Uri (($baseFull + [System.IO.Path]::DirectorySeparatorChar))
+  $pathUri = New-Object System.Uri $pathFull
+  $relative = [System.Uri]::UnescapeDataString($baseUri.MakeRelativeUri($pathUri).ToString())
+  return ($relative -replace '/', [System.IO.Path]::DirectorySeparatorChar)
+}
+
+function Test-IsWithinPath {
+  param(
+    [string]$BasePath,
+    [string]$Path
+  )
+
+  $baseFull = [System.IO.Path]::GetFullPath((ConvertTo-CleanPathText -Value $BasePath)).TrimEnd('\', '/') + [System.IO.Path]::DirectorySeparatorChar
+  $pathFull = [System.IO.Path]::GetFullPath((ConvertTo-CleanPathText -Value $Path))
+  return $pathFull.StartsWith($baseFull, [System.StringComparison]::OrdinalIgnoreCase)
+}
 
 function Get-ConfigAuthor {
   param([string]$ConfigPath)
@@ -11,21 +84,59 @@ function Get-ConfigAuthor {
     if ($line -match '^author:\s*(.+?)\s*$') {
       $value = $matches[1].Trim()
       $value = ($value -replace '\s+#.*$', '').Trim()
-      return $value
+      return (ConvertFrom-FrontMatterScalar -Value $value)
     }
   }
 
   return ""
 }
 
-function Remove-InvalidFileNameChars {
-  param([string]$Name)
+function ConvertFrom-FrontMatterScalar {
+  param([string]$Value)
 
-  $invalid = [System.IO.Path]::GetInvalidFileNameChars()
+  if ($null -eq $Value) {
+    return ""
+  }
+
+  $trimmed = $Value.Trim()
+  if ($trimmed.Length -ge 2) {
+    $first = $trimmed.Substring(0, 1)
+    $last = $trimmed.Substring($trimmed.Length - 1, 1)
+    if (($first -eq '"' -and $last -eq '"') -or ($first -eq "'" -and $last -eq "'")) {
+      return $trimmed.Substring(1, $trimmed.Length - 2)
+    }
+  }
+
+  return $trimmed
+}
+
+function ConvertTo-YamlScalar {
+  param([string]$Value)
+
+  if ($null -eq $Value) {
+    $Value = ""
+  }
+
+  $escaped = $Value.Replace('\', '\\').Replace('"', '\"')
+  return '"' + $escaped + '"'
+}
+
+function ConvertTo-SafeSlug {
+  param(
+    [string]$Name,
+    [string]$Fallback = "post"
+  )
+
+  $invalid = New-Object 'System.Collections.Generic.HashSet[char]'
+  foreach ($ch in [System.IO.Path]::GetInvalidFileNameChars()) {
+    [void]$invalid.Add($ch)
+  }
+  [void]$invalid.Add([char]'/')
+  [void]$invalid.Add([char]'\')
+
   $buffer = New-Object System.Text.StringBuilder
-
   foreach ($ch in $Name.ToCharArray()) {
-    if ($invalid -contains $ch) {
+    if ([char]::IsControl($ch) -or $invalid.Contains($ch)) {
       [void]$buffer.Append('-')
     } else {
       [void]$buffer.Append($ch)
@@ -35,10 +146,10 @@ function Remove-InvalidFileNameChars {
   $clean = $buffer.ToString().Trim()
   $clean = $clean -replace '\s+', '-'
   $clean = $clean -replace '-{2,}', '-'
-  $clean = $clean.Trim('-','.')
+  $clean = $clean.Trim('-', '.')
 
   if ([string]::IsNullOrWhiteSpace($clean)) {
-    return "post"
+    return $Fallback
   }
 
   return $clean
@@ -47,41 +158,34 @@ function Remove-InvalidFileNameChars {
 function Get-FrontMatter {
   param([string]$Text)
 
+  if ($Text.Length -gt 0 -and $Text[0] -eq [char]0xFEFF) {
+    $Text = $Text.Substring(1)
+  }
+
   $result = @{
     HasFrontMatter = $false
     FrontMatterText = ""
     Body = $Text
   }
 
-  if (-not $Text.StartsWith("---`n") -and -not $Text.StartsWith("---`r`n")) {
-    return $result
-  }
-
   $delimiterRegex = [regex]'(?m)^---\s*$'
   $matches = $delimiterRegex.Matches($Text)
-  if ($matches.Count -lt 2) {
+  if ($matches.Count -lt 2 -or $matches[0].Index -ne 0) {
     return $result
   }
 
   $first = $matches[0]
   $second = $matches[1]
-  if ($first.Index -ne 0) {
-    return $result
-  }
-
   $fmStart = $first.Index + $first.Length
   $fmLength = $second.Index - $fmStart
   if ($fmLength -lt 0) {
     return $result
   }
 
-  $frontMatterText = $Text.Substring($fmStart, $fmLength).Trim("`r", "`n")
   $bodyStart = $second.Index + $second.Length
-  $body = $Text.Substring($bodyStart).TrimStart("`r", "`n")
-
   $result.HasFrontMatter = $true
-  $result.FrontMatterText = $frontMatterText
-  $result.Body = $body
+  $result.FrontMatterText = $Text.Substring($fmStart, $fmLength).Trim("`r", "`n")
+  $result.Body = $Text.Substring($bodyStart).TrimStart("`r", "`n")
   return $result
 }
 
@@ -136,7 +240,7 @@ function Get-ExistingOrUniquePath {
 
   $i = 1
   while ($true) {
-    $candidate = Join-Path $dir ("{0}-{1}{2}" -f $name, $i, $ext)
+    $candidate = Join-Path -Path $dir -ChildPath ("{0}-{1}{2}" -f $name, $i, $ext)
     if (-not (Test-Path -LiteralPath $candidate)) {
       return $candidate
     }
@@ -144,20 +248,127 @@ function Get-ExistingOrUniquePath {
   }
 }
 
-function Get-FirstImageRelativePath {
-  param([string]$FolderPath)
+function Get-ArticleTarget {
+  param([string]$FolderName)
 
-  $extSet = @('.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif')
-  $images = Get-ChildItem -LiteralPath $FolderPath -Recurse -File |
-    Where-Object { $extSet -contains $_.Extension.ToLowerInvariant() } |
-    Sort-Object FullName
+  $isNote = $FolderName -imatch '^note[-_\s]+'
+  $slugSource = $FolderName
+  if ($isNote) {
+    $slugSource = $FolderName -ireplace '^note[-_\s]+', ''
+  }
 
-  if ($images.Count -eq 0) {
+  if ($isNote) {
+    return [pscustomobject]@{
+      Kind = "note"
+      CollectionFolder = "_notes"
+      AssetBucket = "notes"
+      SlugSource = $slugSource
+    }
+  }
+
+  return [pscustomobject]@{
+    Kind = "post"
+    CollectionFolder = "_posts"
+    AssetBucket = "posts"
+    SlugSource = $slugSource
+  }
+}
+
+function Test-SkippedAssetReference {
+  param([string]$Reference)
+
+  $trimmed = $Reference.Trim()
+  return ($trimmed -match '^(https?:)?//' -or
+          $trimmed -match '^/' -or
+          $trimmed -match '^#' -or
+          $trimmed -match '^data:' -or
+          $trimmed -match '^\{\{')
+}
+
+function Resolve-ArticleRelativeFile {
+  param(
+    [string]$Reference,
+    [string]$ArticleFolder
+  )
+
+  if ([string]::IsNullOrWhiteSpace($Reference) -or (Test-SkippedAssetReference -Reference $Reference)) {
     return ""
   }
 
-  $relative = $images[0].FullName.Substring($FolderPath.Length).TrimStart('\','/')
-  return ($relative -replace '\\', '/')
+  $trimmed = ConvertTo-CleanPathText -Value $Reference
+  if ([string]::IsNullOrWhiteSpace($trimmed)) {
+    return ""
+  }
+
+  $pathText = $trimmed -replace '/', [System.IO.Path]::DirectorySeparatorChar
+  try {
+    if ([System.IO.Path]::IsPathRooted($pathText)) {
+      $candidate = [System.IO.Path]::GetFullPath($pathText)
+    } else {
+      $candidate = [System.IO.Path]::GetFullPath((Join-Path -Path $ArticleFolder -ChildPath $pathText))
+    }
+  } catch {
+    return ""
+  }
+
+  if (-not (Test-Path -LiteralPath $candidate -PathType Leaf)) {
+    return ""
+  }
+
+  if (-not (Test-IsWithinPath -BasePath $ArticleFolder -Path $candidate)) {
+    return ""
+  }
+
+  return ((Get-RelativePath -BasePath $ArticleFolder -Path $candidate) -replace '\\', '/')
+}
+
+function ConvertTo-PublicAssetPath {
+  param(
+    [string]$Reference,
+    [string]$ArticleFolder,
+    [string]$PublicImageBase
+  )
+
+  $relative = Resolve-ArticleRelativeFile -Reference $Reference -ArticleFolder $ArticleFolder
+  if ([string]::IsNullOrWhiteSpace($relative)) {
+    return $Reference.Trim()
+  }
+
+  return ("/{0}/{1}" -f $PublicImageBase.Trim('/'), $relative)
+}
+
+function Rewrite-MarkdownImageTarget {
+  param(
+    [string]$Target,
+    [string]$ArticleFolder,
+    [string]$PublicImageBase
+  )
+
+  $trimmed = $Target.Trim()
+  if ([string]::IsNullOrWhiteSpace($trimmed)) {
+    return $Target
+  }
+
+  $wholeRelative = Resolve-ArticleRelativeFile -Reference $trimmed -ArticleFolder $ArticleFolder
+  if (-not [string]::IsNullOrWhiteSpace($wholeRelative)) {
+    return ("/{0}/{1}" -f $PublicImageBase.Trim('/'), $wholeRelative)
+  }
+
+  if ($trimmed -match '^<(?<path>[^>]+)>(?<tail>.*)$') {
+    $path = $matches['path']
+    $tail = $matches['tail']
+    $newPath = ConvertTo-PublicAssetPath -Reference $path -ArticleFolder $ArticleFolder -PublicImageBase $PublicImageBase
+    return "<{0}>{1}" -f $newPath, $tail
+  }
+
+  if ($trimmed -match "^(?<path>.+?)(?<tail>\s+['""][^'""]*['""]\s*)$") {
+    $path = $matches['path']
+    $tail = $matches['tail']
+    $newPath = ConvertTo-PublicAssetPath -Reference $path -ArticleFolder $ArticleFolder -PublicImageBase $PublicImageBase
+    return "{0}{1}" -f $newPath, $tail
+  }
+
+  return (ConvertTo-PublicAssetPath -Reference $trimmed -ArticleFolder $ArticleFolder -PublicImageBase $PublicImageBase)
 }
 
 function Rewrite-LocalImageLinks {
@@ -167,85 +378,120 @@ function Rewrite-LocalImageLinks {
     [string]$PublicImageBase
   )
 
-  $resolver = {
-    param($pathText)
-
-    $trimmed = $pathText.Trim()
-    if ($trimmed -match '^(https?:)?//|^/|^#|^data:|^\{\{') {
-      return $trimmed
-    }
-
-    $candidate = Join-Path $ArticleFolder $trimmed
-    if (-not (Test-Path -LiteralPath $candidate)) {
-      return $trimmed
-    }
-
-    return ("/{0}/{1}" -f $PublicImageBase.Trim('/'), ($trimmed -replace '\\', '/'))
-  }
-
-  $markdownPattern = [regex]'!\[(?<alt>[^\]]*)\]\((?<path>[^)\s]+)(?<tail>[^)]*)\)'
-  $body = $markdownPattern.Replace($Body, {
+  $obsidianPattern = [regex]'!\[\[(?<target>[^\]]+)\]\]'
+  $body = $obsidianPattern.Replace($Body, {
     param($m)
-    $alt = $m.Groups['alt'].Value
-    $path = $m.Groups['path'].Value
-    $tail = $m.Groups['tail'].Value
-    $newPath = & $resolver $path
-    return "![${alt}](${newPath}${tail})"
+    $target = $m.Groups['target'].Value.Trim()
+    $parts = $target -split '\|', 2
+    $path = $parts[0].Trim()
+    $alt = if ($parts.Count -gt 1 -and -not [string]::IsNullOrWhiteSpace($parts[1])) {
+      $parts[1].Trim()
+    } else {
+      Split-Path -Leaf $path
+    }
+    $newTarget = ConvertTo-PublicAssetPath -Reference $path -ArticleFolder $ArticleFolder -PublicImageBase $PublicImageBase
+    return "![{0}]({1})" -f $alt, $newTarget
   })
 
-  $htmlPattern = [regex]'(<img[^>]*?src\s*=\s*["''])(?<path>[^"'']+)(["''][^>]*>)'
+  $markdownPattern = [regex]'!\[(?<alt>[^\]]*)\]\((?<target>[^)]*)\)'
+  $body = $markdownPattern.Replace($body, {
+    param($m)
+    $alt = $m.Groups['alt'].Value
+    $target = $m.Groups['target'].Value
+    $newTarget = Rewrite-MarkdownImageTarget -Target $target -ArticleFolder $ArticleFolder -PublicImageBase $PublicImageBase
+    return "![{0}]({1})" -f $alt, $newTarget
+  })
+
+  $htmlPattern = [regex]'(?<prefix><img[^>]*?src\s*=\s*["''])(?<path>[^"'']+)(?<suffix>["''][^>]*>)'
   $body = $htmlPattern.Replace($body, {
     param($m)
-    $prefix = $m.Groups[1].Value
+    $prefix = $m.Groups['prefix'].Value
     $path = $m.Groups['path'].Value
-    $suffix = $m.Groups[3].Value
-    $newPath = & $resolver $path
-    return "${prefix}${newPath}${suffix}"
+    $suffix = $m.Groups['suffix'].Value
+    $newPath = ConvertTo-PublicAssetPath -Reference $path -ArticleFolder $ArticleFolder -PublicImageBase $PublicImageBase
+    return "{0}{1}{2}" -f $prefix, $newPath, $suffix
   })
 
   return $body
 }
 
+function Get-FirstImageRelativePath {
+  param([string]$FolderPath)
+
+  $extSet = @('.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif')
+  $images = Get-ChildItem -LiteralPath $FolderPath -Recurse -File |
+    Where-Object { $extSet -contains $_.Extension.ToLowerInvariant() } |
+    Sort-Object @{ Expression = {
+        if ($_.BaseName -match '^(cover|thumbnail|thumb|poster|banner)([-_\s.]|$)' -or $_.BaseName -match '封面') {
+          0
+        } else {
+          1
+        }
+      } }, FullName
+
+  if ($images.Count -eq 0) {
+    return ""
+  }
+
+  return ((Get-RelativePath -BasePath $FolderPath -Path $images[0].FullName) -replace '\\', '/')
+}
+
 function Move-ToProcessed {
-  param([string]$ArticleFolder, [string]$ProcessedRoot)
+  param(
+    [string]$ArticleFolder,
+    [string]$ProcessedRoot
+  )
 
   if (-not (Test-Path -LiteralPath $ProcessedRoot)) {
-    New-Item -Path $ProcessedRoot -ItemType Directory | Out-Null
+    New-Item -Path $ProcessedRoot -ItemType Directory -Force | Out-Null
   }
 
   $name = Split-Path -Leaf $ArticleFolder
-  $target = Join-Path $ProcessedRoot $name
+  $target = Join-Path -Path $ProcessedRoot -ChildPath $name
   if (Test-Path -LiteralPath $target) {
     $suffix = Get-Date -Format "yyyyMMdd-HHmmss"
-    $target = Join-Path $ProcessedRoot ("{0}-{1}" -f $name, $suffix)
+    $target = Join-Path -Path $ProcessedRoot -ChildPath ("{0}-{1}" -f $name, $suffix)
   }
 
   Move-Item -LiteralPath $ArticleFolder -Destination $target
 }
 
-$repoRoot = Split-Path -Parent $PSScriptRoot
-$stagingRoot = Join-Path $repoRoot "to_be_posted"
-$processedRoot = Join-Path $stagingRoot "_processed"
-$postsRoot = Join-Path $repoRoot "_posts"
-$assetsImgRoot = Join-Path $repoRoot "assets\img"
-$configPath = Join-Path $repoRoot "_config.yml"
+$scriptRoot = if (-not [string]::IsNullOrWhiteSpace($PSScriptRoot)) {
+  $PSScriptRoot
+} else {
+  Split-Path -Parent $MyInvocation.MyCommand.Path
+}
 
-if (-not (Test-Path -LiteralPath $stagingRoot)) {
-  Write-Host "[INFO] to_be_posted folder not found. Exit."
+$defaultRepoRoot = Split-Path -Parent $scriptRoot
+$repoRootPath = ConvertTo-FullPath -Path $RepoRoot -BasePath $defaultRepoRoot
+$stagingRootPath = if ([string]::IsNullOrWhiteSpace($StagingRoot)) {
+  ConvertTo-FullPath -Path "to_be_posted" -BasePath $repoRootPath
+} else {
+  ConvertTo-FullPath -Path $StagingRoot -BasePath $repoRootPath
+}
+
+$processedRoot = Join-Path -Path $stagingRootPath -ChildPath "_processed"
+$postsRoot = Join-Path -Path $repoRootPath -ChildPath "_posts"
+$notesRoot = Join-Path -Path $repoRootPath -ChildPath "_notes"
+$assetsImgRoot = Join-Path -Path (Join-Path -Path $repoRootPath -ChildPath "assets") -ChildPath "img"
+$configPath = Join-Path -Path $repoRootPath -ChildPath "_config.yml"
+
+if (-not (Test-Path -LiteralPath $stagingRootPath)) {
+  Write-Host "[INFO] Staging folder not found: $stagingRootPath"
   exit 0
 }
 
-$defaultAuthor = Get-ConfigAuthor -ConfigPath $configPath
-if ([string]::IsNullOrWhiteSpace($defaultAuthor)) {
-  $defaultAuthor = ""
-}
+New-Item -Path $postsRoot -ItemType Directory -Force | Out-Null
+New-Item -Path $notesRoot -ItemType Directory -Force | Out-Null
 
-$articleDirs = Get-ChildItem -LiteralPath $stagingRoot -Directory |
+$defaultAuthor = Get-ConfigAuthor -ConfigPath $configPath
+
+$articleDirs = Get-ChildItem -LiteralPath $stagingRootPath -Directory |
   Where-Object { $_.Name -ne "_processed" } |
   Sort-Object Name
 
 if ($articleDirs.Count -eq 0) {
-  Write-Host "[INFO] No pending article folders under to_be_posted."
+  Write-Host "[INFO] No pending article folders under $stagingRootPath."
   exit 0
 }
 
@@ -253,6 +499,9 @@ $processedCount = 0
 
 foreach ($dir in $articleDirs) {
   try {
+    $targetInfo = Get-ArticleTarget -FolderName $dir.Name
+    $contentRoot = if ($targetInfo.Kind -eq "note") { $notesRoot } else { $postsRoot }
+
     $mdFiles = Get-ChildItem -LiteralPath $dir.FullName -File -Filter *.md | Sort-Object Name
     if ($mdFiles.Count -eq 0) {
       Write-Host "[SKIP] $($dir.Name): no markdown file found."
@@ -271,19 +520,22 @@ foreach ($dir in $articleDirs) {
 
     $title = ""
     if ($fmMap.ContainsKey('title') -and -not [string]::IsNullOrWhiteSpace($fmMap['title'])) {
-      $title = $fmMap['title']
+      $title = ConvertFrom-FrontMatterScalar -Value $fmMap['title']
     }
     if ([string]::IsNullOrWhiteSpace($title)) {
       $title = Get-FirstMarkdownTitle -Body $body
     }
     if ([string]::IsNullOrWhiteSpace($title)) {
-      $title = $dir.Name
+      $title = $targetInfo.SlugSource
+    }
+    if ([string]::IsNullOrWhiteSpace($title)) {
+      $title = $md.BaseName
     }
 
     $now = [datetimeoffset]::Now
     $postDate = $now
     if ($fmMap.ContainsKey('date')) {
-      $dateRaw = $fmMap['date']
+      $dateRaw = ConvertFrom-FrontMatterScalar -Value $fmMap['date']
       try {
         $postDate = [datetimeoffset]::Parse($dateRaw)
       } catch {
@@ -291,19 +543,27 @@ foreach ($dir in $articleDirs) {
       }
     }
 
+    $slugSource = $targetInfo.SlugSource
+    if ([string]::IsNullOrWhiteSpace($slugSource)) {
+      $slugSource = $title
+    }
+    $safeSlug = ConvertTo-SafeSlug -Name $slugSource -Fallback $targetInfo.Kind
+
     $dateForFile = $postDate.ToString("yyyy-MM-dd")
     $dateForFrontMatter = Convert-ToDisplayDate -Date $postDate
-
-    $safeSlug = Remove-InvalidFileNameChars -Name $dir.Name
-    $postFileBase = "{0}-{1}.md" -f $dateForFile, $safeSlug
-    $postFilePath = Join-Path $postsRoot $postFileBase
-    $postFilePath = Get-ExistingOrUniquePath -DesiredPath $postFilePath
+    $dateForLastModified = Convert-ToDisplayDate -Date $now
+    if ($targetInfo.Kind -eq "note") {
+      $contentFileBase = "{0}.md" -f $safeSlug
+    } else {
+      $contentFileBase = "{0}-{1}.md" -f $dateForFile, $safeSlug
+    }
+    $contentFilePath = Join-Path -Path $contentRoot -ChildPath $contentFileBase
+    $contentFilePath = Get-ExistingOrUniquePath -DesiredPath $contentFilePath
 
     $imgFolderName = "{0}-{1}" -f $postDate.ToString('yyyyMMdd'), $safeSlug
-    $imgDestRoot = Join-Path $assetsImgRoot (Join-Path "posts" $imgFolderName)
-    if (-not (Test-Path -LiteralPath $imgDestRoot)) {
-      New-Item -Path $imgDestRoot -ItemType Directory -Force | Out-Null
-    }
+    $assetBucketRoot = Join-Path -Path $assetsImgRoot -ChildPath $targetInfo.AssetBucket
+    $imgDestRoot = Join-Path -Path $assetBucketRoot -ChildPath $imgFolderName
+    New-Item -Path $imgDestRoot -ItemType Directory -Force | Out-Null
 
     $allFiles = Get-ChildItem -LiteralPath $dir.FullName -Recurse -File
     foreach ($file in $allFiles) {
@@ -311,8 +571,8 @@ foreach ($dir in $articleDirs) {
         continue
       }
 
-      $relative = $file.FullName.Substring($dir.FullName.Length).TrimStart('\','/')
-      $dest = Join-Path $imgDestRoot $relative
+      $relative = Get-RelativePath -BasePath $dir.FullName -Path $file.FullName
+      $dest = Join-Path -Path $imgDestRoot -ChildPath $relative
       $destParent = Split-Path -Parent $dest
       if (-not (Test-Path -LiteralPath $destParent)) {
         New-Item -Path $destParent -ItemType Directory -Force | Out-Null
@@ -322,7 +582,11 @@ foreach ($dir in $articleDirs) {
 
     $imgRelative = ""
     if ($fmMap.ContainsKey('img') -and -not [string]::IsNullOrWhiteSpace($fmMap['img'])) {
-      $imgRelative = $fmMap['img'].Trim("'", '"')
+      $imgReference = ConvertFrom-FrontMatterScalar -Value $fmMap['img']
+      $imgRelative = Resolve-ArticleRelativeFile -Reference $imgReference -ArticleFolder $dir.FullName
+      if ([string]::IsNullOrWhiteSpace($imgRelative) -and $imgReference -match '^(posts|notes|stock)/') {
+        $imgRelative = "__existing__:$($imgReference -replace '\\', '/')"
+      }
     }
     if ([string]::IsNullOrWhiteSpace($imgRelative)) {
       $imgRelative = Get-FirstImageRelativePath -FolderPath $dir.FullName
@@ -330,10 +594,14 @@ foreach ($dir in $articleDirs) {
 
     $frontImg = ""
     if (-not [string]::IsNullOrWhiteSpace($imgRelative)) {
-      $frontImg = "posts/{0}/{1}" -f $imgFolderName, ($imgRelative -replace '\\', '/')
+      if ($imgRelative.StartsWith("__existing__:")) {
+        $frontImg = $imgRelative.Substring("__existing__:".Length)
+      } else {
+        $frontImg = "{0}/{1}/{2}" -f $targetInfo.AssetBucket, $imgFolderName, $imgRelative
+      }
     }
 
-    $publicImageBase = "assets/img/posts/{0}" -f $imgFolderName
+    $publicImageBase = "assets/img/{0}/{1}" -f $targetInfo.AssetBucket, $imgFolderName
     $body = Rewrite-LocalImageLinks -Body $body -ArticleFolder $dir.FullName -PublicImageBase $publicImageBase
 
     $tagsLine = "[]"
@@ -343,7 +611,7 @@ foreach ($dir in $articleDirs) {
 
     $authorLine = $defaultAuthor
     if ($fmMap.ContainsKey('author') -and -not [string]::IsNullOrWhiteSpace($fmMap['author'])) {
-      $authorLine = $fmMap['author']
+      $authorLine = ConvertFrom-FrontMatterScalar -Value $fmMap['author']
     }
 
     $frontMatter = @(
@@ -351,24 +619,25 @@ foreach ($dir in $articleDirs) {
       "layout: post",
       "read_time: true",
       "show_date: true",
-      "title: $title",
+      "title: $(ConvertTo-YamlScalar -Value $title)",
       "date: $dateForFrontMatter",
-      "img: $frontImg",
+      "last_modified_at: $dateForLastModified",
+      "img: $(ConvertTo-YamlScalar -Value $frontImg)",
       "tags: $tagsLine",
-      "author: $authorLine",
+      "author: $(ConvertTo-YamlScalar -Value $authorLine)",
       "---"
     ) -join "`r`n"
 
     $finalContent = $frontMatter + "`r`n" + $body.TrimStart("`r", "`n") + "`r`n"
-    [System.IO.File]::WriteAllText($postFilePath, $finalContent, [System.Text.Encoding]::UTF8)
+    [System.IO.File]::WriteAllText($contentFilePath, $finalContent, $Utf8NoBom)
 
     Move-ToProcessed -ArticleFolder $dir.FullName -ProcessedRoot $processedRoot
 
     $processedCount++
-    Write-Host "[OK] Published: $(Split-Path -Leaf $postFilePath)"
+    Write-Host "[OK] Published $($targetInfo.Kind): $(Split-Path -Leaf $contentFilePath)"
   } catch {
     Write-Host "[ERROR] $($dir.Name): $($_.Exception.Message)"
   }
 }
 
-Write-Host "[DONE] Finished. Published $processedCount post(s)."
+Write-Host "[DONE] Finished. Published $processedCount item(s)."

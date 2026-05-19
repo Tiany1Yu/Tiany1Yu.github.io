@@ -253,7 +253,14 @@ function openEmailContact(email) {
       var nodes = document.querySelectorAll('.page-content p, .page-content li, .post-excerpt p, .post-excerpt li');
       for (var i = 0; i < nodes.length; i++) {
         var node = nodes[i];
-        if (node.children.length !== 0) {
+        var hasOnlyLineBreakChildren = true;
+        for (var j = 0; j < node.children.length; j++) {
+          if (node.children[j].tagName !== 'BR') {
+            hasOnlyLineBreakChildren = false;
+            break;
+          }
+        }
+        if (!hasOnlyLineBreakChildren) {
           continue;
         }
         var text = node.textContent.trim();
@@ -272,7 +279,8 @@ function openEmailContact(email) {
       displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
       processEscapes: true
     },
-    "CommonHTML": { linebreaks: { automatic: true } }
+    "CommonHTML": { linebreaks: { automatic: false } },
+    "HTML-CSS": { linebreaks: { automatic: false } }
     });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>

@@ -2,15 +2,39 @@
 layout: null
 ---
 {% include get-site-tags.html %}
-[   {% for item in (0..site.tags.size) %}{% unless forloop.last %}
-      {% capture this_word %}{{ tag_words[item] | strip_newlines }}{% endcapture %}
-  {
-  "tag" : "{{ this_word }}",
-  "posts" : [
-      {% for post in site.tags[this_word] %}
-      ".{{ post.url }}"{% unless forloop.last %},{% endunless %}
-      {% endfor %}
-    ]
-  } {% unless forloop.rindex == 2 %},{% endunless %}
-    {% endunless %}{% endfor %}
+{% assign garden_documents = site.posts | concat: site.notes %}
+{% capture sorted_document_keys %}
+{% include sorted-garden-keys.html documents=garden_documents %}
+{% endcapture %}
+{% assign sorted_document_keys = sorted_document_keys | strip | split: "@@garden-key@@" | sort | reverse %}
+[
+  {% assign tag_json_count = 0 %}
+  {% for this_word in tag_words %}
+    {% assign this_word = this_word | strip %}
+    {% unless this_word == "" %}
+      {% if tag_json_count > 0 %},{% endif %}
+      {
+        "tag" : "{{ this_word }}",
+        "posts" : [
+          {% assign post_json_count = 0 %}
+          {% for sorted_document_key in sorted_document_keys %}
+            {% assign sorted_document_key = sorted_document_key | strip %}
+            {% unless sorted_document_key == "" %}
+              {% assign sorted_document_url = sorted_document_key | split: "|" | last %}
+              {% for post in garden_documents %}
+                {% if post.url == sorted_document_url %}
+                  {% if post.tags contains this_word %}
+                    {% if post_json_count > 0 %},{% endif %}".{{ post.url }}"
+                    {% assign post_json_count = post_json_count | plus: 1 %}
+                  {% endif %}
+                  {% break %}
+                {% endif %}
+              {% endfor %}
+            {% endunless %}
+          {% endfor %}
+        ]
+      }
+      {% assign tag_json_count = tag_json_count | plus: 1 %}
+    {% endunless %}
+  {% endfor %}
 ]

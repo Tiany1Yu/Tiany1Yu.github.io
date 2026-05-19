@@ -1,8 +1,14 @@
-.highlight {background-color: #faf9f9; border-radius: 3px; margin: 0;}
-.highlighter-rouge {color: $dark-pink; font-weight: 400; border: 1px solid #607D8B; border-radius: 3px; padding: 0.1rem 0.5rem;}
+.highlight {background-color: #f6f8fa; border-radius: 8px; margin: 0;}
+.highlighter-rouge {color: inherit; font-weight: 400; border: 0; border-radius: 3px; padding: 0; line-height: inherit;}
+code.highlighter-rouge {padding: 0.08rem 0.34rem; background: var(--grey5); border: 1px solid var(--grey4); color: var(--main);}
+div.highlighter-rouge {margin: 1.35rem 0 1.6rem;}
+div.highlighter-rouge .highlight {margin: 0; background: #f6f8fa; border: 1px solid var(--grey4); border-radius: 8px; overflow: hidden;}
+div.highlighter-rouge pre {margin: 0; padding: 16px 18px; background: transparent; border: 0; border-radius: 0;}
+div.highlighter-rouge code {font-size: inherit; line-height: inherit;}
+.highlight .err {color: inherit; background: transparent;}
 .highlight .hll { background-color: #ffc; }
 .highlight .c { color: #999; } /* Comment */
-.highlight .err { color: #a00; background-color: #faa; } /* Error */
+.highlight .err { color: inherit; background: transparent; } /* Error */
 .highlight .k { color: #069; } /* Keyword */
 .highlight .o { color: #555; } /* Operator */
 .highlight .cm { color: #09f; font-style: italic; } /* Comment.Multiline */

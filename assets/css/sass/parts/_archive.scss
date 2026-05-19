@@ -3,3 +3,34 @@
     margin: 0;
     list-style: none;
 }
+
+.notes-garden {
+    margin: 80px 0 100px;
+}
+
+.notes-garden-header h1 {
+    margin-bottom: 30px;
+    color: var(--heading);
+}
+
+.note-entry {
+    border-top: 1px solid var(--grey5);
+    padding: 24px 0;
+}
+
+.note-entry:first-child {
+    border-top: 0;
+}
+
+.note-pill {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 2px 8px;
+    border: 1px solid var(--grey4);
+    border-radius: 8px;
+    color: var(--main);
+    font-family: var(--font2);
+    font-size: 12px;
+    line-height: 1.4;
+    vertical-align: middle;
+}

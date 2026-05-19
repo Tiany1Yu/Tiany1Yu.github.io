@@ -90,6 +90,23 @@ span#github-btn {
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
 }
 
+.page-content pre,
+.page-content pre code {
+  white-space: pre;
+}
+
+.page-content .MathJax_Display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}
+
+.page-content .MathJax,
+.page-content .MathJax_Display {
+  white-space: normal;
+}
+
 .header-page {
   position: relative;
   margin-bottom: 30px;
@@ -163,12 +180,58 @@ span#github-btn {
       margin-left: 0.5%;
       margin-bottom: 0.5%;
       transition: all .3s;
-      span {
+      .recent-item-title {
         position: absolute;
-        font-size: 12px;
         left: 2.5%;
-        bottom: 10%;
+        right: 2.5%;
+        bottom: 30px;
+        padding: 4px 6px;
+        background-color: #00000099;
+        font-size: 12px;
+        font-family: var(--font2), sans-serif;
+        font-weight: var(--font2-bold);
+        text-transform: uppercase;
         color: $white;
+      }
+      .recent-item-meta-row {
+        position: absolute;
+        left: 2.5%;
+        right: 2.5%;
+        bottom: 2.5%;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 10px;
+
+        .post-card-meta {
+          display: inline-flex;
+          align-items: center;
+          padding: 2px 7px;
+          border: 1px solid rgba(255,255,255,.45);
+          border-radius: 4px;
+          background: rgba(0,0,0,.28);
+          color: rgba(255,255,255,.92);
+          font-family: var(--font2), sans-serif;
+          font-size: 10px;
+          font-weight: var(--font2-bold);
+          line-height: 1.25;
+        }
+
+        .content-type-badge {
+          display: inline-flex;
+          align-items: center;
+          width: fit-content;
+          margin: 0;
+          padding: 2px 7px;
+          border: 1px solid rgba(255,255,255,.45);
+          border-radius: 4px;
+          background: rgba(0,0,0,.28);
+          color: rgba(255,255,255,.92);
+          font-family: var(--font2), sans-serif;
+          font-size: 10px;
+          font-weight: var(--font2-bold);
+          line-height: 1.25;
+        }
       }
       &:hover {
         opacity: 0.8;

@@ -1,28 +1,48 @@
 ---
 layout: menu-page
-title: 标签
+title: Tags
 permalink: tags:output_ext
 ---
 {% include calculate_relative_base.html %}
 {% include get-site-tags.html %}
+{% assign garden_documents = site.posts | concat: site.notes %}
+{% capture sorted_document_keys %}
+{% include sorted-garden-keys.html documents=garden_documents %}
+{% endcapture %}
+{% assign sorted_document_keys = sorted_document_keys | strip | split: "@@garden-key@@" | sort | reverse %}
 <section class="blog-tags">
-  <h2>标签</h2>
+  <h2>Tags</h2>
   {% include tag_cloud.html %}
   <div class="tags-page-content">
-  {% for item in (0..site.tags.size) %}{% unless forloop.last %}
-    {% capture this_word %}{{ tag_words[item] | strip_newlines }}{% endcapture %}
-    <div class="list-group">
-      <div class="list-group-title"><a id="{{ this_word | cgi_escape }}">{{ this_word }}</a></div>
-      <div>
-      {% for post in site.tags[this_word] %}{% if post.title != null %}
-      {% include remove_double_slash.html %}
-        <div class="list-item">
-          <a href="{{ post_url }}">{{ post.title }}</a>
-          {% include post_meta.html type="post-card-meta" %}
+    {% for this_word in tag_words %}
+      {% assign this_word = this_word | strip %}
+      {% unless this_word == "" %}
+        <div class="list-group">
+          <div class="list-group-title"><a id="{{ this_word | cgi_escape }}">{{ this_word }}</a></div>
+          <div>
+            {% for sorted_document_key in sorted_document_keys %}
+              {% assign sorted_document_key = sorted_document_key | strip %}
+              {% unless sorted_document_key == "" %}
+                {% assign sorted_document_url = sorted_document_key | split: "|" | last %}
+                {% for document in garden_documents %}
+                  {% if document.url == sorted_document_url %}
+                    {% assign post = document %}
+                    {% break %}
+                  {% endif %}
+                {% endfor %}
+                {% if post.title != null and post.tags contains this_word %}
+                  {% include remove_double_slash.html %}
+                  <div class="list-item">
+                    <a href="{{ post_url }}">{{ post.title }}</a>
+                    <span class="note-pill">{% if post.collection == "notes" %}笔记{% else %}文章{% endif %}</span>
+                    {% include post_meta.html type="post-card-meta" %}
+                  </div>
+                {% endif %}
+              {% endunless %}
+            {% endfor %}
+          </div>
         </div>
-      {% endif %}{% endfor %}
-       </div>
-    </div>
-  {% endunless %}{% endfor %}
+      {% endunless %}
+    {% endfor %}
   </div>
 </section>

@@ -21,7 +21,7 @@ logo-icon-SEO: "/assets/img/branding/MVM-symbol-black.png" # must be a non SVG f
 night_mode: "auto"
 
 logo-dark: "/assets/img/branding/MVM-logo-full-dark.svg"
-highlight_theme: syntax-base16.monokai.dark # select a dark theme for the code highlighter if needed
+highlight_theme: syntax-github # select a syntax theme from assets/css/highlighter
 
 # Author settings
 author: uke # add your name
@@ -68,6 +68,7 @@ markdown: kramdown
 mathjax: true
 kramdown:
   input: GFM
+  hard_wrap: true
   math_engine: mathjax
 highlighter: rouge
 compress_html:
@@ -89,6 +90,11 @@ plugins:
   - jekyll-paginate
   - jekyll-feed
   - jekyll-sitemap
+
+collections:
+  notes:
+    output: true
+    permalink: /notes/:year-:month-:day-:name.html
 
 include: [_pages]
 exclude: ["node_modules", "gulpfile.js", "package.json", "yarn.lock", "package-lock.json", "assets/css/sass/"]

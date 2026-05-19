@@ -3,8 +3,25 @@ layout: null
 ---
 {
   "posts" : [
-    {% for post in site.posts %}
-    ".{{ post.url }}"{% unless forloop.last %},{% endunless %}
+    {% assign garden_documents = site.posts | concat: site.notes %}
+    {% capture sorted_document_keys %}
+    {% include sorted-garden-keys.html documents=garden_documents %}
+    {% endcapture %}
+    {% assign sorted_document_keys = sorted_document_keys | strip | split: "@@garden-key@@" | sort | reverse %}
+    {% assign post_json_count = 0 %}
+    {% for sorted_document_key in sorted_document_keys %}
+      {% assign sorted_document_key = sorted_document_key | strip %}
+      {% unless sorted_document_key == "" %}
+        {% assign sorted_document_url = sorted_document_key | split: "|" | last %}
+        {% for post in garden_documents %}
+          {% if post.url == sorted_document_url %}
+            {% if post_json_count > 0 %},{% endif %}
+            ".{{ post.url }}"
+            {% assign post_json_count = post_json_count | plus: 1 %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+      {% endunless %}
     {% endfor %}
   ]
 }

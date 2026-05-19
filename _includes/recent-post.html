@@ -1,20 +1,41 @@
 {% include calculate_relative_base.html %}
 
+{% assign garden_documents = site.posts | concat: site.notes %}
+{% capture sorted_document_keys %}
+{% include sorted-garden-keys.html documents=garden_documents %}
+{% endcapture %}
+{% assign sorted_document_keys = sorted_document_keys | strip | split: "@@garden-key@@" | sort | reverse %}
+
 <div class="recent-box">
   <h2 class="page-subtitle">最新文章</h2>
   <div class="recent-list">
-    {% for post in site.posts offset:0 limit:4 %}
-      {% if post.title %}
-        <div class="recent-item">
-          {% include escape-404.html %}
-          {% include remove_double_slash.html %}
-          <a href="{{ post_url }}" class="recent-item-img" style="background: url('{{ relativebase }}assets/img/{{ post.img }}') center no-repeat; background-size: cover;">
-            <div class="recent-item-title">
-              <span>{{ post.title }}</span>
-              {% include post_meta.html type="recent-item-meta" date="none" %}
-            </div>
-          </a>
-        </div>
+    {% assign displayed_count = 0 %}
+    {% for sorted_document_key in sorted_document_keys %}
+      {% assign sorted_document_key = sorted_document_key | strip %}
+      {% if sorted_document_key != "" and displayed_count < 4 %}
+        {% assign sorted_document_url = sorted_document_key | split: "|" | last %}
+        {% for document in garden_documents %}
+          {% if document.url == sorted_document_url %}
+            {% assign post = document %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+        {% if post.title %}
+          <div class="recent-item">
+            {% include escape-404.html %}
+            {% include remove_double_slash.html %}
+            <a href="{{ post_url }}" class="recent-item-img" style="background: url('{{ relativebase }}assets/img/{{ post.img }}') center no-repeat; background-size: cover;">
+              <div class="recent-item-title">
+                <span class="recent-title-text">{{ post.title }}</span>
+              </div>
+              <div class="recent-item-meta-row">
+                {% include post_meta.html type="post-card-meta" date="none" %}
+                <span class="content-type-badge recent-type-badge">{% if post.collection == "notes" %}笔记{% else %}文章{% endif %}</span>
+              </div>
+            </a>
+          </div>
+          {% assign displayed_count = displayed_count | plus: 1 %}
+        {% endif %}
       {% endif %}
     {% endfor %}
   </div>

@@ -1,25 +1,49 @@
 ---
 layout: home-page
+hide_pagination: true
 ---
 {% include calculate_relative_base.html %}
 
+{% assign garden_documents = site.posts | concat: site.notes %}
+{% capture sorted_document_keys %}
+{% include sorted-garden-keys.html documents=garden_documents %}
+{% endcapture %}
+{% assign sorted_document_keys = sorted_document_keys | strip | split: "@@garden-key@@" | sort | reverse %}
+{% assign home_limit = site.paginate | default: 6 %}
+
 <ol class="post-card-box clearfix">
-  {% for post in paginator.posts %}
-  {% include remove_double_slash.html %}
-  <li>
-    <div class="post-card">
-      <a href="{{ post_url }}" title="{{ post.title }}" class="post-card-image" style="background: url('{{ relativebase }}assets/img/{{ post.img }}') center no-repeat; background-size: cover;">
-      </a>
-      <div class="post-card-body">
-        <p class="post-card-title-and-meta">
-          
-          <a href="{{ post_url }}" class="post-card-link">
-          {{ post.title }}
-          </a>
-          {% include post_meta.html type="post-card-meta" date="none" %}
-        </p>
-      </div>
-    </div>
-  </li>
+  {% assign displayed_count = 0 %}
+  {% for sorted_document_key in sorted_document_keys %}
+    {% assign sorted_document_key = sorted_document_key | strip %}
+    {% if sorted_document_key != "" and displayed_count < home_limit %}
+      {% assign sorted_document_url = sorted_document_key | split: "|" | last %}
+      {% for document in garden_documents %}
+        {% if document.url == sorted_document_url %}
+          {% assign post = document %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+      {% if post %}
+        {% include remove_double_slash.html %}
+        <li>
+          <div class="post-card">
+            <a href="{{ post_url }}" title="{{ post.title }}" class="post-card-image" style="background: url('{{ relativebase }}assets/img/{{ post.img }}') center no-repeat; background-size: cover;">
+            </a>
+            <div class="post-card-body">
+              <p class="post-card-title-and-meta">
+                <a href="{{ post_url }}" class="post-card-link">
+                {{ post.title }}
+                </a>
+              </p>
+            </div>
+            <div class="post-card-corner-meta">
+              {% include post_meta.html type="post-card-meta" date="none" %}
+              <span class="content-type-badge">{% if post.collection == "notes" %}笔记{% else %}文章{% endif %}</span>
+            </div>
+          </div>
+        </li>
+        {% assign displayed_count = displayed_count | plus: 1 %}
+      {% endif %}
+    {% endif %}
   {% endfor %}
 </ol>
