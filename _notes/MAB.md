@@ -6,7 +6,7 @@ title: "MAB"
 date: 2026-05-19 10:47:47 +0800
 last_modified_at: 2026-05-19 10:47:47 +0800
 img: "notes/20260519-MAB/cover_MAB.png"
-tags: []
+tags: [强化学习]
 author: "uke"
 ---
 ## 1.

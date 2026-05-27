@@ -19,9 +19,41 @@
         
       
         
+      
+        
           
           <url>
-            <loc>http://localhost:4000/notes/2026-05-19-mab.html</loc>
+            <loc>https://Tiany1Yu.github.io/notes/2026-05-27-mdp.html</loc>
+            
+              <lastmod>2026-05-27T12:09:52+08:00</lastmod>
+            
+            
+              <changefreq>daily</changefreq>
+            
+            
+              <priority>0.5</priority></url>
+          
+          
+    
+  
+    
+    
+      
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          
+          <url>
+            <loc>https://Tiany1Yu.github.io/notes/2026-05-19-mab.html</loc>
             
               <lastmod>2026-05-19T10:47:47+08:00</lastmod>
             
@@ -41,7 +73,7 @@
         
           
           <url>
-            <loc>http://localhost:4000/hw3.html</loc>
+            <loc>https://Tiany1Yu.github.io/hw3.html</loc>
             
               <lastmod>2026-04-12T20:24:23+08:00</lastmod>
             
@@ -63,7 +95,7 @@
         
           
           <url>
-            <loc>http://localhost:4000/hw2.html</loc>
+            <loc>https://Tiany1Yu.github.io/hw2.html</loc>
             
               <lastmod>2026-04-10T10:07:47+08:00</lastmod>
             
@@ -87,7 +119,7 @@
         
           
           <url>
-            <loc>http://localhost:4000/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html</loc>
+            <loc>https://Tiany1Yu.github.io/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html</loc>
             
               <lastmod>2026-03-19T22:06:25+08:00</lastmod>
             
@@ -113,7 +145,7 @@
         
           
           <url>
-            <loc>http://localhost:4000/2026-03-14-ai-note.html</loc>
+            <loc>https://Tiany1Yu.github.io/2026-03-14-ai-note.html</loc>
             
               <lastmod>2026-03-15T00:36:32+08:00</lastmod>
             
@@ -141,7 +173,7 @@
         
           
           <url>
-            <loc>http://localhost:4000/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2.html</loc>
+            <loc>https://Tiany1Yu.github.io/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2.html</loc>
             
               <lastmod>2026-03-14T11:46:37+08:00</lastmod>
             
@@ -157,7 +189,7 @@
   
     
     <url>
-      <loc>http://localhost:4000/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html</loc>
+      <loc>https://Tiany1Yu.github.io/%E5%8F%82%E8%80%83/2021-01-25-single-neuron-perceptron.html</loc>
       
         <lastmod>2021-01-26T03:32:20+08:00</lastmod>
       
@@ -172,7 +204,7 @@
   
     
     <url>
-      <loc>http://localhost:4000/%E5%8F%82%E8%80%83/2021-02-10-conways-game-of-life.html</loc>
+      <loc>https://Tiany1Yu.github.io/%E5%8F%82%E8%80%83/2021-02-10-conways-game-of-life.html</loc>
       
         <lastmod>2021-02-11T03:32:20+08:00</lastmod>
       
@@ -187,7 +219,7 @@
   
     
     <url>
-      <loc>http://localhost:4000/%E5%8F%82%E8%80%83/2021-02-28-ML-Library-from-scratch.html</loc>
+      <loc>https://Tiany1Yu.github.io/%E5%8F%82%E8%80%83/2021-02-28-ML-Library-from-scratch.html</loc>
       
         <lastmod>2021-03-01T02:32:20+08:00</lastmod>
       
@@ -202,7 +234,7 @@
   
     
     <url>
-      <loc>http://localhost:4000/%E5%8F%82%E8%80%83/2021-03-12-neural-network-optimization-methods.html</loc>
+      <loc>https://Tiany1Yu.github.io/%E5%8F%82%E8%80%83/2021-03-12-neural-network-optimization-methods.html</loc>
       
         <lastmod>2021-03-13T03:32:20+08:00</lastmod>
       
@@ -217,7 +249,7 @@
   
     
     <url>
-      <loc>http://localhost:4000/%E5%8F%82%E8%80%83/2021-03-18-deep-q-learning-tic-tac-toe.html</loc>
+      <loc>https://Tiany1Yu.github.io/%E5%8F%82%E8%80%83/2021-03-18-deep-q-learning-tic-tac-toe.html</loc>
       
         <lastmod>2021-03-19T05:14:20+08:00</lastmod>
       
@@ -232,7 +264,7 @@
   
     
     <url>
-      <loc>http://localhost:4000/%E5%8F%82%E8%80%83/2021-03-24-starting-the-adventure.html</loc>
+      <loc>https://Tiany1Yu.github.io/%E5%8F%82%E8%80%83/2021-03-24-starting-the-adventure.html</loc>
       
         <lastmod>2021-03-24T00:00:00+08:00</lastmod>
       
@@ -247,7 +279,7 @@
   
     
     <url>
-      <loc>http://localhost:4000/%E5%8F%82%E8%80%83/2021-04-02-back-to-basics.html</loc>
+      <loc>https://Tiany1Yu.github.io/%E5%8F%82%E8%80%83/2021-04-02-back-to-basics.html</loc>
       
         <lastmod>2021-04-02T00:00:00+08:00</lastmod>
       
@@ -262,7 +294,7 @@
   
     
     <url>
-      <loc>http://localhost:4000/%E5%8F%82%E8%80%83/2021-04-20-AI-and-intellectual-property.html</loc>
+      <loc>https://Tiany1Yu.github.io/%E5%8F%82%E8%80%83/2021-04-20-AI-and-intellectual-property.html</loc>
       
         <lastmod>2021-04-20T00:00:00+08:00</lastmod>
       
@@ -277,24 +309,9 @@
   
     
     <url>
-      <loc>http://localhost:4000/404.html</loc>
+      <loc>https://Tiany1Yu.github.io/404.html</loc>
       
-        <lastmod>2026-05-19T16:17:45+08:00</lastmod>
-      
-      
-        <changefreq>daily</changefreq>
-      
-      
-        <priority>0.5</priority>
-      
-    </url>
-    
-  
-    
-    <url>
-      <loc>http://localhost:4000/about.html</loc>
-      
-        <lastmod>2026-05-19T16:17:45+08:00</lastmod>
+        <lastmod>2026-05-27T12:10:36+08:00</lastmod>
       
       
         <changefreq>daily</changefreq>
@@ -307,24 +324,9 @@
   
     
     <url>
-      <loc>http://localhost:4000/all-posts.json</loc>
+      <loc>https://Tiany1Yu.github.io/about.html</loc>
       
-        <lastmod>2026-05-19T16:17:45+08:00</lastmod>
-      
-      
-        <changefreq>daily</changefreq>
-      
-      
-        <priority>0.5</priority>
-      
-    </url>
-    
-  
-    
-    <url>
-      <loc>http://localhost:4000/archive.html</loc>
-      
-        <lastmod>2026-05-19T16:17:45+08:00</lastmod>
+        <lastmod>2026-05-27T12:10:36+08:00</lastmod>
       
       
         <changefreq>daily</changefreq>
@@ -337,24 +339,9 @@
   
     
     <url>
-      <loc>http://localhost:4000/</loc>
+      <loc>https://Tiany1Yu.github.io/all-posts.json</loc>
       
-        <lastmod>2026-05-19T16:17:45+08:00</lastmod>
-      
-      
-        <changefreq>daily</changefreq>
-      
-      
-        <priority>0.5</priority>
-      
-    </url>
-    
-  
-    
-    <url>
-      <loc>http://localhost:4000/ipfs-404.html</loc>
-      
-        <lastmod>2026-05-19T16:17:45+08:00</lastmod>
+        <lastmod>2026-05-27T12:10:36+08:00</lastmod>
       
       
         <changefreq>daily</changefreq>
@@ -367,24 +354,9 @@
   
     
     <url>
-      <loc>http://localhost:4000/notes.html</loc>
+      <loc>https://Tiany1Yu.github.io/archive.html</loc>
       
-        <lastmod>2026-05-19T16:17:45+08:00</lastmod>
-      
-      
-        <changefreq>daily</changefreq>
-      
-      
-        <priority>0.5</priority>
-      
-    </url>
-    
-  
-    
-    <url>
-      <loc>http://localhost:4000/posts-by-tag.json</loc>
-      
-        <lastmod>2026-05-19T16:17:45+08:00</lastmod>
+        <lastmod>2026-05-27T12:10:36+08:00</lastmod>
       
       
         <changefreq>daily</changefreq>
@@ -397,9 +369,69 @@
   
     
     <url>
-      <loc>http://localhost:4000/search.json</loc>
+      <loc>https://Tiany1Yu.github.io/</loc>
       
-        <lastmod>2026-05-19T16:17:45+08:00</lastmod>
+        <lastmod>2026-05-27T12:10:36+08:00</lastmod>
+      
+      
+        <changefreq>daily</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>https://Tiany1Yu.github.io/ipfs-404.html</loc>
+      
+        <lastmod>2026-05-27T12:10:36+08:00</lastmod>
+      
+      
+        <changefreq>daily</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>https://Tiany1Yu.github.io/notes.html</loc>
+      
+        <lastmod>2026-05-27T12:10:36+08:00</lastmod>
+      
+      
+        <changefreq>daily</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>https://Tiany1Yu.github.io/posts-by-tag.json</loc>
+      
+        <lastmod>2026-05-27T12:10:36+08:00</lastmod>
+      
+      
+        <changefreq>daily</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>https://Tiany1Yu.github.io/search.json</loc>
+      
+        <lastmod>2026-05-27T12:10:36+08:00</lastmod>
       
       
         <changefreq>daily</changefreq>
@@ -414,24 +446,9 @@
   
     
     <url>
-      <loc>http://localhost:4000/subscribe.html</loc>
+      <loc>https://Tiany1Yu.github.io/subscribe.html</loc>
       
-        <lastmod>2026-05-19T16:17:45+08:00</lastmod>
-      
-      
-        <changefreq>daily</changefreq>
-      
-      
-        <priority>0.5</priority>
-      
-    </url>
-    
-  
-    
-    <url>
-      <loc>http://localhost:4000/tag.html</loc>
-      
-        <lastmod>2026-05-19T16:17:45+08:00</lastmod>
+        <lastmod>2026-05-27T12:10:36+08:00</lastmod>
       
       
         <changefreq>daily</changefreq>
@@ -444,9 +461,9 @@
   
     
     <url>
-      <loc>http://localhost:4000/tags.html</loc>
+      <loc>https://Tiany1Yu.github.io/tag.html</loc>
       
-        <lastmod>2026-05-19T16:17:45+08:00</lastmod>
+        <lastmod>2026-05-27T12:10:36+08:00</lastmod>
       
       
         <changefreq>daily</changefreq>
@@ -459,9 +476,24 @@
   
     
     <url>
-      <loc>http://localhost:4000/feed.xml</loc>
+      <loc>https://Tiany1Yu.github.io/tags.html</loc>
       
-        <lastmod>2026-05-19T16:17:45+08:00</lastmod>
+        <lastmod>2026-05-27T12:10:36+08:00</lastmod>
+      
+      
+        <changefreq>daily</changefreq>
+      
+      
+        <priority>0.5</priority>
+      
+    </url>
+    
+  
+    
+    <url>
+      <loc>https://Tiany1Yu.github.io/feed.xml</loc>
+      
+        <lastmod>2026-05-27T12:10:36+08:00</lastmod>
       
       
         <changefreq>daily</changefreq>
