@@ -1,0 +1,394 @@
+## 1.前言
+本文介绍的是强化学习中的DP求解，分别介绍策略迭代与价值迭代算法
+
+显然，DP是建立在已知奖励函数，状态转移函数，也就是完全的白盒环境的基础上的，这一点与之后将要介绍的算法不同
+
+本文依旧参照《动手学强化学习》，大致分为这几个板块：
+前言，策略迭代，价值迭代，DP实践，一些思考
+
+## 2.策略迭代算法
+策略迭代算法主要分为两个部分：策略评估与策略提升，两个步骤不断交替迭代最终得到最优解
+### 2.1 策略评估
+先回顾一下[[MDP]]中所学的贝尔曼方程：
+$$V^\pi(s)=\sum_{a \in A}\pi(a\mid s)\left(r(s,a)+\gamma\sum_{s' \in S}P(s'\mid s,a)V^\pi(s')\right)$$
+我们可以看作根据下一时间步的价值来计算这一时间步的价值，
+我们运用简单的DP思想，把当前计算视为一个子问题，那么，可以记作：
+$$V^{k+1}(s)=\sum_{a\in A}\pi(s\mid a)\left(r(s,a)+\gamma\sum_{s'\in S}P(s' \mid s,a)V^k(s')\right)$$
+当$V^k(s)=V^\pi(s),\forall s \in S$成立时，此时价值函数不会再变动，也即找到了不动点
+事实上，当$k\to +\infty$时，可以证明$V^k\to V^\pi$
+我们设置一个阈值$\Delta$，
+若满足$\max_{s\in S}\lvert V^{k+1}(s)-V^k(s)\rvert \leq\Delta$
+那么在程序上可以认为达到收敛
+### 2.2 策略提升
+若一个智能体在状态为$s$时采取了动作$a$，但之后仍然遵循策略$\pi$，
+且满足$Q^\pi(s,a) \geq V^\pi(s)$，
+那么新策略一定有$V^{\pi'}(s)\geq V^\pi(s)$
+我们把这样的假设推广到所有状态，假设存在一个**确定性策略**，满足上述式子$\forall s \in S$成立
+那么我们记作$V^{\pi'} \geq V^\pi$(策略提升定理)
+那么我们可以贪心的选取在每一时间步时动作价值函数最大的作为**确定性策略**：
+$$\pi'(a\mid s)=arg\max_{a\in A}Q(a,s)=\max_{a\in A}\left(r(s,a)+\gamma\sum_{s' \in S}P(s'\mid s,a)V^\pi(s')\right)$$
+策略提升定理的具体证明如下：
+$$\begin{align}
+V^\pi(s)\leq&Q^{\pi}(s,\pi'(s))\nonumber \\
+=&\mathbb{E}_{\pi'}[R_t+\gamma V^\pi(S_{t+1})\mid S_t=s]\nonumber \\
+\leq&\mathbb{E}_{\pi'}[R_t+\gamma Q^{\pi}(S_{t+1},\pi'(S_{t+1}))\mid S_t=s] \nonumber \\
+=&\mathbb{E}_{\pi'}[R_t+\gamma R_{t+1}+\gamma^2V(S_{t+2})\mid S_t=s]\nonumber \\
+\leq&\mathbb{E}_{\pi'}[R_t+\gamma R_{t+1}+\gamma^2R_{t+2}+\cdots]\nonumber \\
+=&V^{\pi'}(s) \nonumber
+\end{align}$$
+### 3.3 策略迭代算法
+策略迭代算法的流程大致如下：
+$$\pi^0\xrightarrow{策略评估}V^{\pi^0}\xrightarrow{策略提升}\pi^1\xrightarrow{策略评估}V^{\pi^1}\xrightarrow{策略提升}\pi^2\xrightarrow{策略评估}\cdots\xrightarrow{策略提升}\pi^*$$
+更新直至$\pi'$与$\pi$一致即可
+## 3.价值迭代算法
+我们上面的过程中，策略评估需要很多轮才能收敛，很费时费力。
+是否可以只更新一次策略呢？
+答案是肯定的，也就得到了我们的价值迭代算法
+利用[[MDP]]中的贝尔曼最优方程：
+$$V^*(s)=\max_{a\in A}\left(r(s,a)+\gamma\sum_{s'\in S}P(s'\mid s,a)V^*(s')\right)$$
+转换为DP的子问题格式：
+$$V^{k+1}(s)=\max_{a\in A}\left(r(s,a)+\gamma\sum_{s'\in S}P(s'\mid s,a)V^k(s')\right)$$
+我们只需要维护一个状态价值函数即可：
+与策略迭代类似，每次先评估，再更新
+更新直至$\pi'$与$\pi$一致即可
+## 4.DP实践
+接下来，我们分别在悬崖漫步环境与冰湖环境练手DP算法：
+### 4.1 环境与必要类准备
+```python
+import copy
+
+class CliffWalkingEnv:
+
+    def __init__(self,nrow:int=4,ncol:int=12):
+
+        self.nrow=nrow
+
+        self.ncol=ncol
+
+        self.createP()
+
+        #P为状态转移矩阵，P=[(p,state,reward,done),……]
+
+    def createP(self):
+
+        self.P=[[[]for j in range(4)]for i in range(self.nrow*self.ncol)]
+
+        vector=[[-1,0],[1,0],[0,-1],[0,1]]
+
+        for i in range(self.nrow):
+
+            for j in range(self.ncol):
+
+                for a in range(4):
+
+                    if(i==self.nrow-1 and j>0):
+
+                        self.P[i*self.ncol+j][a]=[(1,i*self.ncol+j,0,1)]
+
+                    else:
+
+                        next_i=min((max(0,i+vector[a][0])),self.nrow-1)
+
+                        next_j=min((max(0,j+vector[a][1])),self.ncol-1)
+
+                        if next_i==self.nrow-1 and next_j>0:
+
+                            if next_j==self.ncol-1:
+
+                                self.P[i*self.ncol+j][a]=[(1,next_i*self.ncol+next_j,-1,1)]
+
+                            else:
+
+                                self.P[i*self.ncol+j][a]=[(1,next_i*self.ncol+next_j,-100,1)]
+
+                        else:
+
+                            self.P[i*self.ncol+j][a]=[(1,next_i*self.ncol+next_j,-1,0)]
+
+  
+
+
+
+#输出代码直接照抄
+
+def print_agent(agent, action_meaning, disaster=[], end=[]):
+
+    print("状态价值：")
+
+    for i in range(agent.env.nrow):
+
+        for j in range(agent.env.ncol):
+
+            # 为了输出美观,保持输出6个字符
+
+            print('%6.6s' % ('%.3f' % agent.v[i * agent.env.ncol + j]), end=' ')
+
+        print()
+
+  
+
+    print("策略：")
+
+    for i in range(agent.env.nrow):
+
+        for j in range(agent.env.ncol):
+
+            # 一些特殊的状态,例如悬崖漫步中的悬崖
+
+            if (i * agent.env.ncol + j) in disaster:
+
+                print('****', end=' ')
+
+            elif (i * agent.env.ncol + j) in end:  # 目标状态
+
+                print('EEEE', end=' ')
+
+            else:
+
+                a = agent.pi[i * agent.env.ncol + j]
+
+                pi_str = ''
+
+                for k in range(len(action_meaning)):
+
+                    pi_str += action_meaning[k] if a[k] > 0 else 'o'
+
+                print(pi_str, end=' ')
+
+        print()
+```
+### 4.2策略迭代与价值迭代
+```python
+class PolicyIteration:
+
+    def __init__(self,env,theta,gamma):
+
+        self.env=env
+
+        self.theta=theta
+
+        self.gamma=gamma
+
+        self.pi=[[1/4 for i in range(4)]for s in range(self.env.nrow*self.env.ncol)]
+
+        self.v=[0 for s in range(self.env.nrow*self.env.ncol)]
+
+    def policy_evaluation(self):
+
+        cnt=0
+
+        while(1):
+
+            delta=0
+
+            new_v=[0 for s in range(self.env.nrow*self.env.ncol)]
+
+            for s in range(self.env.nrow*self.env.ncol):
+
+                for a in range(4):
+
+                    qsa=0
+
+                    for a_i in self.env.P[s][a]:
+
+                        p,next_s,r,done=a_i
+
+                        qsa+=p*(r+self.gamma*self.v[next_s]*(1-done))
+
+                    new_v[s]+=qsa*self.pi[s][a]
+
+                delta=max(delta,abs(new_v[s]-self.v[s]))
+
+            self.v=new_v
+
+            cnt+=1
+
+            if delta<self.theta:
+
+                print(f"策略评估在{cnt}轮之后结束")
+
+                break
+
+    def policy_improvement(self):
+
+        for s in range(self.env.nrow*self.env.ncol):
+
+            qsa_list=[]
+
+            for a in range(4):
+
+                qsa=0
+
+                for a_i in self.env.P[s][a]:
+
+                    p,next_s,r,done=a_i
+
+                    qsa+=p*(r+self.gamma*self.v[next_s]*(1-done))
+
+                qsa_list.append(qsa)
+
+            self.v[s]=max(qsa_list)
+
+            cnt=qsa_list.count(self.v[s])
+
+            self.pi[s]=[1/cnt if qsa_list[a]==self.v[s] else 0 for a in range(4)]
+
+        print("策略提升完成")
+
+    def policy_iteration(self):
+
+        cnt=0
+
+        while 1:
+
+            cnt+=1
+
+            old_pi=copy.deepcopy(self.pi)
+
+            self.policy_evaluation()
+
+            self.policy_improvement()
+
+            if(old_pi==self.pi):
+
+                print(f"共策略迭代{cnt}轮")
+
+                break
+
+  
+
+class ValueIteration:
+
+    def __init__(self,env,theta,gamma):
+
+        self.env=env
+
+        self.theta=theta
+
+        self.gamma=gamma
+
+        self.pi=[[1/4 for i in range(4)]for s in range(self.env.nrow*self.env.ncol)]
+
+        self.v=[0 for s in range(self.env.nrow*self.env.ncol)]
+
+    def value_iteration(self):
+
+        cnt=0
+
+        while(1):
+
+            delta=0
+
+            new_v=[0 for s in range(self.env.nrow*self.env.ncol)]
+
+            for s in range(self.env.nrow*self.env.ncol):
+
+                qsa_list=[]
+
+                for a in range(4):
+
+                    qsa=0
+
+                    for a_i in self.env.P[s][a]:
+
+                        p,next_s,r,done=a_i
+
+                        qsa+=p*(r+self.gamma*self.v[next_s]*(1-done))
+
+                    qsa_list.append(qsa)
+
+                new_v[s]=max(qsa_list)
+
+                delta=max(delta,abs(new_v[s]-self.v[s]))
+
+            cnt+=1
+
+            self.v=new_v
+
+            if(delta<self.theta):
+
+                print(f"价值迭代结束，共进行了{cnt}轮")
+
+                self.get_policy()
+
+                break
+
+    def get_policy(self):
+
+        for s in range(self.env.nrow*self.env.ncol):
+
+            qsa_list=[]
+
+            for a in range(4):
+
+                qsa=0
+
+                for a_i in self.env.P[s][a]:
+
+                    p,next_s,r,done=a_i
+
+                    qsa+=p*(r+self.gamma*self.v[next_s]*(1-done))
+
+                qsa_list.append(qsa)
+
+            ma=max(qsa_list)
+
+            cnt=qsa_list.count(ma)
+
+            self.pi[s]=[1/cnt if qsa_list[a]==ma else 0 for a in range(4)]
+
+  
+  if __name__ == '__main__':
+
+    import gym
+
+    env = gym.make("FrozenLake-v1")  # 创建环境
+
+    env = env.unwrapped  # 解封装才能访问状态转移矩阵P
+
+    env.render()  # 环境渲染,通常是弹窗显示或打印出可视化的环境
+
+    action_meaning = ['<', 'v', '>', '^']
+
+    theta = 1e-5
+
+    gamma = 0.9
+
+    #agent = PolicyIteration(env, theta, gamma)
+
+    #agent.policy_iteration()
+
+    agent = ValueIteration(env, theta, gamma)
+
+    agent.value_iteration()
+
+    print_agent(agent, action_meaning, [5, 7, 11, 12], [15])
+
+    env = CliffWalkingEnv()
+
+    action_meaning = ['^', 'v', '<', '>']
+
+    theta = 0.001
+
+    gamma = 0.9
+
+    #agent = PolicyIteration(env, theta, gamma)
+
+    #agent.policy_iteration()
+
+    agent = ValueIteration(env, theta, gamma)
+
+    agent.value_iteration()
+
+    print_agent(agent, action_meaning, list(range(37, 47)), [47])
+```
+## 5.一些思考
+DP算法只能解决白盒环境，也就是环境完全已知的情况
+
+与OI的DP的区别在于：
+
+1.虽然强化学习DP生成的策略是确定性的，但是动作可能具有一定随机性（eg：冰湖环境），传统dp不好解决
+
+2.我所接触到的传统dp（现在大一下）（除了一些转换为最短路问题的等），状态基本建立在DAG上，而强化学习的DP通过迭代可以解决有环的图等问题
+
+3.强化学习DP可以修改超参数$\gamma$来调整奖励的累计，而普通DP一般$\gamma=1$（可以见[[MDP]]中的思考部分）

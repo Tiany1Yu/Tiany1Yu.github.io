@@ -368,3 +368,5 @@ if __name__=="__main__":
     plt.show()
 ```
 ![MAB.png](/assets/img/notes/20260519-MAB/MAB.png)
+
+进一步的，我们引入上下文，可以得到上下文老虎机[[CB]]，动作可以影响决策，可以得到[[MDP]]，无法观测到真实的state，可以得到[[POMDP]],这些文章我也许后续会更新
