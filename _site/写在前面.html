@@ -1029,8 +1029,221 @@ function openEmailContact(email) {
 
 
   <script>
-    // Recover display-math blocks where Markdown stripped \[ ... \] into [ ... ].
+    window.ObsidianPageIndex = {
+      
+      
+      
+        
+        
+        "文物重构技术实践：基于点云的多碎片配准与可视化": "/hw3.html"
+        
+        
+          ,"2026-04-12-hw3": "/hw3.html"
+        
+      
+        
+        
+        ,"基于矩阵分解的哈勃深空图像分析与重构": "/hw2.html"
+        
+        
+          ,"2026-03-28-hw2": "/hw2.html"
+        
+      
+        
+        
+        ,"人工智能通识的第一次作业": "/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html"
+        
+        
+          ,"2026-03-17-人工智能通识的第一次作业": "/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E9%80%9A%E8%AF%86%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BD%9C%E4%B8%9A.html"
+        
+      
+        
+        
+        ,"pca/核pca/谱聚类--关于《矩阵计算与优化》第一次组作业": "/2026-03-14-ai-note.html"
+        
+        
+          ,"2026-03-14-2026-03-14-ai-note": "/2026-03-14-ai-note.html"
+        
+      
+        
+        
+        ,"写在前面": "/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2.html"
+        
+        
+          ,"2026-03-14-写在前面": "/%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2.html"
+        
+      
+        
+        
+        ,"mab": "/notes/2026-05-19-mab.html"
+        
+        
+      
+        
+        
+        ,"mdp": "/notes/2026-05-27-mdp.html"
+        
+        
+      
+        
+        
+        ,"dp": "/notes/2026-05-31-dp.html"
+        
+        
+      
+        
+        
+        ,"dqn": "/notes/2026-06-15-dqn.html"
+        
+        
+      
+        
+        
+        ,"reinforce&amp;actor_critic": "/notes/2026-06-15-reinforce-actor-critic.html"
+        
+        
+      
+        
+        
+        ,"sarsa q-learning and dyna-q": "/notes/2026-06-15-sarsa-q-learning-and-dyna-q.html"
+        
+        
+          ,"sarsa-q-learning-and-dyna-q": "/notes/2026-06-15-sarsa-q-learning-and-dyna-q.html"
+        
+      
+    };
+
+    // Make GitHub Pages' safe Jekyll renderer tolerate common Obsidian syntax.
     (function () {
+      var content = document.querySelector('.page-content');
+      if (!content) {
+        return;
+      }
+
+      function slugify(text) {
+        return (text || '').trim().toLowerCase()
+          .replace(/[^\w\u4e00-\u9fff\s-]/g, '')
+          .replace(/\s+/g, '-');
+      }
+
+      function splitTarget(raw) {
+        var parts = (raw || '').split('|').map(function (part) {
+          return part.trim();
+        });
+        return {
+          target: parts[0] || '',
+          label: parts[1] || parts[0] || '',
+          width: /^\d+(?:x\d+)?$/.test(parts[1] || '') ? (parts[1] || '').split('x')[0] : ''
+        };
+      }
+
+      function encodePath(path) {
+        return path.split('/').map(function (part) {
+          return encodeURIComponent(part);
+        }).join('/');
+      }
+
+      function pageImageBase() {
+        var cover = document.querySelector('.cover-image');
+        if (!cover) {
+          return '';
+        }
+        var match = (cover.getAttribute('style') || '').match(/assets\/img\/([^'")]+)/);
+        if (!match) {
+          return '';
+        }
+        var pieces = match[1].replace(/\\/g, '/').split('/');
+        pieces.pop();
+        return '/assets/img/' + pieces.join('/');
+      }
+
+      function wikiUrl(target) {
+        var pieces = (target || '').split('#');
+        var key = pieces[0].trim().toLowerCase();
+        var url = window.ObsidianPageIndex[key];
+        if (!url) {
+          return '';
+        }
+        return url + (pieces[1] ? '#' + slugify(pieces[1]) : '');
+      }
+
+      function renderWikiLinks(html) {
+        return html.replace(/!\[\[([^\]]+)\]\]/g, function (_, raw) {
+          var parsed = splitTarget(raw);
+          var imageLike = /\.(png|jpe?g|gif|webp|avif|svg)$/i.test(parsed.target);
+          if (!imageLike) {
+            var embedUrl = wikiUrl(parsed.target);
+            return embedUrl ? '<a href="' + embedUrl + '">' + parsed.label + '</a>' : parsed.label;
+          }
+          var src = parsed.target.match(/^(https?:)?\/\//) || parsed.target.charAt(0) === '/'
+            ? parsed.target
+            : pageImageBase() + '/' + encodePath(parsed.target);
+          var width = parsed.width ? ' width="' + parsed.width + '"' : '';
+          return '<img src="' + src + '" alt="' + parsed.label + '" class="obsidian-embed-image"' + width + '>';
+        }).replace(/(?<!!)\[\[([^\]]+)\]\]/g, function (_, raw) {
+          var parsed = splitTarget(raw);
+          var url = wikiUrl(parsed.target);
+          return url ? '<a href="' + url + '">' + parsed.label + '</a>' : parsed.label;
+        });
+      }
+
+      function normalizeMathText(mathHtml) {
+        return mathHtml
+          .replace(/<br\s*\/?>/gi, '\n')
+          .replace(/<\/p>\s*<p>/gi, '\n\n')
+          .replace(/<[^>]+>/g, '')
+          .replace(/&amp;/g, '&')
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&nbsp;/g, ' ')
+          .replace(/\\(?=\s*\n)/g, function () { return '\\\\'; })
+          .trim();
+      }
+
+      function displayMath(rawMath) {
+        var math = normalizeMathText(rawMath);
+        return '<scr' + 'ipt type="math/tex; mode=display">' + math + '</scr' + 'ipt>';
+      }
+
+      function looksLikeMath(rawMath) {
+        return /\\[A-Za-z]+|[_^=]|\\sum|\\frac|\\leftarrow|\\rightarrow/.test(rawMath || '');
+      }
+
+      var html = renderWikiLinks(content.innerHTML)
+        .replace(/(!\[[^\]]*\]\([^)]+\))(?=\S)/g, '$1<br>');
+
+      html = html.replace(/\$\$([\s\S]*?\\end\{(?:align\*?|aligned|gather\*?|equation\*?|multline\*?)\})\\\(/g, function (_, rawMath) {
+        return displayMath(rawMath);
+      });
+
+      html = html.replace(/\\\)([^<]*?)\\\(/g, function (match, rawMath) {
+        return looksLikeMath(rawMath) ? displayMath(rawMath) : match;
+      });
+
+      html = html.replace(/\\\)([^<]*?)\$\$/g, function (match, rawMath) {
+        return looksLikeMath(rawMath) ? displayMath(rawMath) : match;
+      });
+
+      content.innerHTML = html
+        .replace(/\$\$([\s\S]*?)\$\$/g, function (_, rawMath) {
+          var math = normalizeMathText(rawMath);
+          return displayMath(math);
+        });
+
+      var callouts = content.querySelectorAll('blockquote');
+      for (var c = 0; c < callouts.length; c++) {
+        var first = callouts[c].querySelector('p');
+        if (!first) {
+          continue;
+        }
+        var match = first.textContent.match(/^\s*\[!(\w+)\]\s*([^\n]*)/);
+        if (!match) {
+          continue;
+        }
+        callouts[c].classList.add('obsidian-callout', 'obsidian-callout-' + match[1].toLowerCase());
+        first.innerHTML = first.innerHTML.replace(/\s*\[!\w+\]\s*/, '<strong>' + (match[2] || match[1]) + '</strong><br>');
+      }
+
       var nodes = document.querySelectorAll('.page-content p, .page-content li, .post-excerpt p, .post-excerpt li');
       for (var i = 0; i < nodes.length; i++) {
         var node = nodes[i];
@@ -1055,6 +1268,9 @@ function openEmailContact(email) {
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
     extensions: ["tex2jax.js"],
+    TeX: {
+      extensions: ["AMSmath.js", "AMSsymbols.js", "noErrors.js", "noUndefined.js"]
+    },
     tex2jax: {
       inlineMath: [ ['$','$'], ["\\(","\\)"] ],
       displayMath: [ ['$$','$$'], ["\\[","\\]"] ],

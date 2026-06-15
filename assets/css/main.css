@@ -1599,7 +1599,50 @@ img + small, img + br + small {
 
 .page-content img {
     display: block;
-    margin: auto;
+    max-width: 100%;
+    height: auto;
+    margin: 1.25rem auto;
+}
+
+.page-content .obsidian-embed-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1.25rem auto;
+}
+
+.page-content p > img:first-child:last-child {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.page-content p > img + br + img,
+.page-content p > img + img,
+.page-content .obsidian-embed-image + .obsidian-embed-image {
+    margin-top: 1.5rem;
+}
+
+.page-content p > img + br {
+    display: block;
+    content: "";
+    margin-bottom: 0.35rem;
+}
+
+.page-content .obsidian-callout {
+    border-left: 4px solid var(--link);
+    border-radius: 8px;
+    margin: 1.25rem 0;
+    padding: 0.9rem 1rem;
+    background: rgba(127, 127, 127, 0.08);
+    font-style: normal;
+}
+
+.page-content .obsidian-callout p:first-child {
+    margin-top: 0;
+}
+
+.page-content .obsidian-callout p:last-child {
+    margin-bottom: 0;
 }
 
 .header-page {

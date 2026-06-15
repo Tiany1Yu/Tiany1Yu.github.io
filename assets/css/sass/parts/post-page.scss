@@ -132,6 +132,23 @@ span#github-btn {
   margin-bottom: 0.35rem;
 }
 
+.page-content .obsidian-callout {
+  border-left: 4px solid var(--link);
+  border-radius: 8px;
+  margin: 1.25rem 0;
+  padding: 0.9rem 1rem;
+  background: rgba(127, 127, 127, 0.08);
+  font-style: normal;
+}
+
+.page-content .obsidian-callout p:first-child {
+  margin-top: 0;
+}
+
+.page-content .obsidian-callout p:last-child {
+  margin-bottom: 0;
+}
+
 .header-page {
   position: relative;
   margin-bottom: 30px;

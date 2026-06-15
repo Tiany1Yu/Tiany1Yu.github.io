@@ -24,7 +24,9 @@ module ObsidianCompat
     text.gsub(DISPLAY_MATH) do
       body = Regexp.last_match[:body].strip
       token = "OBSIDIAN_DISPLAY_MATH_#{math_blocks.length}"
-      math_blocks << %(<script type="math/tex; mode=display">\n#{CGI.escapeHTML(body)}\n</script>)
+      safe_body = body.gsub(%r{</script}i, '<\/script')
+      safe_body = safe_body.gsub(/\\\\(?=\s*(?:\r?\n|&|$))/) { "\\\\\\\\" }
+      math_blocks << %({::nomarkdown}\n<script type="math/tex; mode=display">\n#{safe_body}\n</script>\n{:/nomarkdown})
       "\n\n#{token}\n\n"
     end
   end
