@@ -5,8 +5,8 @@ show_date: true
 title: "DP"
 date: 2026-05-31 14:24:14 +0800
 last_modified_at: 2026-05-31 14:24:14 +0800
-img: "posts/20260531-DP/cover_DP.png"
-tags: []
+img: "notes/20260531-DP/cover_DP.png"
+tags: [强化学习]
 author: "uke"
 ---
 ## 1.前言

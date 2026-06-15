@@ -9,14 +9,148 @@
       
       
         
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
           
           {
+            "title"       : "sarsa Q-learning and Dyna-Q",
+            "category"    : "notes",
+            "collection"  : "notes",
+            "type"        : "笔记",
+            "tags"        : "强化学习",
+            "url"         : "./notes/2026-06-15-sarsa-q-learning-and-dyna-q.html",
+            "date"        : "2026-06-15 16:09:46 +0800",
+            "last_modified_at" : "2026-06-15 16:09:46 +0800",
+            "description" : "",
+            "content"     : "我们简单介绍三种算法，并附上代码实践1 TD我们给出下面的式子：$$\\begin{align}V_\\pi(s)&amp;=\\mathbb{E}\\pi[G_t\\mid S_t=s]\\nonumber \\&amp;=\\mathbb{E}\\pi[r_i+\\gamma G_{t+1} \\mid S_t=s] \\nonumber \\&amp;=\\mathbb{E}\\pi[r_t+\\gamma V\\pi(S_{t+1})\\mid S_t=s]\\end{align}\\(最后一个等号是因为全期望公式回顾[[MDP]]中的蒙特卡洛算法，我们需要采样完一整条路径，再采用上式的第一行进行增量更新，形式类似：\\)V_\\pi(S_t)\\leftarrow V_\\pi(S_t)+\\alpha[G_t-V_\\pi(S_t)]\\(其中，$\\alpha=\\frac{1}{N(s)}$或最好至少有$\\sum\\alpha\\to\\infty$且$\\sum\\alpha^2&lt;\\infty$采样一条路径耗时长，方差大，我们可以采用第三行来进行增量更新，也就是：\\)V_\\pi(S_t)\\leftarrow V_\\pi(S_t)+\\alpha[r_t+\\gamma V_\\pi(S_{t+1})-V(S_t)]$$这便是强化学习中的TD方法我们发现，这大大降低了随机性，也就降低了方差，但同时，自举式的更新导致这是一种有偏估计（在离线策略或函数逼近时将不一定能收敛到全局最优）2 SARSA我们尝试使用类似策略迭代的方式来解决这个问题我们已经可以使用TD进行策略评估，那我们该如何进行策略提升呢？那么可以有：\\(Q(s_t,a_t)\\leftarrow Q(s_t,a_t)+\\alpha [r_t+\\gamma Q(s_{t+1},a_{t+1})-Q(s_t,a_t)]\\)然后每次更新选择$arg\\max_a Q(s,a)$即可但是，这样做存在问题，也就是如何平衡探索与利用？我们是采样更新，而非像DP那样挑选每个动作，也许有一些动作从来没更新于是，我们定义\\(\\pi(a\\mid s)=\\begin{cases}\\frac{\\epsilon}{\\lvert A \\rvert}+1-\\epsilon,&amp; \\text{if }a=arg\\max_a Q(s,a)\\\\\\frac{\\epsilon}{\\lvert A \\rvert},&amp; \\text{else}\\end{cases}\\)这个算法与s，a，r，以及s’,a’有关，因此得名sarsa3 多步 Sarsa\\(Q(s_t,a_t)\\leftarrow Q(s_t,a_t)+\\alpha [r_t+\\gamma Q(s_{t+1},a_{t+1})+\\gamma^2Q(s_{t+2},a_{t+2})+\\cdots+\\gamma^nQ(s_{t+2},a_{t+2})-Q(s_t,a_t)]\\)这便是n步sarsa算法的更新方式，可以在一定程度上中和这种自举的算法的偏差4 Q-learning\\(Q(s_t,a_t)\\leftarrow Q(s_t,a_t)+\\alpha [r_t+\\gamma\\max_a Q(s_{t+1},a)-Q(s_t,a_t)]\\)这是一种离线策略算法，直接估计的是贝尔曼最优方程5 Dyna-Q之前介绍的都是无模型的算法，也就是不对环境进行建模的算法，而Dyna-Q会进行Q-planning这里的M也就是模型书中的算法是执行在确定性环境中，那么M就是一个简单的记忆模型，而非推测模型Dyna-Q好在哪里？每一次采样，通过Q-planning可以生成n个假采样并更新数据，更新效率极高，在取样困难等场景非常管用6 代码实践（日后更新）"
+          }
+          
+          
+    
+  
+    
+    
+      
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          ,
+          {
+            "title"       : "REINFORCE&ACTOR_CRITIC",
+            "category"    : "notes",
+            "collection"  : "notes",
+            "type"        : "笔记",
+            "tags"        : "强化学习",
+            "url"         : "./notes/2026-06-15-reinforce-actor-critic.html",
+            "date"        : "2026-06-15 16:09:46 +0800",
+            "last_modified_at" : "2026-06-15 16:09:46 +0800",
+            "description" : "",
+            "content"     : "先前我们所涉及的所有算法，都是针对价值函数进行迭代，而策略方面往往仅局限于$\\epsilon-\\text{贪婪算法}$，几乎不进行更新我们先介绍基于策略的经典算法：REINFORCE，也就是策略梯度算法1.REINFORCE我们严格定义一下该算法首先，我们记轨迹为：\\(\\tau=(s_0,a_0,r_0,s_1,a_1,r_1,\\cdots)\\)记轨迹概率为,其中T是与环境可能交互的最大步数：\\(\\rho_\\theta(\\tau)=\\rho_0(s_0)\\prod_{t=0}^T\\pi_\\theta(a_t\\mid s_t) P(s_{t+1}\\mid s_t,a_t)\\)环境转移概率,初始概率分布与策略无关，因此\\(\\nabla_\\theta \\log{\\rho_\\theta(\\tau)}=\\sum_{t=0}^T\\nabla_\\theta \\log{\\pi_\\theta(a_t\\mid s_t)}\\)优化目标为：\\(J(\\theta)=\\mathbb{E}_{\\tau \\sim \\rho_\\theta}[R(\\tau)]=\\sum_\\tau R(\\tau)\\rho_\\theta(\\tau)\\)故，\\(\\begin{align}\\nabla_\\theta J(\\theta)=&amp;\\sum_\\tau R(\\tau)\\nabla_\\theta\\rho_\\theta(\\tau)\\text{（这是因为在$\\tau$确定的情况下，$R(\\tau)$与$\\theta$无关）}\\nonumber \\\\=&amp;\\sum_\\tau R(\\tau)\\rho_\\theta(\\tau)\\nabla_\\theta log{\\rho_\\theta(\\tau)}\\nonumber \\\\=&amp;\\mathbb{E}_{\\tau \\sim \\rho_\\theta}[R(\\tau)\\nabla_\\theta log{\\rho_\\theta(\\tau)}]\\nonumber \\\\=&amp;\\mathbb{E}_{\\tau \\sim \\rho_\\theta}[\\sum_{t=0}^T R(\\tau)\\nabla_\\theta log{\\pi_\\theta(a_t\\mid s_t)}]\\nonumber \\\\\\end{align}\\)我们记录这里的$R(\\tau)$为$\\psi_t$，故有：\\(\\nabla_\\theta J(\\theta)=\\mathbb{E}_{\\tau \\sim \\rho_\\theta}[\\sum_{t=0}^T \\psi_t(\\tau)\\nabla_\\theta log{\\pi_\\theta(a_t\\mid s_t)}]\\)我们不加证明的给出$\\psi_t$的六种取值：\\(\\begin{align}\\psi_t &amp;= \\sum_{t'=0}^T\\gamma^{t'}r_{t'} \\tag{1} \\\\\\psi_t &amp;= \\sum_{t'=t}^T\\gamma^{t'-t}r_{t'} \\tag{2} \\\\\\psi_t &amp;= \\sum_{t'=t}^T\\gamma^{t'-t}r_{t'}-b(s_t) \\tag{3} \\\\\\psi_t &amp;= Q^{\\pi_\\theta}(s_t,a_t) \\tag{4} \\\\\\psi_t &amp;= A^{\\pi_\\theta}(s_t,a_t) \\tag{5} \\\\\\psi_t &amp;= r_t+\\gamma V^{\\pi_\\theta}(s_{t+1})-V^{\\pi_\\theta}(s_t) \\tag{6}\\end{align}\\)（1）的方差非常大，一条轨迹可以影响此轨迹所有节点的策略，而事实上$a_t$不可能影响已发生的奖励，会有非常大的噪声，需要采样大量数据才可以收敛（2）依旧无偏差，方差比（1）要小很多（3）加入了baseline，一般取$V^\\pi(s)$,baseline的引入不增加偏差，故依旧无偏，一个好的baseline可以降低方差（4）（5）（6）从（4）开始，摆脱了MC更新，减小了方差，可以一个时间步一更新而非一个采样序列一更新，但是同时，一般来说Q，A，V都未知，需要引入2.的critic来学习（4）到（5）到（6），通常方差逐渐减小，但是偏差逐渐增大，对critic精确性的依赖逐步加深，其中（5）应用于大量经典算法（如PPO等）2.ACTOR-CRITICactor和critic分别为两个神经网络，其中： Actor 要做的是与环境交互，并在 Critic 价值函数的指导下用策略梯度学习一个更好的策略。 Critic 要做的是通过 Actor 与环境交互收集的数据学习一个价值函数，这个价值函数会用于判断在当前状态什么动作是好的，什么动作不是好的，进而帮助 Actor 进行策略更新。critic有很多种更新方式，如（3）中可以采用MC更新，（4）（5）（6）可以使用TD更新，TD(n)以及一些后续会提到的更新方式等 3.实践 后续更新"
+          }
+          
+          
+    
+  
+    
+    
+      
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          ,
+          {
+            "title"       : "DQN",
+            "category"    : "notes",
+            "collection"  : "notes",
+            "type"        : "笔记",
+            "tags"        : "强化学习",
+            "url"         : "./notes/2026-06-15-dqn.html",
+            "date"        : "2026-06-15 16:09:45 +0800",
+            "last_modified_at" : "2026-06-15 16:09:45 +0800",
+            "description" : "",
+            "content"     : "1.自然扩展在先前的[[Sarsa Q-learning and Dyna-Q]]算法中，我们始终需要维护一张$Q(s,a)$的表格，而这在$state$的数量巨量或者直接为离散情况时，这是不现实的于是我们尝试用函数来拟合这个表格从深度学习的学习之中，我们知道，多层感知机是一种很好的拟合函数今天介绍的DQN算法便可以用来解决这样的情况，我们把函数记为$Q_\\omega(s,a)$我们把这样的网络记为Q-网络我们沿用Q-learning的更新准则：\\(Q(s_t,a_t)\\leftarrow Q(s_t,a_t)+\\alpha\\left[r+\\gamma \\max_{a\\in A}Q(s_{t+1},a)-Q(s_t,a_t)\\right]\\)当Q逐渐收敛到某个具体值时，$\\left\\lvert r+\\gamma \\max_a Q(s_{t+1},a)-Q(s_t,a_t)\\right\\rvert$会逐渐收敛到0因此，很自然的，我们将Q网络的损失函数定义为：\\(\\omega^*=arg\\min_\\omega\\frac{1}{2N}\\sum_{i=1}^N\\left[r+\\gamma \\max_a Q_\\omega(s_{i+1},a)-Q(s_i,a_i)\\right]^2\\)2.经验回放和目标网络以上均很自然，可如果完全使用TD的更新方法，学习率近乎为0原因有二： 始终使用时间连续，前后相关的数据，不满足数据的相互独立，会出现过拟合 损失函数的目标始终在变动，也许会导致正反馈式的自举现象，那么就可能很难收敛，甚至出现无限增长的现象 2.1 经验回放 为了解决（1），我们引入了经验回放也就是我们采样环境之后，我们维护一个经验缓冲区，存储四元组$\\langle s,a,r,s_{next} \\rangle$每次从缓冲区中随机取样这不仅解决了（1）的问题，还降低了与环境交互的次数，也就降低了成本 2.2 目标函数 为了解决（2），我们引入了目标网络，也即维护两个Q网络： 原有的$Q$网络，$Q_\\omega(s,a)$ 目标网络,$Q_{w^-}(s,a)$其中，$Q_\\omega$正常更新，而$Q_{\\omega^-}$每隔$C$步与$Q_{w}$同步，即：$Q_{\\omega^-}\\leftarrow Q_\\omega$ 3.DQN的改进 3.1double DQN 每次都筛选最大的Q来自举更新会最终导致整个网络的Q都被严重抬高于是：从$Q$网络中选择argmax，但是用$Q_{w^-}$来更新，有效抑制Q爆炸，提升网络的稳定性 3.2 dueling DQN 将原本Q的更新拆成两块\\(Q_{\\eta,\\alpha,\\beta}(s,a)=V_{\\eta,\\alpha}(s,a)+A_{\\eta,\\beta}(s,a)\\)其中，A命名为优势函数V与A分别共用一部分神经网络$\\eta$，并分别分立一部分参数但当然，如果如此建模，V+C A-C,不会使得Q值改变，也就是说不唯一我们减去$\\max_a A$，此时满足唯一性，且满足贝尔曼最优方程但是max不具备鲁棒性，我们一般用均值代替，也就是\\(Q_{\\eta,\\alpha,\\beta}(s,a)=V_{\\eta,\\alpha}(s,a)+A_{\\eta,\\beta}(s,a)-\\frac{1}{\\lvert A\\rvert}\\sum_{a'}A_{\\eta,\\beta}(s,a')\\)这显著提高了泛化性，采样路径可以改变同state，不同action的动作价值 3.3 PER 用TD Error来衡量一个经验的价值（目标值减去当前预测值的绝对值），使用SumTree使得TD Error越大的经验越容易被抽中，显著加快了收敛 3.4 Distributional RL C51预测一个柱状图分布，也就是人为取51个固定端点，用softmax预测各个区间的概率而非只预测均值，这提高了信息量，增强了鲁棒性 3.5 n-step Learning 与多步SARSA一致，将原本$r_t+\\gamma V_{t+1}$扩展为n步，平衡了方差和偏差 3.6 noisy nets 舍弃$\\epsilon-\\text{贪婪策略}$，这种依赖人工调节超参数，真正意义上的平衡了探索和利用：\\(y = (\\mu^w + \\sigma^w \\odot \\epsilon^w)x + (\\mu^b + \\sigma^b \\odot \\epsilon^b)\\)1.自动退火，逐渐减少探索2.连续探索，而非随机探索 4.代码实践 我们采用CartPole环境，此环境目标是通过左右移动使得小车上的木杆保持竖直done的条件是车子偏离初始位置太远，或者杆子倾斜角度太大，或者坚持超过200帧 （日后更新)"
+          }
+          
+          
+    
+  
+    
+    
+      
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+          ,
+          {
             "title"       : "DP",
-            "category"    : "posts",
-            "collection"  : "posts",
-            "type"        : "文章",
-            "tags"        : "",
-            "url"         : "./DP.html",
+            "category"    : "notes",
+            "collection"  : "notes",
+            "type"        : "笔记",
+            "tags"        : "强化学习",
+            "url"         : "./notes/2026-05-31-dp.html",
             "date"        : "2026-05-31 14:24:14 +0800",
             "last_modified_at" : "2026-05-31 14:24:14 +0800",
             "description" : "",
@@ -29,8 +163,6 @@
     
     
       
-      
-        
       
         
       
@@ -77,8 +209,6 @@
         
       
         
-      
-        
           ,
           {
             "title"       : "MAB",
@@ -99,8 +229,6 @@
     
     
       
-      
-        
       
         
           ,
@@ -127,8 +255,6 @@
         
       
         
-      
-        
           ,
           {
             "title"       : "基于矩阵分解的哈勃深空图像分析与重构",
@@ -149,8 +275,6 @@
     
     
       
-      
-        
       
         
       
@@ -185,8 +309,6 @@
         
       
         
-      
-        
           ,
           {
             "title"       : "PCA/核PCA/谱聚类--关于《矩阵计算与优化》第一次组作业",
@@ -207,8 +329,6 @@
     
     
       
-      
-        
       
         
       

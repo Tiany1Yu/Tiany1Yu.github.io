@@ -208,6 +208,80 @@
               
               
                 
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
                   
                   
               
@@ -264,6 +338,24 @@
               
               
                 
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
               
                 
                   
@@ -328,8 +420,6 @@
                 
               
                 
-              
-                
                   
                   
               
@@ -388,8 +478,6 @@
             
             
               
-              
-                
               
                 
               
@@ -475,14 +563,10 @@
               
               
                 
-                  
-                  
               
-            
-          
-            
-            
+                
               
+                
               
                 
               
@@ -505,7 +589,7 @@
                 
 
                 <div class="post">
-                  <a class="post-list-title" href="./notes/2026-05-27-mdp.html">MDP</a>
+                  <a class="post-list-title" href="./notes/2026-06-15-sarsa-q-learning-and-dyna-q.html">sarsa Q-learning and Dyna-Q</a>
                   <span class="note-pill">笔记</span>
                   
 
@@ -518,7 +602,7 @@
     
       
       <span class="page_meta-date">
-        <time datetime="2026-05-27T12:09:52+08:00">2026年5月27日</time>
+        <time datetime="2026-06-15T16:09:46+08:00">2026年6月15日</time>
       </span>
     
     
@@ -540,14 +624,14 @@
     
     
     <span class="page_meta-readtime">
-      11 分钟阅读
+      4 分钟阅读
     </span>
   
   
   </span>
 
                   <div class="post-excerpt">
-                    1.前言MDP在[[MAB]]的基础上，加入了与环境的交互：1.环境不再是一成不变的，而是具有state的变化2.action具有改变环境的能力<a class="read-more" href="./notes/2026-05-27-mdp.html"> 阅读全文</a>
+                    我们简单介绍三种算法，并附上代码实践1 TD我们给出下面的式子：$$\begin{align}V_\pi(s)&amp;=\mathbb{E}\pi[G_t\mid S_t=s]\nonumber \&amp;=\mathbb{E}\pi[r_i+\gamma G_{t+1} \mid S_t=s] \nonumber \&amp;=\mathbb{E}\pi[r_t+\gamma V\pi(S_{t+1})\mid S_t=s]<a class="read-more" href="./notes/2026-06-15-sarsa-q-learning-and-dyna-q.html"> 阅读全文</a>
                   </div>
                 </div>
                 
@@ -571,13 +655,19 @@
                 
               
                 
+              
+                
+              
+                
+              
+                
                   
                   
               
                 
 
                 <div class="post">
-                  <a class="post-list-title" href="./notes/2026-05-19-mab.html">MAB</a>
+                  <a class="post-list-title" href="./notes/2026-06-15-reinforce-actor-critic.html">REINFORCE&ACTOR_CRITIC</a>
                   <span class="note-pill">笔记</span>
                   
 
@@ -590,7 +680,7 @@
     
       
       <span class="page_meta-date">
-        <time datetime="2026-05-19T10:47:47+08:00">2026年5月19日</time>
+        <time datetime="2026-06-15T16:09:46+08:00">2026年6月15日</time>
       </span>
     
     
@@ -612,14 +702,14 @@
     
     
     <span class="page_meta-readtime">
-      8 分钟阅读
+      5 分钟阅读
     </span>
   
   
   </span>
 
                   <div class="post-excerpt">
-                    1.首先，基于整个问题给出一个形式化的描述：多臂老虎机问题不存在$state$,也就可以建模为一个元组$\left\langle A , R \right\rangle$，其中： $A$ 为动作集合 $R$ 为奖励概率分布<a class="read-more" href="./notes/2026-05-19-mab.html"> 阅读全文</a>
+                    先前我们所涉及的所有算法，都是针对价值函数进行迭代，而策略方面往往仅局限于$\epsilon-\text{贪婪算法}$，几乎不进行更新我们先介绍基于策略的经典算法：REINFORCE，也就是策略梯度算法1.REINFORCE我们严格定义一下该算法首先，我们记轨迹为：\(\tau=(s_0,a_0,r_0,s_1,a_1,r_1,\cdots)\)记轨迹概率为,其中T是与环境可能交互的最大步数：\(\rho_\theta(\tau)=\rho_0(s_0)\prod_{t=0}^T\pi_\theta(a_t\mid s_t) P(s_{t+1}\mid s_t,a_t)\)环境转移概率,初始概率分布与策略无关，因此\(\nabla_\theta \log{\rho_\theta(\tau)}=\sum_{t=0}^T\nabla_\theta \log{\pi_\theta(a_t\mid s_t)}\)优化目标为：\(J(\theta)=\mathbb{E}_{\tau \sim \rho_\theta}[R(\tau)]=\sum_\tau R(\tau)\rho_\theta(\tau)\)故，\(\begin{align}\nabla_\theta J(\theta)=&amp;\sum_\tau R(\tau)\nabla_\theta\rho_\theta(\tau)\text{（这是因为在$\tau$确定的情况下，$R(\tau)$与$\theta$无关）}\nonumber \\=&amp;\sum_\tau R(\tau)\rho_\theta(\tau)\nabla_\theta log{\rho_\theta(\tau)}\nonumber \\=&amp;\mathbb{E}_{\tau \sim \rho_\theta}[R(\tau)\nabla_\theta log{\rho_\theta(\tau)}]\nonumber \\=&amp;\mathbb{E}_{\tau \sim \rho_\theta}[\sum_{t=0}^T R(\tau)\nabla_\theta log{\pi_\theta(a_t\mid s_t)}]\nonumber \\\end{align}\)<a class="read-more" href="./notes/2026-06-15-reinforce-actor-critic.html"> 阅读全文</a>
                   </div>
                 </div>
                 
@@ -633,77 +723,97 @@
                 
               
                 
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
                   
                   
+              
+                
+
+                <div class="post">
+                  <a class="post-list-title" href="./notes/2026-06-15-dqn.html">DQN</a>
+                  <span class="note-pill">笔记</span>
+                  
+
+  <span class = "post-card-meta">
+  
+  
+    <span class="meta-pre"></span>
+  
+  
+    
+      
+      <span class="page_meta-date">
+        <time datetime="2026-06-15T16:09:45+08:00">2026年6月15日</time>
+      </span>
+    
+    
+      <span class="meta-sep"></span>
+    
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <span class="page_meta-readtime">
+      6 分钟阅读
+    </span>
+  
+  
+  </span>
+
+                  <div class="post-excerpt">
+                    1.自然扩展在先前的[[Sarsa Q-learning and Dyna-Q]]算法中，我们始终需要维护一张$Q(s,a)$的表格，而这在$state$的数量巨量或者直接为离散情况时，这是不现实的于是我们尝试用函数来拟合这个表格从深度学习的学习之中，我们知道，多层感知机是一种很好的拟合函数今天介绍的DQN算法便可以用来解决这样的情况，我们把函数记为$Q_\omega(s,a)$我们把这样的网络记为Q-网络<a class="read-more" href="./notes/2026-06-15-dqn.html"> 阅读全文</a>
+                  </div>
+                </div>
+                
               
             
           
             
             
-              
-              
-                
-              
-                
-              
-                
-                  
-                  
-              
+          
+            
             
           
             
             
-              
-              
-                
-              
-                
-              
-                
-              
-                
-                  
-                  
-              
+          
+            
             
           
             
             
-              
-              
-                
-              
-                
-              
-                
-              
-                
-              
-                
-                  
-                  
-              
+          
+            
             
           
             
             
-              
-              
-                
-              
-                
-              
-                
-              
-                
-              
-                
-              
-                
-                  
-                  
-              
+          
+            
             
           
         </div>
@@ -724,6 +834,80 @@
               
               
                 
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
                   
                   
               
@@ -780,6 +964,24 @@
               
               
                 
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
               
                 
                   
@@ -844,8 +1046,6 @@
                 
               
                 
-              
-                
                   
                   
               
@@ -904,8 +1104,6 @@
             
             
               
-              
-                
               
                 
               
@@ -991,6 +1189,80 @@
               
               
                 
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
                   
                   
               
@@ -1049,14 +1321,8 @@
                 
               
                 
-                  
-                  
               
-            
-          
-            
-            
-              
+                
               
                 
               
@@ -1073,6 +1339,26 @@
               
               
                 
+                  
+                  
+              
+            
+          
+            
+            
+              
+              
+                
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
               
                 
               
@@ -1137,8 +1423,6 @@
             
             
               
-              
-                
               
                 
               
@@ -1215,8 +1499,6 @@
                 
               
                 
-              
-                
                   
                   
               
@@ -1240,6 +1522,80 @@
               
               
                 
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
                   
                   
               
@@ -1298,6 +1654,36 @@
                 
               
                 
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
+              
+                
+              
+                
                   
                   
               
@@ -1336,26 +1722,6 @@
             
             
               
-              
-                
-              
-                
-              
-                
-              
-                
-              
-                
-                  
-                  
-              
-            
-          
-            
-            
-              
-              
-                
               
                 
               
@@ -1439,6 +1805,80 @@
               
               
                 
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
                   
                   
               
@@ -1497,6 +1937,36 @@
                 
               
                 
+              
+                
+              
+                
+              
+                
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
+              
+                
+                  
+                  
+              
+            
+          
+            
+            
+              
+              
+                
+              
+                
                   
                   
               
@@ -1519,24 +1989,6 @@
             
             
               
-              
-                
-              
-                
-              
-                
-              
-                
-                  
-                  
-              
-            
-          
-            
-            
-              
-              
-                
               
                 
               
@@ -1603,8 +2055,6 @@
             
             
               
-              
-                
               
                 
               
@@ -1706,7 +2156,7 @@
                 
                     
                     
-                    <li><a href="./tag.html?tag=%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0" class="tag">强化学习 <span>(2)</span></a></li>
+                    <li><a href="./tag.html?tag=%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0" class="tag">强化学习 <span>(6)</span></a></li>
                 
             
                 
