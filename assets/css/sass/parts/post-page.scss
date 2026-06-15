@@ -107,6 +107,31 @@ span#github-btn {
   white-space: normal;
 }
 
+.page-content img,
+.page-content .obsidian-embed-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.25rem auto;
+}
+
+.page-content p > img:first-child:last-child {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.page-content p > img + br + img,
+.page-content p > img + img,
+.page-content .obsidian-embed-image + .obsidian-embed-image {
+  margin-top: 1.5rem;
+}
+
+.page-content p > img + br {
+  display: block;
+  content: "";
+  margin-bottom: 0.35rem;
+}
+
 .header-page {
   position: relative;
   margin-bottom: 30px;

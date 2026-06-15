@@ -23,7 +23,7 @@
   "headline": "sarsa Q-learning and Dyna-Q",
   "abstract": "",
     "keywords": "强化学习",
-    "wordcount": "80",
+    "wordcount": "38",
     "image": ["https://Tiany1Yu.github.io/assets/img/notes/20260615-sarsa-Q-learning-and-Dyna-Q/cover.png"],
   "datePublished": "2026-06-15 16:09:46 +0800",
   "dateModified": "2026-06-15 16:09:46 +0800",
@@ -63,7 +63,7 @@
 <meta name="twitter:description" content="">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="80"/>
+<meta data-rh="true" name="twitter:data1" content="38"/>
 <meta name="twitter:image:src" content="https://Tiany1Yu.github.io/assets/img/notes/20260615-sarsa-Q-learning-and-Dyna-Q/cover.png">
 
 	<!-- Windows Phone -->
@@ -134,7 +134,7 @@
     
     
     <span class="page_meta-readtime">
-      4 分钟阅读
+      3 分钟阅读
     </span>
   
   
@@ -281,7 +281,7 @@
     
     
     <span class="page_meta-readtime">
-      4 分钟阅读
+      3 分钟阅读
     </span>
   
   
@@ -325,45 +325,77 @@
         
         <p>我们简单介绍三种算法，并附上代码实践</p>
 <h2 id="1-td">1 TD</h2>
-<p>我们给出下面的式子：<br />
-$$\begin{align}<br />
-V_\pi(s)<br />
-&amp;=\mathbb{E}<em>\pi[G_t\mid S_t=s]\nonumber \<br />
-&amp;=\mathbb{E}</em>\pi[r_i+\gamma G_{t+1} \mid S_t=s] \nonumber \<br />
-&amp;=\mathbb{E}<em>\pi[r_t+\gamma V</em>\pi(S_{t+1})\mid S_t=s]</p>
+<p>我们给出下面的式子：</p>
 
-<p>\end{align}\(最后一个等号是因为全期望公式
-回顾[[MDP]]中的蒙特卡洛算法，我们需要采样完一整条路径，再采用上式的第一行进行增量更新，形式类似：\)V_\pi(S_t)\leftarrow V_\pi(S_t)+\alpha[G_t-V_\pi(S_t)]\(其中，$\alpha=\frac{1}{N(s)}$或最好至少有$\sum\alpha\to\infty$且$\sum\alpha^2&lt;\infty$
-采样一条路径耗时长，方差大，我们可以采用第三行来进行增量更新，也就是：\)V_\pi(S_t)\leftarrow V_\pi(S_t)+\alpha[r_t+\gamma V_\pi(S_{t+1})-V(S_t)]$$<br />
-这便是强化学习中的TD方法<br />
+<script type="math/tex; mode=display">
+\begin{align}
+V_\pi(s)
+&amp;=\mathbb{E}_\pi[G_t\mid S_t=s]\nonumber \
+&amp;=\mathbb{E}_\pi[r_i+\gamma G_{t+1} \mid S_t=s] \nonumber \
+&amp;=\mathbb{E}_\pi[r_t+\gamma V_\pi(S_{t+1})\mid S_t=s]
+
+\end{align}
+</script>
+
+<p>最后一个等号是因为全期望公式<br />
+回顾<a href="/notes/2026-05-27-mdp.html">MDP</a>中的蒙特卡洛算法，我们需要采样完一整条路径，再采用上式的第一行进行增量更新，形式类似：</p>
+
+<script type="math/tex; mode=display">
+V_\pi(S_t)\leftarrow V_\pi(S_t)+\alpha[G_t-V_\pi(S_t)]
+</script>
+
+<p>其中，$\alpha=\frac{1}{N(s)}$或最好至少有$\sum\alpha\to\infty$且$\sum\alpha^2&lt;\infty$<br />
+采样一条路径耗时长，方差大，我们可以采用第三行来进行增量更新，也就是：</p>
+
+<script type="math/tex; mode=display">
+V_\pi(S_t)\leftarrow V_\pi(S_t)+\alpha[r_t+\gamma V_\pi(S_{t+1})-V(S_t)]
+</script>
+
+<p>这便是强化学习中的TD方法<br />
 我们发现，这大大降低了随机性，也就降低了方差，但同时，自举式的更新导致这是一种有偏估计（在离线策略或函数逼近时将不一定能收敛到全局最优）</p>
 <h2 id="2-sarsa">2 SARSA</h2>
 <p>我们尝试使用类似策略迭代的方式来解决这个问题<br />
 我们已经可以使用TD进行策略评估，那我们该如何进行策略提升呢？<br />
-那么可以有：<br />
-\(Q(s_t,a_t)\leftarrow Q(s_t,a_t)+\alpha [r_t+\gamma Q(s_{t+1},a_{t+1})-Q(s_t,a_t)]\)<br />
-然后每次更新选择$arg\max_a Q(s,a)$即可<br />
+那么可以有：</p>
+
+<script type="math/tex; mode=display">
+Q(s_t,a_t)\leftarrow Q(s_t,a_t)+\alpha [r_t+\gamma Q(s_{t+1},a_{t+1})-Q(s_t,a_t)]
+</script>
+
+<p>然后每次更新选择$arg\max_a Q(s,a)$即可<br />
 但是，这样做存在问题，也就是如何平衡探索与利用？<br />
 我们是采样更新，而非像DP那样挑选每个动作，也许有一些动作从来没更新<br />
-于是，我们定义<br />
-\(\pi(a\mid s)=
+于是，我们定义</p>
+
+<script type="math/tex; mode=display">
+\pi(a\mid s)=
 \begin{cases}
-\frac{\epsilon}{\lvert A \rvert}+1-\epsilon,&amp; \text{if }a=arg\max_a Q(s,a)\\
+\frac{\epsilon}{\lvert A \rvert}+1-\epsilon,&amp; \text{if }a=arg\max_a Q(s,a)\
 \frac{\epsilon}{\lvert A \rvert},&amp; \text{else}
-\end{cases}\)<br />
-<img src="/assets/img/notes/20260615-sarsa-Q-learning-and-Dyna-Q/sarsa.png" alt="sarsa.png" /><br />
+\end{cases}
+</script>
+
+<p><img src="/assets/img/notes/20260615-sarsa-Q-learning-and-Dyna-Q/sarsa.png" alt="sarsa.png" /><br />
 这个算法与s，a，r，以及s’,a’有关，因此得名sarsa</p>
 <h2 id="3-多步-sarsa">3 多步 Sarsa</h2>
-<p>\(Q(s_t,a_t)\leftarrow Q(s_t,a_t)+\alpha [r_t+\gamma Q(s_{t+1},a_{t+1})+\gamma^2Q(s_{t+2},a_{t+2})+\cdots+\gamma^nQ(s_{t+2},a_{t+2})-Q(s_t,a_t)]\)</p>
+
+<script type="math/tex; mode=display">
+Q(s_t,a_t)\leftarrow Q(s_t,a_t)+\alpha [r_t+\gamma Q(s_{t+1},a_{t+1})+\gamma^2Q(s_{t+2},a_{t+2})+\cdots+\gamma^nQ(s_{t+2},a_{t+2})-Q(s_t,a_t)]
+</script>
 
 <p>这便是n步sarsa算法的更新方式，可以在一定程度上中和这种自举的算法的偏差</p>
 <h2 id="4-q-learning">4 Q-learning</h2>
-<p>\(Q(s_t,a_t)\leftarrow Q(s_t,a_t)+\alpha [r_t+\gamma\max_a Q(s_{t+1},a)-Q(s_t,a_t)]\)<br />
-这是一种离线策略算法，直接估计的是贝尔曼最优方程</p>
+
+<script type="math/tex; mode=display">
+Q(s_t,a_t)\leftarrow Q(s_t,a_t)+\alpha [r_t+\gamma\max_a Q(s_{t+1},a)-Q(s_t,a_t)]
+</script>
+
+<p>这是一种离线策略算法，直接估计的是贝尔曼最优方程</p>
 <h2 id="5-dyna-q">5 Dyna-Q</h2>
 <p>之前介绍的都是无模型的算法，也就是不对环境进行建模的算法，而Dyna-Q会进行Q-planning<br />
 <img src="/assets/img/notes/20260615-sarsa-Q-learning-and-Dyna-Q/Dyna-Q.png" alt="Dyna-Q.png" /><br />
-<img src="/assets/img/notes/20260615-sarsa-Q-learning-and-Dyna-Q/Dyna-Q流程图.png" alt="Dyna-Q流程图.png" />这里的M也就是模型<br />
+<img src="/assets/img/notes/20260615-sarsa-Q-learning-and-Dyna-Q/Dyna-Q流程图.png" alt="Dyna-Q流程图.png" /><br />
+这里的M也就是模型<br />
 书中的算法是执行在确定性环境中，那么M就是一个简单的记忆模型，而非推测模型<br />
 Dyna-Q好在哪里？<br />
 每一次采样，通过Q-planning可以生成n个假采样并更新数据，更新效率极高，在取样困难等场景非常管用</p>
@@ -500,7 +532,7 @@ Dyna-Q好在哪里？<br />
     
     
     <span class="page_meta-readtime">
-      4 分钟阅读
+      3 分钟阅读
     </span>
   
   
@@ -572,7 +604,7 @@ Dyna-Q好在哪里？<br />
     
     
     <span class="page_meta-readtime">
-      5 分钟阅读
+      4 分钟阅读
     </span>
   
   
@@ -710,7 +742,7 @@ Dyna-Q好在哪里？<br />
     
     
     <span class="page_meta-readtime">
-      15 分钟阅读
+      14 分钟阅读
     </span>
   
   

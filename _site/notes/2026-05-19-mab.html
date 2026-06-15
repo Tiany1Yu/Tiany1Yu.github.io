@@ -23,7 +23,7 @@
   "headline": "MAB",
   "abstract": "",
     "keywords": "强化学习",
-    "wordcount": "353",
+    "wordcount": "272",
     "image": ["https://Tiany1Yu.github.io/assets/img/notes/20260519-MAB/cover_MAB.png"],
   "datePublished": "2026-05-19 10:47:47 +0800",
   "dateModified": "2026-05-19 10:47:47 +0800",
@@ -63,7 +63,7 @@
 <meta name="twitter:description" content="">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="353"/>
+<meta data-rh="true" name="twitter:data1" content="272"/>
 <meta name="twitter:image:src" content="https://Tiany1Yu.github.io/assets/img/notes/20260519-MAB/cover_MAB.png">
 
 	<!-- Windows Phone -->
@@ -134,7 +134,7 @@
     
     
     <span class="page_meta-readtime">
-      8 分钟阅读
+      7 分钟阅读
     </span>
   
   
@@ -281,7 +281,7 @@
     
     
     <span class="page_meta-readtime">
-      8 分钟阅读
+      7 分钟阅读
     </span>
   
   
@@ -333,18 +333,26 @@
 
 <p>多臂老虎机的优化目标为最大化一段时间步$T$内累计的奖励，也即：</p>
 
-<p>[\max \sum_{t=1}^{T} r_t, \quad r_t \sim R(\cdot \mid a_t)]</p>
+<script type="math/tex; mode=display">
+\max \sum_{t=1}^{T} r_t, \quad r_t \sim R(\cdot \mid a_t)
+</script>
 
 <p>我们将其转换为最小化懊悔（cumulative regret)<br />
  我们将懊悔定义为:</p>
 
-<p>[R(a) = Q^* - Q(a)]</p>
+<script type="math/tex; mode=display">
+R(a) = Q^* - Q(a)
+</script>
 
 <p>其中，</p>
 
-<p>[Q(a) = E_{r \sim R(\cdot \mid a)}[r]]</p>
+<script type="math/tex; mode=display">
+Q(a) = E_{r \sim R(\cdot \mid a)}[r]
+</script>
 
-<p>[Q^* = \max_{a \in A} Q(a)]</p>
+<script type="math/tex; mode=display">
+Q^* = \max_{a \in A} Q(a)
+</script>
 
 <p>关于期望奖励估值的伪代码：<br />
  —<br />
@@ -446,50 +454,74 @@ $\textbf{end for}$<br />
 <h3 id="21-quad-epsilon---贪婪算法">$2.1 \quad \epsilon - 贪婪算法$</h3>
 <p>每次以$\epsilon$的概率进行探索，以$1-\epsilon$的概率进行利用，即：</p>
 
-<p>[a_t = \begin{cases} \arg\max_{a \in A} \hat{Q}(a), &amp; p = 1-\epsilon \\ \operatorname{random}_{a \in A}, &amp; p = \epsilon \end{cases}]</p>
+<script type="math/tex; mode=display">
+a_t = \begin{cases} \arg\max_{a \in A} \hat{Q}(a), &amp; p = 1-\epsilon \\ \operatorname{random}_{a \in A}, &amp; p = \epsilon \end{cases}
+</script>
 
 <p>当然，我们可以令$\epsilon$随时间衰减，但是我们始终得到的是相对精确的期望，故$\epsilon$应该保证不为0</p>
 <h3 id="22-quad-上置信界算法ucb">$2.2 \quad 上置信界算法（UCB）$</h3>
 <p>首先需要应用霍夫丁不等式：（大概大二上会学）</p>
 
-<p>[P(E[X] \geq \overline{x}_n + u) \leq e^{-2nu^2}]</p>
+<script type="math/tex; mode=display">
+P(E[X] \geq \overline{x}_n + u) \leq e^{-2nu^2}
+</script>
 
 <p>代入</p>
 
-<p>[\hat{Q}_n = \overline{x}_n]</p>
+<script type="math/tex; mode=display">
+\hat{Q}_n = \overline{x}_n
+</script>
 
 <p>令上式中</p>
 
-<p>[u = \hat{U}(a_n)]</p>
+<script type="math/tex; mode=display">
+u = \hat{U}(a_n)
+</script>
 
 <p>代表不确定性度量。<br />
 记</p>
 
-<p>[p = e^{-2nu^2}]</p>
+<script type="math/tex; mode=display">
+p = e^{-2nu^2}
+</script>
 
 <p>则</p>
 
-<p>[P(E[X] &lt; \overline{x}_n + \hat{U}(a_n)) = 1-p]</p>
+<script type="math/tex; mode=display">
+P(E[X] &lt; \overline{x}_n + \hat{U}(a_n)) = 1-p
+</script>
 
 <p>当$p$很小的时候，这件事情大概率发生。<br />
 故我们令期望奖励上界为</p>
 
-<p>[\hat{Q}_n + \hat{U}(a_n)]</p>
+<script type="math/tex; mode=display">
+R(a) = Q^* - Q(a)
+</script>
+<p>0</p>
 
 <p>解得</p>
 
-<p>[\hat{U}(a) = \sqrt{\frac{-\log p}{2N(a_t)}}]</p>
+<script type="math/tex; mode=display">
+R(a) = Q^* - Q(a)
+</script>
+<p>1</p>
 
 <p>此时，</p>
 
-<p>[a_t = \arg\max_{a \in A}\left[\hat{Q}(a) + c\hat{U}(a)\right]]</p>
+<script type="math/tex; mode=display">
+R(a) = Q^* - Q(a)
+</script>
+<p>2</p>
 
 <p>其中，c为超参数，方便控制不确定比重</p>
 <h3 id="23-quad-汤普森采样">$2.3 \quad 汤普森采样$</h3>
 <p>汤普森采样，顾名思义，猜测概率分布，通过每个时间步$T$采样其概率取$argmax$<br />
 一般采用$Beta$分布，分布在$(0,1)$上，其中概率密度函数为：</p>
 
-<p>[f(x;\alpha,\beta)=\frac{x^{\alpha}(1-x)^{\beta}}{B(\alpha,\beta)}]</p>
+<script type="math/tex; mode=display">
+R(a) = Q^* - Q(a)
+</script>
+<p>3</p>
 
 <p>$B(\alpha,\beta)$是归一化参数，为上部函数在$(0,1)$上的积分值</p>
 <h2 id="3">3.</h2>
@@ -655,7 +687,7 @@ $\textbf{end for}$<br />
 </code></pre></div></div>
 <p><img src="/assets/img/notes/20260519-MAB/MAB.png" alt="MAB.png" /></p>
 
-<p>进一步的，我们引入上下文，可以得到上下文老虎机[[CB]]，动作可以影响决策，可以得到[[MDP]]，无法观测到真实的state，可以得到[[POMDP]],这些文章我也许后续会更新</p>
+<p>进一步的，我们引入上下文，可以得到上下文老虎机CB，动作可以影响决策，可以得到<a href="/notes/2026-05-27-mdp.html">MDP</a>，无法观测到真实的state，可以得到POMDP,这些文章我也许后续会更新</p>
 
         <aside class="sidebar inline" id="post-end">
     

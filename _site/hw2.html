@@ -23,7 +23,7 @@
   "headline": "基于矩阵分解的哈勃深空图像分析与重构",
   "abstract": "",
     "keywords": "机器学习, 大作业",
-    "wordcount": "378",
+    "wordcount": "329",
     "image": ["https://Tiany1Yu.github.io/assets/img/posts/20260328-hw2/habo.jpg"],
   "datePublished": "2026-03-28 13:37:47 +0800",
   "dateModified": "2026-04-10 10:07:47 +0800",
@@ -63,7 +63,7 @@
 <meta name="twitter:description" content="">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="378"/>
+<meta data-rh="true" name="twitter:data1" content="329"/>
 <meta name="twitter:image:src" content="https://Tiany1Yu.github.io/assets/img/posts/20260328-hw2/habo.jpg">
 
 	<!-- Windows Phone -->
@@ -341,8 +341,12 @@
 <h3 id="2-数学原理深度剖析svd-奇异值分解">2. 数学原理深度剖析：SVD (奇异值分解)</h3>
 
 <p><strong>SVD 的代数形式：</strong><br />
-线性代数学告诉我们，任意一个 $m \times n$ 的实矩阵 $A$ 都可以被分解为三个极具规律的矩阵的乘积：<br />
-\(A = U \Sigma V^T\)</p>
+线性代数学告诉我们，任意一个 $m \times n$ 的实矩阵 $A$ 都可以被分解为三个极具规律的矩阵的乘积：</p>
+
+<script type="math/tex; mode=display">
+A = U \Sigma V^T
+</script>
+
 <ul>
   <li><strong>$U$ (左奇异矩阵)</strong>: 代表图像的“列基向量”（垂直方向特征空间）。</li>
   <li><strong>$V$ (右奇异矩阵)</strong>: 其转置 $V^T$ 代表图像的“行基向量”（水平方向特征空间）。</li>
@@ -357,9 +361,13 @@
 </ul>
 
 <p><strong>如何实现降噪？——投影到低秩子空间 (Truncated SVD)</strong><br />
-既然无关联的噪声全部分散于微小奇异值所对应的正交分量（基向量）上，我们可以采取一种强硬降维策略：人为地选取一个秩 $k &lt; r$，强制只保留前 $k$ 个最大的奇异值。此时重构的秩为 $k$ 的近似矩阵 $A_k$ 为：<br />
-\(A_k = U \Sigma_k V^T = \sum_{i=1}^k \sigma_i u_i v_i^T\)<br />
-在这看似简单的截断背后，有着深刻的代数原理支撑——<strong>Eckart-Young-Mirsky 定理</strong>。该定理保证了：在所有秩不超过 $k$ 的矩阵中，$A_k$ 是距离原矩阵 $A$ 最近的（即两者差值的弗罗贝尼乌斯范数 $|A - A_k|_F$ 最小）。通过丢弃后段的奇异值，我们在数学层面上相当于把原本含有庞乱杂散基向量的图像空间强行投影到了一个最具有代表性的 $k$ 维子平面上，从而在代数投影层面“过筛”掉了大部分不满足线性相关的随机噪点。</p>
+既然无关联的噪声全部分散于微小奇异值所对应的正交分量（基向量）上，我们可以采取一种强硬降维策略：人为地选取一个秩 $k &lt; r$，强制只保留前 $k$ 个最大的奇异值。此时重构的秩为 $k$ 的近似矩阵 $A_k$ 为：</p>
+
+<script type="math/tex; mode=display">
+A_k = U \Sigma_k V^T = \sum_{i=1}^k \sigma_i u_i v_i^T
+</script>
+
+<p>在这看似简单的截断背后，有着深刻的代数原理支撑——<strong>Eckart-Young-Mirsky 定理</strong>。该定理保证了：在所有秩不超过 $k$ 的矩阵中，$A_k$ 是距离原矩阵 $A$ 最近的（即两者差值的弗罗贝尼乌斯范数 $|A - A_k|_F$ 最小）。通过丢弃后段的奇异值，我们在数学层面上相当于把原本含有庞乱杂散基向量的图像空间强行投影到了一个最具有代表性的 $k$ 维子平面上，从而在代数投影层面“过筛”掉了大部分不满足线性相关的随机噪点。</p>
 
 <h3 id="3-工程化实现与调优基准">3. 工程化实现与调优基准</h3>
 <ul>
@@ -409,14 +417,21 @@
 
 <p><strong>从图像的强相关性引出低秩假定：</strong><br />
 由于真实拍摄的照片中相邻像素色块间常具有连绵的梯度过渡，像素之间具备极强的线性空间相关性。因此，<strong>我们可以假定大尺度自然图像整体上非常接近于一个低秩矩阵</strong>。<br />
-设含有空洞的残缺图为矩阵 $R$。根据线性代数的定义，若预设其潜藏着一个较低的近似秩 $k$，则意味着必定能将它近似拆解为两个满秩的瘦高矩阵相乘，即 $U \in \mathbb{R}^{m \times k}$ 与 $V \in \mathbb{R}^{n \times k}$：<br />
-\(R \approx U V^T\)</p>
+设含有空洞的残缺图为矩阵 $R$。根据线性代数的定义，若预设其潜藏着一个较低的近似秩 $k$，则意味着必定能将它近似拆解为两个满秩的瘦高矩阵相乘，即 $U \in \mathbb{R}^{m \times k}$ 与 $V \in \mathbb{R}^{n \times k}$：</p>
+
+<script type="math/tex; mode=display">
+R \approx U V^T
+</script>
 
 <p><strong>面对残缺数据建立最小二乘模型：</strong><br />
 因为图像残缺，我们仅能利用可观测像素的集合 $W$ 建立约束方程。由于能够提取出的有效方程个数远多于未知矩阵成分数量，这种求取 $U$ 和 $V$ 的过程实际上是在解一个<strong>超定方程组 (Overdetermined System)</strong>。<br />
-针对无精准解的超定系统，我们会采用经典的<strong>最小二乘法 (Least Squares)</strong>，寻找一组使其误差极小化的近似解：<br />
-\(\text{Min } e(U, V) = \sum_{(i,j) \in W} (R_{i,j} - u_i v_j^T)^2 + \lambda (\|U\|_F^2 + \|V\|_F^2)\)<br />
-说明：方程末尾补充项 $\lambda$ 的意义在于引入微小的对角线扰动。这能强制使得目标方程后续转化得到的格兰姆矩阵 (Gram Matrix) 保持严格的满秩状态，确保矩阵求逆具有绝对的唯一极小点解。</p>
+针对无精准解的超定系统，我们会采用经典的<strong>最小二乘法 (Least Squares)</strong>，寻找一组使其误差极小化的近似解：</p>
+
+<script type="math/tex; mode=display">
+\text{Min } e(U, V) = \sum_{(i,j) \in W} (R_{i,j} - u_i v_j^T)^2 + \lambda (\|U\|_F^2 + \|V\|_F^2)
+</script>
+
+<p>说明：方程末尾补充项 $\lambda$ 的意义在于引入微小的对角线扰动。这能强制使得目标方程后续转化得到的格兰姆矩阵 (Gram Matrix) 保持严格的满秩状态，确保矩阵求逆具有绝对的唯一极小点解。</p>
 
 <h3 id="3-工程算法攻坚战als-交替最小二乘法">3. 工程算法攻坚战：ALS (交替最小二乘法)</h3>
 
@@ -446,22 +461,29 @@
 <h3 id="4-避免矩阵求逆运算引入-cholesky-三角分解">4. 避免矩阵求逆运算：引入 Cholesky 三角分解</h3>
 
 <p>这一步构筑了我们代码框架能够极速支撑大运算量的底层基石。<br />
-根据大学线性代数中最关键的<strong>最小二乘法结果公式</strong>：在刚刚“假定 $V$ 已知”的系统中，为了算出最优解 $U$ 里的某行分量 $u_i$，等价于必须直接解出以下的<strong>正规方程组 (Normal Equations)</strong>：<br />
-\((V_{obs}^T V_{obs} + \lambda I) u_i = V_{obs}^T r_{obs}\)<br />
-如果我们将等号左侧的系数矩阵记作 $A$，核心难题即转变为求解大规模的线性方程组 $Ax = b$。</p>
+根据大学线性代数中最关键的<strong>最小二乘法结果公式</strong>：在刚刚“假定 $V$ 已知”的系统中，为了算出最优解 $U$ 里的某行分量 $u_i$，等价于必须直接解出以下的<strong>正规方程组 (Normal Equations)</strong>：</p>
+
+<script type="math/tex; mode=display">
+(V_{obs}^T V_{obs} + \lambda I) u_i = V_{obs}^T r_{obs}
+</script>
+
+<p>如果我们将等号左侧的系数矩阵记作 $A$，核心难题即转变为求解大规模的线性方程组 $Ax = b$。</p>
 
 <ul>
   <li><strong>常规矩阵求逆的瓶颈</strong>：最简单的思路是在等式两边同乘 $A^{-1}$ 算出结果。但面对哈勃深空百万级别的像素矩阵，传统求解矩阵逆的计算复杂度极高（约 $O(N^3)$）。这不仅会导致运算极度缓慢，且由于浮点数舍入法则带来的限制，超大矩阵求逆运算极易引发严重的数值不稳定和巨大的累积误差。</li>
   <li><strong>对称正定矩阵与分解代入（Cholesky 三角分解）</strong>：观察我们的系数矩阵 $A = V_{obs}^T V_{obs} + \lambda I$，它不仅是一个对称矩阵，而且由于对角线加入了 $\lambda I$，它严格满足<strong>对称正定矩阵 (Symmetric Positive-Definite Matrix)</strong> 的定义。<br />
-在线性代数中，对于解对称正定方程组脱困的最好办法就是采用 <strong>Cholesky 三角分解</strong>。该定理保证，对称正定矩阵必定能被唯一地拆解为一个<strong>下三角矩阵 $L$</strong>，以及它的<strong>转置上三角矩阵 $L^T$</strong> 的乘积：<br />
-\(A = L L^T\)<br />
-有了上述分解，原来极其困难的求逆系统 $A x = b$，被轻巧地转换为了 $L L^T x = b$。这让我们彻底避开了对极大型防矩阵直接求逆操作，取而代之以两步极其快速的基础代入运算：
-    <ol>
-      <li><strong>前向代入运算</strong>：先解出过渡向量 $y$，使其满足 $L y = b$。由于 $L$ 是下三角结构，方程可以从第一行起按顺序单向递推，只涉及基础的一元方程求解，速度极快且误差极低。</li>
-      <li><strong>后向代入运算</strong>：依据算出的 $y$，再反解 $L^T x = y$。同理，由于 $L^T$ 为上三角结构，只需从最后一行往上倒推，即可非常稳定地求出我们最终需要的答案序列。</li>
-    </ol>
-  </li>
+在线性代数中，对于解对称正定方程组脱困的最好办法就是采用 <strong>Cholesky 三角分解</strong>。该定理保证，对称正定矩阵必定能被唯一地拆解为一个<strong>下三角矩阵 $L$</strong>，以及它的<strong>转置上三角矩阵 $L^T$</strong> 的乘积：</li>
 </ul>
+
+<script type="math/tex; mode=display">
+A = L L^T
+</script>
+
+<p>有了上述分解，原来极其困难的求逆系统 $A x = b$，被轻巧地转换为了 $L L^T x = b$。这让我们彻底避开了对极大型防矩阵直接求逆操作，取而代之以两步极其快速的基础代入运算：</p>
+<ol>
+  <li><strong>前向代入运算</strong>：先解出过渡向量 $y$，使其满足 $L y = b$。由于 $L$ 是下三角结构，方程可以从第一行起按顺序单向递推，只涉及基础的一元方程求解，速度极快且误差极低。</li>
+  <li><strong>后向代入运算</strong>：依据算出的 $y$，再反解 $L^T x = y$。同理，由于 $L^T$ 为上三角结构，只需从最后一行往上倒推，即可非常稳定地求出我们最终需要的答案序列。</li>
+</ol>
 
 <p>在工程代码中，我们直接采用了高度优化的底层数值算法库组件：<code class="language-plaintext highlighter-rouge">scipy.linalg.cho_factor</code>（用于分解得出 $L$）与 <code class="language-plaintext highlighter-rouge">cho_solve</code>（用于执行前后双向代入计算）。这让我们在底层核算中彻底告别了依靠庞大矩阵求逆指令死循环运算死角。在处理丢失率高达 60% 的极端数据损坏案例中，仅仅依靠不过十次的 ALS 循环迭代重铸，模型的均方误差 (MSE) 就展现了极快地断崖式收敛特征，最终在几乎没有任何卡滞感知的情况下，高保真地还原了哈勃深空星云震撼人心的繁复特征原貌。</p>
 

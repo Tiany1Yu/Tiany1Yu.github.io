@@ -23,7 +23,7 @@
   "headline": "REINFORCE&ACTOR_CRITIC",
   "abstract": "",
     "keywords": "强化学习",
-    "wordcount": "105",
+    "wordcount": "31",
     "image": ["https://Tiany1Yu.github.io/assets/img/"],
   "datePublished": "2026-06-15 16:09:46 +0800",
   "dateModified": "2026-06-15 16:09:46 +0800",
@@ -63,7 +63,7 @@
 <meta name="twitter:description" content="">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="105"/>
+<meta data-rh="true" name="twitter:data1" content="31"/>
 <meta name="twitter:image:src" content="https://Tiany1Yu.github.io/assets/img/">
 
 	<!-- Windows Phone -->
@@ -134,7 +134,7 @@
     
     
     <span class="page_meta-readtime">
-      5 分钟阅读
+      4 分钟阅读
     </span>
   
   
@@ -281,7 +281,7 @@
     
     
     <span class="page_meta-readtime">
-      5 分钟阅读
+      4 分钟阅读
     </span>
   
   
@@ -327,34 +327,61 @@
 我们先介绍基于策略的经典算法：REINFORCE，也就是策略梯度算法</p>
 <h2 id="1reinforce">1.REINFORCE</h2>
 <p>我们严格定义一下该算法<br />
-首先，我们记轨迹为：<br />
-\(\tau=(s_0,a_0,r_0,s_1,a_1,r_1,\cdots)\)<br />
-记轨迹概率为,其中T是与环境可能交互的最大步数：<br />
-\(\rho_\theta(\tau)=\rho_0(s_0)\prod_{t=0}^T\pi_\theta(a_t\mid s_t) P(s_{t+1}\mid s_t,a_t)\)<br />
-环境转移概率,初始概率分布与策略无关，因此<br />
-\(\nabla_\theta \log{\rho_\theta(\tau)}=\sum_{t=0}^T\nabla_\theta \log{\pi_\theta(a_t\mid s_t)}\)<br />
-优化目标为：<br />
-\(J(\theta)=\mathbb{E}_{\tau \sim \rho_\theta}[R(\tau)]=\sum_\tau R(\tau)\rho_\theta(\tau)\)<br />
-故，<br />
-\(\begin{align}
-\nabla_\theta J(\theta)=&amp;\sum_\tau R(\tau)\nabla_\theta\rho_\theta(\tau)\text{（这是因为在$\tau$确定的情况下，$R(\tau)$与$\theta$无关）}\nonumber \\
-=&amp;\sum_\tau R(\tau)\rho_\theta(\tau)\nabla_\theta log{\rho_\theta(\tau)}\nonumber \\
-=&amp;\mathbb{E}_{\tau \sim \rho_\theta}[R(\tau)\nabla_\theta log{\rho_\theta(\tau)}]\nonumber \\
-=&amp;\mathbb{E}_{\tau \sim \rho_\theta}[\sum_{t=0}^T R(\tau)\nabla_\theta log{\pi_\theta(a_t\mid s_t)}]\nonumber \\
-\end{align}\)</p>
+首先，我们记轨迹为：</p>
 
-<p>我们记录这里的$R(\tau)$为$\psi_t$，故有：<br />
-\(\nabla_\theta J(\theta)=\mathbb{E}_{\tau \sim \rho_\theta}[\sum_{t=0}^T \psi_t(\tau)\nabla_\theta log{\pi_\theta(a_t\mid s_t)}]\)<br />
-我们不加证明的给出$\psi_t$的六种取值：<br />
-\(\begin{align}
-\psi_t &amp;= \sum_{t'=0}^T\gamma^{t'}r_{t'} \tag{1} \\
-\psi_t &amp;= \sum_{t'=t}^T\gamma^{t'-t}r_{t'} \tag{2} \\
-\psi_t &amp;= \sum_{t'=t}^T\gamma^{t'-t}r_{t'}-b(s_t) \tag{3} \\
-\psi_t &amp;= Q^{\pi_\theta}(s_t,a_t) \tag{4} \\
-\psi_t &amp;= A^{\pi_\theta}(s_t,a_t) \tag{5} \\
+<script type="math/tex; mode=display">
+\tau=(s_0,a_0,r_0,s_1,a_1,r_1,\cdots)
+</script>
+
+<p>记轨迹概率为,其中T是与环境可能交互的最大步数：</p>
+
+<script type="math/tex; mode=display">
+\rho_\theta(\tau)=\rho_0(s_0)\prod_{t=0}^T\pi_\theta(a_t\mid s_t) P(s_{t+1}\mid s_t,a_t)
+</script>
+
+<p>环境转移概率,初始概率分布与策略无关，因此</p>
+
+<script type="math/tex; mode=display">
+\nabla_\theta \log{\rho_\theta(\tau)}=\sum_{t=0}^T\nabla_\theta \log{\pi_\theta(a_t\mid s_t)}
+</script>
+
+<p>优化目标为：</p>
+
+<script type="math/tex; mode=display">
+J(\theta)=\mathbb{E}_{\tau \sim \rho_\theta}[R(\tau)]=\sum_\tau R(\tau)\rho_\theta(\tau)
+</script>
+
+<p>故，</p>
+
+<script type="math/tex; mode=display">
+\begin{align}
+\nabla_\theta J(\theta)=&amp;\sum_\tau R(\tau)\nabla_\theta\rho_\theta(\tau)\text{（这是因为在$\tau$确定的情况下，$R(\tau)$与$\theta$无关）}\nonumber \
+=&amp;\sum_\tau R(\tau)\rho_\theta(\tau)\nabla_\theta log{\rho_\theta(\tau)}\nonumber \
+=&amp;\mathbb{E}_{\tau \sim \rho_\theta}[R(\tau)\nabla_\theta log{\rho_\theta(\tau)}]\nonumber \
+=&amp;\mathbb{E}_{\tau \sim \rho_\theta}[\sum_{t=0}^T R(\tau)\nabla_\theta log{\pi_\theta(a_t\mid s_t)}]\nonumber \
+\end{align}
+</script>
+
+<p>我们记录这里的$R(\tau)$为$\psi_t$，故有：</p>
+
+<script type="math/tex; mode=display">
+\nabla_\theta J(\theta)=\mathbb{E}_{\tau \sim \rho_\theta}[\sum_{t=0}^T \psi_t(\tau)\nabla_\theta log{\pi_\theta(a_t\mid s_t)}]
+</script>
+
+<p>我们不加证明的给出$\psi_t$的六种取值：</p>
+
+<script type="math/tex; mode=display">
+\begin{align}
+\psi_t &amp;= \sum_{t&#39;=0}^T\gamma^{t&#39;}r_{t&#39;} \tag{1} \
+\psi_t &amp;= \sum_{t&#39;=t}^T\gamma^{t&#39;-t}r_{t&#39;} \tag{2} \
+\psi_t &amp;= \sum_{t&#39;=t}^T\gamma^{t&#39;-t}r_{t&#39;}-b(s_t) \tag{3} \
+\psi_t &amp;= Q^{\pi_\theta}(s_t,a_t) \tag{4} \
+\psi_t &amp;= A^{\pi_\theta}(s_t,a_t) \tag{5} \
 \psi_t &amp;= r_t+\gamma V^{\pi_\theta}(s_{t+1})-V^{\pi_\theta}(s_t) \tag{6}
-\end{align}\)<br />
-（1）的方差非常大，一条轨迹可以影响此轨迹所有节点的策略，而事实上$a_t$不可能影响已发生的奖励，会有非常大的噪声，需要采样大量数据才可以收敛<br />
+\end{align}
+</script>
+
+<p>（1）的方差非常大，一条轨迹可以影响此轨迹所有节点的策略，而事实上$a_t$不可能影响已发生的奖励，会有非常大的噪声，需要采样大量数据才可以收敛<br />
 （2）依旧无偏差，方差比（1）要小很多<br />
 （3）加入了baseline，一般取$V^\pi(s)$,baseline的引入不增加偏差，故依旧无偏，一个好的baseline可以降低方差<br />
 （4）（5）（6）从（4）开始，摆脱了MC更新，减小了方差，可以一个时间步一更新而非一个采样序列一更新，但是同时，一般来说Q，A，V都未知，需要引入2.的critic来学习<br />
@@ -572,7 +599,7 @@ critic有很多种更新方式，如（3）中可以采用MC更新，（4）（5
     
     
     <span class="page_meta-readtime">
-      5 分钟阅读
+      4 分钟阅读
     </span>
   
   
@@ -710,7 +737,7 @@ critic有很多种更新方式，如（3）中可以采用MC更新，（4）（5
     
     
     <span class="page_meta-readtime">
-      15 分钟阅读
+      14 分钟阅读
     </span>
   
   

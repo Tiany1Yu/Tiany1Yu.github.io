@@ -23,7 +23,7 @@
   "headline": "DQN",
   "abstract": "",
     "keywords": "强化学习",
-    "wordcount": "100",
+    "wordcount": "77",
     "image": ["https://Tiany1Yu.github.io/assets/img/notes/20260615-DQN/cover.png"],
   "datePublished": "2026-06-15 16:09:45 +0800",
   "dateModified": "2026-06-15 16:09:45 +0800",
@@ -63,7 +63,7 @@
 <meta name="twitter:description" content="">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="100"/>
+<meta data-rh="true" name="twitter:data1" content="77"/>
 <meta name="twitter:image:src" content="https://Tiany1Yu.github.io/assets/img/notes/20260615-DQN/cover.png">
 
 	<!-- Windows Phone -->
@@ -324,18 +324,26 @@
         
         
         <h3 id="1自然扩展">1.自然扩展</h3>
-<p>在先前的[[Sarsa Q-learning and Dyna-Q]]算法中，我们始终需要维护一张$Q(s,a)$的表格，而这在$state$的数量巨量或者直接为离散情况时，这是不现实的<br />
+<p>在先前的<a href="/notes/2026-06-15-sarsa-q-learning-and-dyna-q.html">Sarsa Q-learning and Dyna-Q</a>算法中，我们始终需要维护一张$Q(s,a)$的表格，而这在$state$的数量巨量或者直接为离散情况时，这是不现实的<br />
 于是我们尝试用函数来拟合这个表格<br />
 从深度学习的学习之中，我们知道，多层感知机是一种很好的拟合函数<br />
 今天介绍的DQN算法便可以用来解决这样的情况，我们把函数记为$Q_\omega(s,a)$<br />
 我们把这样的网络记为Q-网络</p>
 
 <p><img src="/assets/img/notes/20260615-DQN/DQN.png" alt="DQN.png" /><br />
-我们沿用Q-learning的更新准则：<br />
-\(Q(s_t,a_t)\leftarrow Q(s_t,a_t)+\alpha\left[r+\gamma \max_{a\in A}Q(s_{t+1},a)-Q(s_t,a_t)\right]\)<br />
-当Q逐渐收敛到某个具体值时，$\left\lvert r+\gamma \max_a Q(s_{t+1},a)-Q(s_t,a_t)\right\rvert$会逐渐收敛到0<br />
-因此，很自然的，我们将Q网络的损失函数定义为：<br />
-\(\omega^*=arg\min_\omega\frac{1}{2N}\sum_{i=1}^N\left[r+\gamma \max_a Q_\omega(s_{i+1},a)-Q(s_i,a_i)\right]^2\)</p>
+我们沿用Q-learning的更新准则：</p>
+
+<script type="math/tex; mode=display">
+Q(s_t,a_t)\leftarrow Q(s_t,a_t)+\alpha\left[r+\gamma \max_{a\in A}Q(s_{t+1},a)-Q(s_t,a_t)\right]
+</script>
+
+<p>当Q逐渐收敛到某个具体值时，$\left\lvert r+\gamma \max_a Q(s_{t+1},a)-Q(s_t,a_t)\right\rvert$会逐渐收敛到0<br />
+因此，很自然的，我们将Q网络的损失函数定义为：</p>
+
+<script type="math/tex; mode=display">
+\omega^*=arg\min_\omega\frac{1}{2N}\sum_{i=1}^N\left[r+\gamma \max_a Q_\omega(s_{i+1},a)-Q(s_i,a_i)\right]^2
+</script>
+
 <h2 id="2经验回放和目标网络">2.经验回放和目标网络</h2>
 <p>以上均很自然，可如果完全使用TD的更新方法，学习率近乎为0<br />
 原因有二：</p>
@@ -359,32 +367,44 @@
 于是：<br />
 从$Q$网络中选择argmax，但是用$Q_{w^-}$来更新，有效抑制Q爆炸，提升网络的稳定性</p>
     <h3 id="32-dueling-dqn">3.2 dueling DQN</h3>
-    <p>将原本Q的更新拆成两块<br />
-\(Q_{\eta,\alpha,\beta}(s,a)=V_{\eta,\alpha}(s,a)+A_{\eta,\beta}(s,a)\)<br />
-其中，A命名为优势函数<br />
+    <p>将原本Q的更新拆成两块</p>
+  </li>
+</ol>
+
+<script type="math/tex; mode=display">
+Q_{\eta,\alpha,\beta}(s,a)=V_{\eta,\alpha}(s,a)+A_{\eta,\beta}(s,a)
+</script>
+
+<p>其中，A命名为优势函数<br />
 V与A分别共用一部分神经网络$\eta$，并分别分立一部分参数<br />
 但当然，如果如此建模，V+C A-C,不会使得Q值改变，也就是说不唯一<br />
 我们减去$\max_a A$，此时满足唯一性，且满足贝尔曼最优方程<br />
-但是max不具备鲁棒性，我们一般用均值代替，也就是<br />
-\(Q_{\eta,\alpha,\beta}(s,a)=V_{\eta,\alpha}(s,a)+A_{\eta,\beta}(s,a)-\frac{1}{\lvert A\rvert}\sum_{a'}A_{\eta,\beta}(s,a')\)<br />
-这显著提高了泛化性，采样路径可以改变同state，不同action的动作价值</p>
-    <h3 id="33-per">3.3 PER</h3>
-    <p>用TD Error来衡量一个经验的价值（目标值减去当前预测值的绝对值），使用SumTree使得TD Error越大的经验越容易被抽中，显著加快了收敛</p>
-    <h3 id="34-distributional-rl">3.4 Distributional RL</h3>
-    <p>C51预测一个柱状图分布，也就是人为取51个固定端点，用softmax预测各个区间的概率而非只预测均值，这提高了信息量，增强了鲁棒性</p>
-    <h3 id="35-n-step-learning">3.5 n-step Learning</h3>
-    <p>与多步SARSA一致，将原本$r_t+\gamma V_{t+1}$扩展为n步，平衡了方差和偏差</p>
-    <h3 id="36-noisy-nets">3.6 noisy nets</h3>
-    <p>舍弃$\epsilon-\text{贪婪策略}$，这种依赖人工调节超参数，真正意义上的平衡了探索和利用：<br />
-\(y = (\mu^w + \sigma^w \odot \epsilon^w)x + (\mu^b + \sigma^b \odot \epsilon^b)\)<br />
-1.自动退火，逐渐减少探索<br />
+但是max不具备鲁棒性，我们一般用均值代替，也就是</p>
+
+<script type="math/tex; mode=display">
+Q_{\eta,\alpha,\beta}(s,a)=V_{\eta,\alpha}(s,a)+A_{\eta,\beta}(s,a)-\frac{1}{\lvert A\rvert}\sum_{a&#39;}A_{\eta,\beta}(s,a&#39;)
+</script>
+
+<p>这显著提高了泛化性，采样路径可以改变同state，不同action的动作价值</p>
+<h3 id="33-per">3.3 PER</h3>
+<p>用TD Error来衡量一个经验的价值（目标值减去当前预测值的绝对值），使用SumTree使得TD Error越大的经验越容易被抽中，显著加快了收敛</p>
+<h3 id="34-distributional-rl">3.4 Distributional RL</h3>
+<p>C51预测一个柱状图分布，也就是人为取51个固定端点，用softmax预测各个区间的概率而非只预测均值，这提高了信息量，增强了鲁棒性</p>
+<h3 id="35-n-step-learning">3.5 n-step Learning</h3>
+<p>与多步SARSA一致，将原本$r_t+\gamma V_{t+1}$扩展为n步，平衡了方差和偏差</p>
+<h3 id="36-noisy-nets">3.6 noisy nets</h3>
+<p>舍弃$\epsilon-\text{贪婪策略}$，这种依赖人工调节超参数，真正意义上的平衡了探索和利用：</p>
+
+<script type="math/tex; mode=display">
+y = (\mu^w + \sigma^w \odot \epsilon^w)x + (\mu^b + \sigma^b \odot \epsilon^b)
+</script>
+
+<p>1.自动退火，逐渐减少探索<br />
 2.连续探索，而非随机探索</p>
-    <h2 id="4代码实践">4.代码实践</h2>
-    <p>我们采用CartPole环境，此环境目标是通过左右移动使得小车上的木杆保持竖直<br />
+<h2 id="4代码实践">4.代码实践</h2>
+<p>我们采用CartPole环境，此环境目标是通过左右移动使得小车上的木杆保持竖直<br />
 <img src="/assets/img/notes/20260615-DQN/CartPole.png" alt="CartPole.png" /><br />
 done的条件是车子偏离初始位置太远，或者杆子倾斜角度太大，或者坚持超过200帧</p>
-  </li>
-</ol>
 
 <p>（日后更新)</p>
 
@@ -728,7 +748,7 @@ done的条件是车子偏离初始位置太远，或者杆子倾斜角度太大�
     
     
     <span class="page_meta-readtime">
-      15 分钟阅读
+      14 分钟阅读
     </span>
   
   

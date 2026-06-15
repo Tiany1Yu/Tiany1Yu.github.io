@@ -29,7 +29,7 @@ layout: default
         {% include sidebar.html context="post" class="side" id="sidebar" %}
         {% if page.toc %}{% include sidebar-toc.html %}{% endif %}
         {% include github-button.html %}
-        {{page.content | markdownify}}
+        {{ content }}
         {% include sidebar.html context="post" class="inline" id="post-end" %}
         <div class="separator"></div>
         {% include author-box.html %}

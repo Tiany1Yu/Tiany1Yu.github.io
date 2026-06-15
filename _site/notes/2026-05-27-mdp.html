@@ -23,7 +23,7 @@
   "headline": "MDP",
   "abstract": "",
     "keywords": "强化学习",
-    "wordcount": "364",
+    "wordcount": "132",
     "image": ["https://Tiany1Yu.github.io/assets/img/notes/20260527-MDP/cover_MDP.png"],
   "datePublished": "2026-05-27 12:09:52 +0800",
   "dateModified": "2026-05-27 12:09:52 +0800",
@@ -63,7 +63,7 @@
 <meta name="twitter:description" content="">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="364"/>
+<meta data-rh="true" name="twitter:data1" content="132"/>
 <meta name="twitter:image:src" content="https://Tiany1Yu.github.io/assets/img/notes/20260527-MDP/cover_MDP.png">
 
 	<!-- Windows Phone -->
@@ -134,7 +134,7 @@
     
     
     <span class="page_meta-readtime">
-      11 分钟阅读
+      8 分钟阅读
     </span>
   
   
@@ -281,7 +281,7 @@
     
     
     <span class="page_meta-readtime">
-      11 分钟阅读
+      8 分钟阅读
     </span>
   
   
@@ -324,7 +324,7 @@
         
         
         <h2 id="1前言">1.前言</h2>
-<p>MDP在[[MAB]]的基础上，加入了与环境的交互：<br />
+<p>MDP在<a href="/notes/2026-05-19-mab.html">MAB</a>的基础上，加入了与环境的交互：<br />
 1.环境不再是一成不变的，而是具有state的变化<br />
 2.action具有改变环境的能力</p>
 
@@ -344,70 +344,108 @@
 <h3 id="31-mp">3.1 MP</h3>
 <p>我们一般使用元组$\langle \mathcal{S},\mathcal{P} \rangle$来描述MP，其中$S$是有限数量的状态集合，$P$是状态转移矩阵</p>
 
-<p>假设共有$n$个离散的状态,此时：<br />
-\(\mathcal S=\{s_1,\dots,s_n\}\)<br />
-\(\mathbf P=\begin{pmatrix}\
-P(s_1\mid s_1)&amp;\cdots &amp;P(s_n\mid s_1)\\
-\vdots &amp; \ddots &amp; \vdots\\
+<p>假设共有$n$个离散的状态,此时：</p>
+
+<script type="math/tex; mode=display">
+\mathcal S=\{s_1,\dots,s_n\}
+</script>
+
+<script type="math/tex; mode=display">
+\mathbf P=\begin{pmatrix}\
+P(s_1\mid s_1)&amp;\cdots &amp;P(s_n\mid s_1)\
+\vdots &amp; \ddots &amp; \vdots\
 P(s_n\mid s_1) &amp; \cdots &amp; P(s_n\mid s_n)
-\end{pmatrix}\)</p>
+\end{pmatrix}
+</script>
+
 <h3 id="32-mrp">3.2 MRP</h3>
 <p>我们在MP的基础上加上奖励函数$r$与折扣因子$\gamma$,那我们就得到了MRP<br />
 一般由四元组$\langle \mathcal S,\mathbf P, r, \gamma  \rangle$来定义，其中<br />
 $r$为奖励函数，$r(s)$指在$s$状态下获得奖励的期望，<br />
 $\gamma$为折扣因子，引入它可以确保价值收敛，范围为$[0,1)$，可以通过调整使之更关注长期/短期利益</p>
 <h4 id="321-回报">3.2.1 回报</h4>
-<p>我们定义从第$t$时间步开始的所有奖励的衰减之和定义为回报$G_t(return)$<br />
-\(G_t=R_t+\gamma R_{t+1} +\gamma^2 R_{t+2}+\dots =\sum_{k=0}^\infty \gamma^k R_{t+k}\)<br />
-其中，$R_t$表示$t$时间步时获得的奖励</p>
+<p>我们定义从第$t$时间步开始的所有奖励的衰减之和定义为回报$G_t(return)$</p>
+
+<script type="math/tex; mode=display">
+G_t=R_t+\gamma R_{t+1} +\gamma^2 R_{t+2}+\dots =\sum_{k=0}^\infty \gamma^k R_{t+k}
+</script>
+
+<p>其中，$R_t$表示$t$时间步时获得的奖励</p>
 <h4 id="322-价值函数">3.2.2 价值函数</h4>
 <p>我们把一个时间步的回报的期望定义为价值<br />
-所有状态的价值组成了价值函数，（输入为某个state，输出为某个价值），定义为<br />
-\(V(s)=\mathbb{E}[G_t\mid S_t=s]\)<br />
-而，<br />
-\(\begin{align*}
-V(s)&amp;=\mathbb{E}[G_t\mid S_t=s]\\
-&amp;=\mathbb{E}[R_t+\gamma R_{t+1}+ \gamma^2 R_{t+2} + \dots \mid S_t=s]\\
-&amp;=\mathbb{E}[R_t+\gamma(R_{t+1}+\gamma R_{t+2})+\dots \mid S_t=s]\\
+所有状态的价值组成了价值函数，（输入为某个state，输出为某个价值），定义为</p>
+
+<script type="math/tex; mode=display">
+V(s)=\mathbb{E}[G_t\mid S_t=s]
+</script>
+
+<p>而，</p>
+
+<script type="math/tex; mode=display">
+\begin{align*}
+V(s)&amp;=\mathbb{E}[G_t\mid S_t=s]\
+&amp;=\mathbb{E}[R_t+\gamma R_{t+1}+ \gamma^2 R_{t+2} + \dots \mid S_t=s]\
+&amp;=\mathbb{E}[R_t+\gamma(R_{t+1}+\gamma R_{t+2})+\dots \mid S_t=s]\
 &amp;=\mathbb{E}[R_t+\gamma V(S_{t+1}) \mid S_t=s]
-\end{align*}\)<br />
-故我们可以得到：<br />
-\(V(s)=r(s)+\gamma \sum_{s' \in S} P(s' \mid s)V(s')\)<br />
-这就是大名鼎鼎的贝尔曼方程<br />
+\end{align*}
+</script>
+
+<p>故我们可以得到：</p>
+
+<script type="math/tex; mode=display">
+V(s)=r(s)+\gamma \sum_{s&#39; \in S} P(s&#39; \mid s)V(s&#39;)
+</script>
+
+<p>这就是大名鼎鼎的贝尔曼方程<br />
 我们整理所有共$t$个状态，组成列向量<br />
-得到矩阵形式的贝尔曼方程：<br />
-\(\mathbf{V}=\mathbf R + \gamma \mathbf P \mathbf V\)<br />
-\(\begin{bmatrix}V(s_1)\\
-V(s_2)\\
-\vdots\\
+得到矩阵形式的贝尔曼方程：</p>
+
+<script type="math/tex; mode=display">
+\mathbf{V}=\mathbf R + \gamma \mathbf P \mathbf V
+</script>
+
+<script type="math/tex; mode=display">
+\begin{bmatrix}V(s_1)\
+V(s_2)\
+\vdots\
 V(s_t)\end{bmatrix}
 =
-\begin{bmatrix}r(s_1)\\
-r(s_2)\\
-\vdots\\
+\begin{bmatrix}r(s_1)\
+r(s_2)\
+\vdots\
 r(s_t)\end{bmatrix}
 +
 \gamma
 \begin{bmatrix}
-P(s_1\mid s_1)&amp;P(s_2\mid s_1)&amp;\cdots&amp;P(s_t\mid s_1)\\
-P(s_1\mid s_2)&amp;P(s_2\mid s_2)&amp;\cdots&amp;P(s_t\mid s_2)\\
-\vdots&amp;\vdots&amp;\ddots&amp;\vdots\\
-P(s_1\mid s_1)&amp;P(s_2\mid s_1)&amp;\cdots&amp;P(s_t\mid s_1)\\
+P(s_1\mid s_1)&amp;P(s_2\mid s_1)&amp;\cdots&amp;P(s_t\mid s_1)\
+P(s_1\mid s_2)&amp;P(s_2\mid s_2)&amp;\cdots&amp;P(s_t\mid s_2)\
+\vdots&amp;\vdots&amp;\ddots&amp;\vdots\
+P(s_1\mid s_1)&amp;P(s_2\mid s_1)&amp;\cdots&amp;P(s_t\mid s_1)\
 \end{bmatrix}
-\begin{bmatrix}V(s_1)\\
-V(s_2)\\
-\vdots\\
-V(s_t)\end{bmatrix}\)<br />
-故移项解得：<br />
-\(\mathbf V= (\mathbf I - \gamma \mathbf P)^{-1}\mathbf R\)</p>
+\begin{bmatrix}V(s_1)\
+V(s_2)\
+\vdots\
+V(s_t)\end{bmatrix}
+</script>
+
+<p>故移项解得：</p>
+
+<script type="math/tex; mode=display">
+\mathbf V= (\mathbf I - \gamma \mathbf P)^{-1}\mathbf R
+</script>
+
 <h3 id="33-mdp">3.3 MDP</h3>
 <p>总算推进到了MDP</p>
 
 <p>MP与MRP都没有“动作”“策略”的参与，本质上是一个自己运行，无干预的系统<br />
 如果有一个外界的“刺激”可以改变这个随机过程（加入智能体的”动作”），就得到了MDP<br />
-我们可以把MDP记为一个五元组:<br />
-\(\langle \mathcal S,\mathcal A,\mathbf P, r, \gamma  \rangle\)<br />
-其中$\mathcal A$为动作集合</p>
+我们可以把MDP记为一个五元组:</p>
+
+<script type="math/tex; mode=display">
+\langle \mathcal S,\mathcal A,\mathbf P, r, \gamma  \rangle
+</script>
+
+<p>其中$\mathcal A$为动作集合</p>
 
 <p>在这种情况下，我们不把$\mathbf P$记作一个概率分布矩阵，而是记作一个状态转移函数，原因有二：<br />
 1）记作概率分布矩阵不可行，因为引入了不同的动作，而每一个动作都具有自己的概率分布矩阵，故只能记作一个三阶张量<br />
@@ -421,64 +459,184 @@ V(s_t)\end{bmatrix}\)<br />
 <p>在 MDP 中，由于马尔可夫性质的存在，策略只需要与当前状态有关，不需要考虑历史状态。</p>
 
 <h4 id="332-状态价值函数vpis">3.3.2 状态价值函数$V^{\pi}(s)$</h4>
-<p>与MRP定义类似，状态价值函数被定义为基于策略$\pi$的回报的期望，定义为：<br />
-\(V^{\pi}(s)=\mathbb{E}_{\pi}[G_t\mid S_t=s]\)</p>
+<p>与MRP定义类似，状态价值函数被定义为基于策略$\pi$的回报的期望，定义为：</p>
+
+<script type="math/tex; mode=display">
+\mathbf P=\begin{pmatrix}\
+P(s_1\mid s_1)&amp;\cdots &amp;P(s_n\mid s_1)\
+\vdots &amp; \ddots &amp; \vdots\
+P(s_n\mid s_1) &amp; \cdots &amp; P(s_n\mid s_n)
+\end{pmatrix}
+</script>
+<p>0</p>
+
 <h4 id="333-动作价值函数qpisa">3.3.3 动作价值函数$Q^{\pi}(s,a)$</h4>
-<p>与MRP不同的是，我们额外定义一个基于$\pi$的函数，定义为:<br />
-\(Q^{\pi}(s,a)=\mathbb{E}_{\pi}[G_t\mid S_t=s,A_t=a]\)<br />
-状态价值函数和动作价值函数之间的联系：<br />
-\(V^{\pi}(s)=\sum_{a \in A} \pi(a\mid s)Q^{\pi}(s,a)\)<br />
-其意义是显然的，不过多解释</p>
+<p>与MRP不同的是，我们额外定义一个基于$\pi$的函数，定义为:</p>
 
-<p>当然，还有Q的计算式：<br />
-\(Q^{\pi}(s,a)=r(s,a)+\gamma\sum _{s' \in S}P(s'\mid s ,a)V^{\pi}(s')\)</p>
+<script type="math/tex; mode=display">
+\mathbf P=\begin{pmatrix}\
+P(s_1\mid s_1)&amp;\cdots &amp;P(s_n\mid s_1)\
+\vdots &amp; \ddots &amp; \vdots\
+P(s_n\mid s_1) &amp; \cdots &amp; P(s_n\mid s_n)
+\end{pmatrix}
+</script>
+<p>1</p>
+
+<p>状态价值函数和动作价值函数之间的联系：</p>
+
+<script type="math/tex; mode=display">
+\mathbf P=\begin{pmatrix}\
+P(s_1\mid s_1)&amp;\cdots &amp;P(s_n\mid s_1)\
+\vdots &amp; \ddots &amp; \vdots\
+P(s_n\mid s_1) &amp; \cdots &amp; P(s_n\mid s_n)
+\end{pmatrix}
+</script>
+<p>2</p>
+
+<p>其意义是显然的，不过多解释</p>
+
+<p>当然，还有Q的计算式：</p>
+
+<script type="math/tex; mode=display">
+\mathbf P=\begin{pmatrix}\
+P(s_1\mid s_1)&amp;\cdots &amp;P(s_n\mid s_1)\
+\vdots &amp; \ddots &amp; \vdots\
+P(s_n\mid s_1) &amp; \cdots &amp; P(s_n\mid s_n)
+\end{pmatrix}
+</script>
+<p>3</p>
+
 <h4 id="334-贝尔曼期望方程">3.3.4 贝尔曼期望方程</h4>
-<p>\(\begin{align}
-V^{\pi}(s)&amp;=\mathbb{E}[R(s)+\gamma V^{\pi}(S_{t+1} \mid S_t=s)]\nonumber \\
-&amp;=\sum_{a \in A}\pi(a \mid s)\left(r(s,a)+\gamma\sum_{s' \in S} P(s' \mid s,a) V^{\pi}(s') \right)
-\end{align}\)</p>
 
-<p>\(\begin{align}
-Q^{\pi}(s,a)&amp;=\mathbb{E}[R(s,a)+\gamma Q^{\pi}(S_{t+1},A_{t+1} \mid S_t=s,A_t=a)] \nonumber \\
-&amp;=r(s,a)+\gamma \sum_{s' \in S} P(s'\mid s,a)\sum_{a'\in A}\pi(a'\mid s)Q^{\pi}(s',a')\\
-\end{align}\)</p>
+<script type="math/tex; mode=display">
+\mathbf P=\begin{pmatrix}\
+P(s_1\mid s_1)&amp;\cdots &amp;P(s_n\mid s_1)\
+\vdots &amp; \ddots &amp; \vdots\
+P(s_n\mid s_1) &amp; \cdots &amp; P(s_n\mid s_n)
+\end{pmatrix}
+</script>
+<p>4</p>
+
+<script type="math/tex; mode=display">
+\mathbf P=\begin{pmatrix}\
+P(s_1\mid s_1)&amp;\cdots &amp;P(s_n\mid s_1)\
+\vdots &amp; \ddots &amp; \vdots\
+P(s_n\mid s_1) &amp; \cdots &amp; P(s_n\mid s_n)
+\end{pmatrix}
+</script>
+<p>5</p>
+
 <h3 id="34蒙特卡洛方法">3.4蒙特卡洛方法</h3>
-<p>MC,简单的一种取样方法，即将随机取样的平均值当作期望的近似，即为：<br />
-\(V^{\pi}(s)=\mathbb{E}[G_t \mid S_t=s] \approx \frac{\sum_{i=1}^{N}G_t^{(i)}}{N}\)<br />
-我们依旧可以使用[[MAB]]中的增量更新的方法</p>
+<p>MC,简单的一种取样方法，即将随机取样的平均值当作期望的近似，即为：</p>
+
+<script type="math/tex; mode=display">
+\mathbf P=\begin{pmatrix}\
+P(s_1\mid s_1)&amp;\cdots &amp;P(s_n\mid s_1)\
+\vdots &amp; \ddots &amp; \vdots\
+P(s_n\mid s_1) &amp; \cdots &amp; P(s_n\mid s_n)
+\end{pmatrix}
+</script>
+<p>6</p>
+
+<p>我们依旧可以使用<a href="/notes/2026-05-19-mab.html">MAB</a>中的增量更新的方法</p>
 <h3 id="35-占用度量">3.5 占用度量</h3>
 <p>如果我们用$P^{\pi}_t(s)$来定义采取策略$\pi$,在$t$时刻，状态为$s$的概率，并且定义$v_0(s)$为初始概率分布<br />
-那么，我们可以定义一个策略的状态访问分布为：<br />
-\(\mathcal{v}^{\pi}(s)=(1-\gamma)\sum_{t=0}^{\infty}\gamma^{t}P_t^{\pi}(s)\)<br />
-其中，$1-\gamma$为归一化参数，目的是使得状态访问分布相加为1<br />
-类似的，我们还可以定义策略的占用度量：<br />
-\(\rho^{\pi}(s,a)=(1-\gamma)\sum_{t=0}^{\infty}\gamma^tP_t^\pi(s)\pi(a\mid s)\)</p>
+那么，我们可以定义一个策略的状态访问分布为：</p>
+
+<script type="math/tex; mode=display">
+\mathbf P=\begin{pmatrix}\
+P(s_1\mid s_1)&amp;\cdots &amp;P(s_n\mid s_1)\
+\vdots &amp; \ddots &amp; \vdots\
+P(s_n\mid s_1) &amp; \cdots &amp; P(s_n\mid s_n)
+\end{pmatrix}
+</script>
+<p>7</p>
+
+<p>其中，$1-\gamma$为归一化参数，目的是使得状态访问分布相加为1<br />
+类似的，我们还可以定义策略的占用度量：</p>
+
+<script type="math/tex; mode=display">
+\mathbf P=\begin{pmatrix}\
+P(s_1\mid s_1)&amp;\cdots &amp;P(s_n\mid s_1)\
+\vdots &amp; \ddots &amp; \vdots\
+P(s_n\mid s_1) &amp; \cdots &amp; P(s_n\mid s_n)
+\end{pmatrix}
+</script>
+<p>8</p>
+
 <h3 id="36-最优策略">3.6 最优策略</h3>
 <p>我们定义$\pi&gt;\pi’$当且仅当$\forall s\in S,V^{\pi}(s)\ge V^{\pi’}(s)$<br />
 于是在有限状态和动作集合的 MDP 中，至少存在一个策略比其他所有策略都好或者至少存在一个策略不差于其他所有策略，这个策略就是<strong>最优策略</strong>（optimal policy）。最优策略可能有很多个，我们都将其表示为$\pi^<em>(s)$。<br />
-由此，我们可以定义最优状态价值函数$V^</em>(s)$与最优动作价值函数$Q^*(s,a)$<br />
-\(V^*(s)=\max_\pi V^\pi(s),\forall s \in S\)<br />
-\(Q^*(s,a)=\max_\pi Q^\pi(s,a),\forall s \in S,\forall a \in A\)<br />
-为了使Q最大，我们要使得之后的每个选择都选择最优价值，即：<br />
-\(Q^*(s,a)=r(s,a)+\gamma \sum_{s' \in S}P(s' \mid s,a)V^*(s')=r(s,a)+\gamma \sum_{s' \in S}P(s' \mid s,a)\max_{a' \in A}Q^*(s',a')\)<br />
-同样的，最优的状态价值出自最优的动作，即：<br />
-\(V^*(s)=\max_{a \in A}Q^*(s,a)=\max_{a\in A}\left(r(s,a)+\gamma\sum_{s' \in S} P(s' \mid s,a) V^*(s') \right)\)<br />
-我们把<br />
-\(Q^*(s,a)=r(s,a)+\gamma \sum_{s' \in S}P(s' \mid s,a)\max_{a' \in A}Q^*(s',a')\)<br />
-与<br />
-\(V^*(s)=\max_{a\in A}\left(r(s,a)+\gamma\sum_{s' \in S} P(s' \mid s,a) V*(s') \right)\)<br />
-称作贝尔曼最优方程</p>
+由此，我们可以定义最优状态价值函数$V^</em>(s)$与最优动作价值函数$Q^*(s,a)$</p>
+
+<script type="math/tex; mode=display">
+\mathbf P=\begin{pmatrix}\
+P(s_1\mid s_1)&amp;\cdots &amp;P(s_n\mid s_1)\
+\vdots &amp; \ddots &amp; \vdots\
+P(s_n\mid s_1) &amp; \cdots &amp; P(s_n\mid s_n)
+\end{pmatrix}
+</script>
+<p>9</p>
+
+<script type="math/tex; mode=display">
+G_t=R_t+\gamma R_{t+1} +\gamma^2 R_{t+2}+\dots =\sum_{k=0}^\infty \gamma^k R_{t+k}
+</script>
+<p>0</p>
+
+<p>为了使Q最大，我们要使得之后的每个选择都选择最优价值，即：</p>
+
+<script type="math/tex; mode=display">
+G_t=R_t+\gamma R_{t+1} +\gamma^2 R_{t+2}+\dots =\sum_{k=0}^\infty \gamma^k R_{t+k}
+</script>
+<p>1</p>
+
+<p>同样的，最优的状态价值出自最优的动作，即：</p>
+
+<script type="math/tex; mode=display">
+G_t=R_t+\gamma R_{t+1} +\gamma^2 R_{t+2}+\dots =\sum_{k=0}^\infty \gamma^k R_{t+k}
+</script>
+<p>2</p>
+
+<p>我们把</p>
+
+<script type="math/tex; mode=display">
+G_t=R_t+\gamma R_{t+1} +\gamma^2 R_{t+2}+\dots =\sum_{k=0}^\infty \gamma^k R_{t+k}
+</script>
+<p>3</p>
+
+<p>与</p>
+
+<script type="math/tex; mode=display">
+G_t=R_t+\gamma R_{t+1} +\gamma^2 R_{t+2}+\dots =\sum_{k=0}^\infty \gamma^k R_{t+k}
+</script>
+<p>4</p>
+
+<p>称作贝尔曼最优方程</p>
 
 <h2 id="4一些总结">4.一些总结</h2>
-<p>虽然全程手打公式很痛苦，公式也很复杂，但是实际上全然是为了严谨定义所以显的复杂，实际上，在策略确定时（假设已经最优），即为<br />
-\(V(s)=r(s)+\gamma V(s')\)<br />
-其中，s’是在策略$\pi$下，当前状态为$s$的可能下一状态<br />
+<p>虽然全程手打公式很痛苦，公式也很复杂，但是实际上全然是为了严谨定义所以显的复杂，实际上，在策略确定时（假设已经最优），即为</p>
+
+<script type="math/tex; mode=display">
+G_t=R_t+\gamma R_{t+1} +\gamma^2 R_{t+2}+\dots =\sum_{k=0}^\infty \gamma^k R_{t+k}
+</script>
+<p>5</p>
+
+<p>其中，s’是在策略$\pi$下，当前状态为$s$的可能下一状态<br />
 考虑简单的01背包问题，其贝尔曼最优方程即为：</p>
 
-<p>\(F(i,c)=\max_{a\in{0,1},\ aw_i\le c} \left[a v_i+F(i-1,c-aw_i)\right]\)<br />
-化成类似定义的形式：<br />
-\(V^*(i, c) = \max_{a \in \{0, 1\}} \left\{ a \cdot v_i + 1 \cdot \sum_{s'} 1 \cdot V^*(s') \right\}\)<br />
-也就是取$\gamma=1$（收益无衰减），且策略均为确定性策略的结果</p>
+<script type="math/tex; mode=display">
+G_t=R_t+\gamma R_{t+1} +\gamma^2 R_{t+2}+\dots =\sum_{k=0}^\infty \gamma^k R_{t+k}
+</script>
+<p>6</p>
+
+<p>化成类似定义的形式：</p>
+
+<script type="math/tex; mode=display">
+G_t=R_t+\gamma R_{t+1} +\gamma^2 R_{t+2}+\dots =\sum_{k=0}^\infty \gamma^k R_{t+k}
+</script>
+<p>7</p>
+
+<p>也就是取$\gamma=1$（收益无衰减），且策略均为确定性策略的结果</p>
 
 <p>从特殊到一般，MDP提供了描述所有相关事务的一种工具，并深刻的揭示，定义了价值，比DP等层次更高</p>
 

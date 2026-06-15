@@ -23,7 +23,7 @@
   "headline": "DP",
   "abstract": "",
     "keywords": "强化学习",
-    "wordcount": "1434",
+    "wordcount": "1383",
     "image": ["https://Tiany1Yu.github.io/assets/img/notes/20260531-DP/cover_DP.png"],
   "datePublished": "2026-05-31 14:24:14 +0800",
   "dateModified": "2026-05-31 14:24:14 +0800",
@@ -63,7 +63,7 @@
 <meta name="twitter:description" content="">
 <meta name="twitter:creator" content="">
 <meta data-rh="true" name="twitter:label1" content="Word count"/>
-<meta data-rh="true" name="twitter:data1" content="1434"/>
+<meta data-rh="true" name="twitter:data1" content="1383"/>
 <meta name="twitter:image:src" content="https://Tiany1Yu.github.io/assets/img/notes/20260531-DP/cover_DP.png">
 
 	<!-- Windows Phone -->
@@ -134,7 +134,7 @@
     
     
     <span class="page_meta-readtime">
-      15 分钟阅读
+      14 分钟阅读
     </span>
   
   
@@ -281,7 +281,7 @@
     
     
     <span class="page_meta-readtime">
-      15 分钟阅读
+      14 分钟阅读
     </span>
   
   
@@ -334,12 +334,20 @@
 <h2 id="2策略迭代算法">2.策略迭代算法</h2>
 <p>策略迭代算法主要分为两个部分：策略评估与策略提升，两个步骤不断交替迭代最终得到最优解</p>
 <h3 id="21-策略评估">2.1 策略评估</h3>
-<p>先回顾一下[[MDP]]中所学的贝尔曼方程：<br />
-\(V^\pi(s)=\sum_{a \in A}\pi(a\mid s)\left(r(s,a)+\gamma\sum_{s' \in S}P(s'\mid s,a)V^\pi(s')\right)\)<br />
-我们可以看作根据下一时间步的价值来计算这一时间步的价值，<br />
-我们运用简单的DP思想，把当前计算视为一个子问题，那么，可以记作：<br />
-\(V^{k+1}(s)=\sum_{a\in A}\pi(s\mid a)\left(r(s,a)+\gamma\sum_{s'\in S}P(s' \mid s,a)V^k(s')\right)\)<br />
-当$V^k(s)=V^\pi(s),\forall s \in S$成立时，此时价值函数不会再变动，也即找到了不动点<br />
+<p>先回顾一下<a href="/notes/2026-05-27-mdp.html">MDP</a>中所学的贝尔曼方程：</p>
+
+<script type="math/tex; mode=display">
+V^\pi(s)=\sum_{a \in A}\pi(a\mid s)\left(r(s,a)+\gamma\sum_{s&#39; \in S}P(s&#39;\mid s,a)V^\pi(s&#39;)\right)
+</script>
+
+<p>我们可以看作根据下一时间步的价值来计算这一时间步的价值，<br />
+我们运用简单的DP思想，把当前计算视为一个子问题，那么，可以记作：</p>
+
+<script type="math/tex; mode=display">
+V^{k+1}(s)=\sum_{a\in A}\pi(s\mid a)\left(r(s,a)+\gamma\sum_{s&#39;\in S}P(s&#39; \mid s,a)V^k(s&#39;)\right)
+</script>
+
+<p>当$V^k(s)=V^\pi(s),\forall s \in S$成立时，此时价值函数不会再变动，也即找到了不动点<br />
 事实上，当$k\to +\infty$时，可以证明$V^k\to V^\pi$<br />
 我们设置一个阈值$\Delta$，<br />
 若满足$\max_{s\in S}\lvert V^{k+1}(s)-V^k(s)\rvert \leq\Delta$<br />
@@ -350,30 +358,50 @@
 那么新策略一定有$V^{\pi’}(s)\geq V^\pi(s)$<br />
 我们把这样的假设推广到所有状态，假设存在一个<strong>确定性策略</strong>，满足上述式子$\forall s \in S$成立<br />
 那么我们记作$V^{\pi’} \geq V^\pi$(策略提升定理)<br />
-那么我们可以贪心的选取在每一时间步时动作价值函数最大的作为<strong>确定性策略</strong>：<br />
-\(\pi'(a\mid s)=arg\max_{a\in A}Q(a,s)=\max_{a\in A}\left(r(s,a)+\gamma\sum_{s' \in S}P(s'\mid s,a)V^\pi(s')\right)\)<br />
-策略提升定理的具体证明如下：<br />
-\(\begin{align}
-V^\pi(s)\leq&amp;Q^{\pi}(s,\pi'(s))\nonumber \\
-=&amp;\mathbb{E}_{\pi'}[R_t+\gamma V^\pi(S_{t+1})\mid S_t=s]\nonumber \\
-\leq&amp;\mathbb{E}_{\pi'}[R_t+\gamma Q^{\pi}(S_{t+1},\pi'(S_{t+1}))\mid S_t=s] \nonumber \\
-=&amp;\mathbb{E}_{\pi'}[R_t+\gamma R_{t+1}+\gamma^2V(S_{t+2})\mid S_t=s]\nonumber \\
-\leq&amp;\mathbb{E}_{\pi'}[R_t+\gamma R_{t+1}+\gamma^2R_{t+2}+\cdots]\nonumber \\
-=&amp;V^{\pi'}(s) \nonumber
-\end{align}\)</p>
+那么我们可以贪心的选取在每一时间步时动作价值函数最大的作为<strong>确定性策略</strong>：</p>
+
+<script type="math/tex; mode=display">
+\pi&#39;(a\mid s)=arg\max_{a\in A}Q(a,s)=\max_{a\in A}\left(r(s,a)+\gamma\sum_{s&#39; \in S}P(s&#39;\mid s,a)V^\pi(s&#39;)\right)
+</script>
+
+<p>策略提升定理的具体证明如下：</p>
+
+<script type="math/tex; mode=display">
+\begin{align}
+V^\pi(s)\leq&amp;Q^{\pi}(s,\pi&#39;(s))\nonumber \
+=&amp;\mathbb{E}_{\pi&#39;}[R_t+\gamma V^\pi(S_{t+1})\mid S_t=s]\nonumber \
+\leq&amp;\mathbb{E}_{\pi&#39;}[R_t+\gamma Q^{\pi}(S_{t+1},\pi&#39;(S_{t+1}))\mid S_t=s] \nonumber \
+=&amp;\mathbb{E}_{\pi&#39;}[R_t+\gamma R_{t+1}+\gamma^2V(S_{t+2})\mid S_t=s]\nonumber \
+\leq&amp;\mathbb{E}_{\pi&#39;}[R_t+\gamma R_{t+1}+\gamma^2R_{t+2}+\cdots]\nonumber \
+=&amp;V^{\pi&#39;}(s) \nonumber
+\end{align}
+</script>
+
 <h3 id="33-策略迭代算法">3.3 策略迭代算法</h3>
-<p>策略迭代算法的流程大致如下：<br />
-\(\pi^0\xrightarrow{策略评估}V^{\pi^0}\xrightarrow{策略提升}\pi^1\xrightarrow{策略评估}V^{\pi^1}\xrightarrow{策略提升}\pi^2\xrightarrow{策略评估}\cdots\xrightarrow{策略提升}\pi^*\)<br />
-更新直至$\pi’$与$\pi$一致即可</p>
+<p>策略迭代算法的流程大致如下：</p>
+
+<script type="math/tex; mode=display">
+\pi^0\xrightarrow{策略评估}V^{\pi^0}\xrightarrow{策略提升}\pi^1\xrightarrow{策略评估}V^{\pi^1}\xrightarrow{策略提升}\pi^2\xrightarrow{策略评估}\cdots\xrightarrow{策略提升}\pi^*
+</script>
+
+<p>更新直至$\pi’$与$\pi$一致即可</p>
 <h2 id="3价值迭代算法">3.价值迭代算法</h2>
 <p>我们上面的过程中，策略评估需要很多轮才能收敛，很费时费力。<br />
 是否可以只更新一次策略呢？<br />
 答案是肯定的，也就得到了我们的价值迭代算法<br />
-利用[[MDP]]中的贝尔曼最优方程：<br />
-\(V^*(s)=\max_{a\in A}\left(r(s,a)+\gamma\sum_{s'\in S}P(s'\mid s,a)V^*(s')\right)\)<br />
-转换为DP的子问题格式：<br />
-\(V^{k+1}(s)=\max_{a\in A}\left(r(s,a)+\gamma\sum_{s'\in S}P(s'\mid s,a)V^k(s')\right)\)<br />
-我们只需要维护一个状态价值函数即可：<br />
+利用<a href="/notes/2026-05-27-mdp.html">MDP</a>中的贝尔曼最优方程：</p>
+
+<script type="math/tex; mode=display">
+V^*(s)=\max_{a\in A}\left(r(s,a)+\gamma\sum_{s&#39;\in S}P(s&#39;\mid s,a)V^*(s&#39;)\right)
+</script>
+
+<p>转换为DP的子问题格式：</p>
+
+<script type="math/tex; mode=display">
+V^{k+1}(s)=\max_{a\in A}\left(r(s,a)+\gamma\sum_{s&#39;\in S}P(s&#39;\mid s,a)V^k(s&#39;)\right)
+</script>
+
+<p>我们只需要维护一个状态价值函数即可：<br />
 与策略迭代类似，每次先评估，再更新<br />
 更新直至$\pi’$与$\pi$一致即可</p>
 <h2 id="4dp实践">4.DP实践</h2>
@@ -714,7 +742,7 @@ V^\pi(s)\leq&amp;Q^{\pi}(s,\pi'(s))\nonumber \\
 
 <p>2.我所接触到的传统dp（现在大一下）（除了一些转换为最短路问题的等），状态基本建立在DAG上，而强化学习的DP通过迭代可以解决有环的图等问题</p>
 
-<p>3.强化学习DP可以修改超参数$\gamma$来调整奖励的累计，而普通DP一般$\gamma=1$（可以见[[MDP]]中的思考部分）</p>
+<p>3.强化学习DP可以修改超参数$\gamma$来调整奖励的累计，而普通DP一般$\gamma=1$（可以见<a href="/notes/2026-05-27-mdp.html">MDP</a>中的思考部分）</p>
 
         <aside class="sidebar inline" id="post-end">
     
@@ -1056,7 +1084,7 @@ V^\pi(s)\leq&amp;Q^{\pi}(s,\pi'(s))\nonumber \\
     
     
     <span class="page_meta-readtime">
-      15 分钟阅读
+      14 分钟阅读
     </span>
   
   
