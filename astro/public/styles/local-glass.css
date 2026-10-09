@@ -87,6 +87,75 @@ html.dark #sidebar .text-50, html.dark #content-wrapper .text-50 { color: rgba(2
 .custom-md, .custom-md p, .custom-md li { color: #243849; }
 html.dark .custom-md, html.dark .custom-md p, html.dark .custom-md li { color: #e4eef7; }
 .custom-md .katex { color: inherit; }
+/* Article reading typography: opaque neutral ink in light mode.
+ * Preserve accent-colored links and the existing dark palette. */
+html:not(.dark) #post-container {
+  color: #181818 !important;
+}
+html:not(.dark) #post-container > .flex:first-child {
+  color: #444 !important; /* Word count and estimated reading time */
+}
+html:not(.dark) #post-container .text-75 {
+  color: #343434 !important;
+}
+html:not(.dark) #post-container .text-50 {
+  color: #525252 !important;
+}
+html:not(.dark) .custom-md {
+  --tw-prose-body: #171717;
+  --tw-prose-headings: #111111;
+  --tw-prose-lead: #222222;
+  --tw-prose-bold: #111111;
+  --tw-prose-counters: #232323;
+  --tw-prose-bullets: #232323;
+  --tw-prose-hr: #c9c9c9;
+  --tw-prose-quotes: #222222;
+  --tw-prose-quote-borders: #a8a8a8;
+  --tw-prose-captions: #424242;
+  color: #171717 !important;
+}
+html:not(.dark) .custom-md :is(p, li, blockquote, dt, dd, th, td) {
+  color: #171717 !important;
+}
+html:not(.dark) .custom-md :is(h1, h2, h3, h4, h5, h6, strong) {
+  color: #111111 !important;
+  -webkit-text-fill-color: #111111;
+  transition: none !important;
+}
+html:not(.dark) .custom-md :is(ol, ul) > li::marker {
+  color: #242424 !important;
+}
+
+/* Use ordinary, readable Markdown list numbering and nesting.
+ * Keep markers outside text, align long multi-line items, and avoid
+ * expanding spacing for nested lists or code/math inside list items. */
+.custom-md :is(ol, ul) {
+  list-style-position: outside;
+  padding-inline-start: 1.7em;
+  margin-block: 0.95em;
+}
+.custom-md ol {
+  list-style-type: decimal;
+}
+.custom-md ul {
+  list-style-type: disc;
+}
+.custom-md :is(ol, ul) > li {
+  padding-inline-start: 0.15em;
+  margin-block: 0.4em;
+  line-height: 1.8;
+}
+.custom-md :is(ol, ul) > li > p {
+  margin-block: 0.3em;
+}
+.custom-md :is(ol, ul) :is(ol, ul) {
+  margin-block: 0.35em;
+  padding-inline-start: 1.6em;
+}
+.custom-md ol ol { list-style-type: lower-alpha; }
+.custom-md ol ol ol { list-style-type: lower-roman; }
+.custom-md ul ul { list-style-type: circle; }
+.custom-md ul ul ul { list-style-type: square; }
 .katex-display-container { max-width: 100%; }
 /* A quiet copyright line on the backdrop, not another glass card. */
 #site-footer .site-footer-copy {

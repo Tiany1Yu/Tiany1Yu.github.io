@@ -13,7 +13,7 @@
     "postbuild": "node scripts/generate-legacy.mjs",
     "cms": "node scripts/start-cms.mjs",
     "test": "node scripts/verify-fuwari.mjs",
-    "test:e2e": "node scripts/e2e-fuwari.mjs && node scripts/e2e-theme-math.mjs",
+    "test:e2e": "node scripts/e2e-fuwari.mjs && node scripts/e2e-theme-math.mjs && node scripts/e2e-article-typography.mjs",
     "test:cms": "node scripts/e2e-cms-readonly.mjs",
     "preview": "astro preview",
     "astro": "astro",
