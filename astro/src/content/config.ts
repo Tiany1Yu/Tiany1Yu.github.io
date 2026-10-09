@@ -24,7 +24,7 @@ const projectsCollection = defineCollection({
     title: z.string(),
     description: z.string().optional().default(""),
     venue: z.string().optional().default(""),
-    year: z.coerce.number().optional(),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
     image: z.string().optional().default(""),
     github: z.union([z.string().url(), z.literal("")]).optional(),
     paper: z.union([z.string().url(), z.literal("")]).optional(),

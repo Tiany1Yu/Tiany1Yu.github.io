@@ -1,23 +1,19 @@
-import { cpSync, existsSync, mkdirSync, readdirSync, statSync } from 'node:fs';
+import { cpSync, existsSync, readdirSync, rmSync, statSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 
+// The root assets/img directory is the ONLY canonical, Git-tracked media library.
+// Pages CMS writes there. Astro's public/assets/img is a generated, ignored mirror.
+// Rebuild from scratch: otherwise deleted/replaced pictures linger in local previews.
 const source = resolve('../assets/img');
 const dest = resolve('public/assets/img');
-if (!existsSync(source)) throw new Error('找不到 Jekyll 旧图片资源：' + source);
-mkdirSync(dest, { recursive: true });
-let copied = 0;
-function sync(from, to) {
-  for (const file of readdirSync(from, { withFileTypes: true })) {
-    const src = join(from, file.name), dst = join(to, file.name);
-    if (file.isDirectory()) {
-      mkdirSync(dst, { recursive: true }); sync(src, dst);
-    } else if (file.isFile()) {
-      const s = statSync(src);
-      if (!existsSync(dst) || statSync(dst).size !== s.size) {
-        cpSync(src, dst); copied++;
-      }
-    }
-  }
+if (!existsSync(source) || !statSync(source).isDirectory()) {
+  throw new Error('Missing canonical image/media library: ' + source);
 }
-sync(source, dest);
-console.log(`Synced ${copied} images/media assets from legacy Jekyll (local only).`);
+rmSync(dest, { recursive: true, force: true });
+cpSync(source, dest, { recursive: true });
+function count(dir) {
+  return readdirSync(dir, {withFileTypes:true}).reduce(
+    (total,item) => total + (item.isDirectory() ? count(join(dir,item.name)) : item.isFile() ? 1 : 0), 0
+  );
+}
+console.log(`Synced ${count(source)} canonical assets from assets/img (stale mirrored files removed).`);

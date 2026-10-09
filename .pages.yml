@@ -4,10 +4,10 @@
 media:
   - name: images
     label: 图片素材
-    input: astro/public/assets/img/uploads
-    output: /assets/img/uploads
+    input: assets/img
+    output: /assets/img
     rename: safe
-    extensions: [png, jpg, jpeg, webp, gif, avif, svg]
+    extensions: [png, jpg, jpeg, webp, gif, avif, svg, ico]
 
 settings:
   content:
@@ -184,10 +184,10 @@ content:
       delete: false
     view:
       primary: title
-      fields: [title, year, venue, draft]
-      sort: [year, title]
+      fields: [title, date, venue, draft]
+      sort: [date, title]
       default:
-        sort: year
+        sort: date
         order: desc
     fields:
       - name: title
@@ -198,13 +198,12 @@ content:
         label: 一句话介绍
         type: text
         required: false
-      - name: year
-        label: 年份
-        type: number
+      - name: date
+        label: 日期
+        type: date
         required: false
         options:
-          min: 2000
-          max: 2100
+          format: yyyy-MM-dd
       - name: venue
         label: 会议 / 期刊
         type: string

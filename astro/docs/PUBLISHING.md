@@ -11,7 +11,7 @@
 | 文章 | `astro/src/content/posts/writing/<slug>.md` | `/posts/writing/<slug>/`，入口 `/writing/` |
 | 笔记 | `astro/src/content/posts/notes/<slug>.md` | `/posts/notes/<slug>/`，入口 `/notes/` |
 | 项目 | `astro/src/content/projects/<slug>.md` | `/projects/<slug>/`，入口 `/projects/` |
-| 图片 | `astro/public/assets/img/uploads/example.png` | `/assets/img/uploads/example.png` |
+| 图片 | `assets/img/projects/example.png` | `/assets/img/projects/example.png` |
 
 `slug` 建议使用全英文小写、数字和短横线，例如 `gui-world-model`。
 
@@ -65,8 +65,8 @@ lang: zh_CN
 title: "GUI World Model"
 description: "项目的简短介绍"
 venue: ""
-year: 2026
-image: "/assets/img/uploads/gui-overview.png"
+date: "2026-05-18"
+image: "/assets/img/projects/gui-overview.png"
 github: "https://github.com/Tiany1Yu"
 draft: false
 ---
@@ -74,7 +74,7 @@ draft: false
 项目简介与重点工作。
 ```
 
-项目可选 `paper: "https://..."`，会显示论文按钮。把主图放进 `astro/public/assets/img/uploads/` 后在 `image` 写对应的公开路径。
+项目可选 `paper: "https://..."`，会显示论文按钮。将新图放在 `assets/img/projects/`（或用 Pages CMS「图片素材」上传），`image` 填写网站路径 `/assets/img/projects/文件名.png`。项目的 `date` 是记录日期（YYYY-MM-DD），不要将仓库创建日期误写成论文正式发表日期。
 
 ## 本地可视化编辑器
 

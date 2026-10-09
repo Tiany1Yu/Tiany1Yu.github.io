@@ -31,9 +31,10 @@ try{
    assert.ok(await entry.count()>0,"Survey project missing from index");
    await entry.click();
    await page.waitForURL("**/projects/medical-multi-agent-survey/",{timeout:10000});
-   assert.match(await page.locator("main").innerText(),/2026 年/);
+   assert.match(await page.locator("main").innerText(),/2026-08-21/);
+   assert.ok(await page.locator('main time[datetime="2026-08-21"]').count()>=1,"Project date must be a full ISO date");
    assert.match(await page.locator("main").innerText(),/Findings of EMNLP/);
-   const figure=page.locator('main img[src="/assets/img/uploads/medical-multi-agent-survey.png"]').first();
+   const figure=page.locator('main img[src="/assets/img/projects/medical-multi-agent-survey.png"]').first();
    await figure.waitFor();
    const dims=await figure.evaluate(e=>e.complete&&e.naturalWidth===1502&&e.naturalHeight===624);
    assert.equal(dims,true,"Survey GitHub main_fig.png missing or damaged");

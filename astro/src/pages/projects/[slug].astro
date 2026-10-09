@@ -14,8 +14,8 @@ const { Content } = await render(project);
     <div class="px-5 pt-7 pb-5 md:px-9 md:pt-9">
       <a href="/projects/" class="text-sm text-75 hover:text-[var(--primary)] transition">← 项目</a>
       <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold text-[var(--primary)] mt-5">
-        {project.data.year && <span>{project.data.year} 年</span>}
-        {project.data.year && project.data.venue && <span aria-hidden="true">·</span>}
+        {project.data.date && <time datetime={project.data.date}>{project.data.date}</time>}
+        {project.data.date && project.data.venue && <span aria-hidden="true">·</span>}
         {project.data.venue && <span>{project.data.venue}</span>}
       </div>
       <h1 class="mt-3 font-bold text-2xl md:text-3xl leading-snug text-90">{project.data.title}</h1>

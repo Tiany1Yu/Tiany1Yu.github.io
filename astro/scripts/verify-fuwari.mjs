@@ -54,9 +54,28 @@ function files(dir){
   }
   return n;
 }
-const surveyFigure=join(dist,"assets","img","uploads","medical-multi-agent-survey.png");
+const surveyFigure=join(dist,"assets","img","projects","medical-multi-agent-survey.png");
 assert.ok(existsSync(surveyFigure),"Original survey main_fig.png missing from site");
 assert.equal(readFileSync(surveyFigure).length,588984,"Survey image differs in size from the original GitHub main figure");
 const mediaCount=files(join(dist,"assets","img"));
-assert.ok(mediaCount>=127,"Insufficient media: "+mediaCount);
+const originalMediaCount=files(join(root,"assets","img"));
+assert.equal(mediaCount,originalMediaCount,"Build media is out of sync with canonical assets/img (stale or missing files)");
+// Check actual rendered HTML links, not only asset counts. Covers, article figures,
+// project images, site icons and embedded videos must continue resolving after cleanup.
+let checkedMediaUrls = new Set();
+function checkMediaLinks(dir){
+  for(const item of readdirSync(dir,{withFileTypes:true})){
+    const file=join(dir,item.name);
+    if(item.isDirectory()){checkMediaLinks(file);continue;}
+    if(!item.isFile() || !item.name.endsWith(".html"))continue;
+    const html=readFileSync(file,"utf8");
+    for(const match of html.matchAll(/(?:src|href|poster|content|data-src)\s*=\s*["'](\/assets\/img\/[^"']+)["']/gi)){
+      const url=decodeURIComponent(match[1].split(/[?#]/)[0]);
+      checkedMediaUrls.add(url);
+      assert.ok(existsSync(join(dist,url.replace(/^\/+/, ""))),"Missing asset in generated HTML: "+url+" ("+file+")");
+    }
+  }
+}
+checkMediaLinks(dist);
+assert.ok(checkedMediaUrls.size>=40,"Media usage unexpectedly missing from generated site");
 console.log("PASS: "+count+"/11 source-faithful markdown bodies (MathJax compatibility only); "+legacyUrls.length+"/"+legacyUrls.length+" legacy URLs; "+canonicalCount+" canonical posts; "+mediaCount+" media assets; Fuwari + Pagefind + CMS.");

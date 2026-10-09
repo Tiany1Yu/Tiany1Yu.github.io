@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 const projects = (await getCollection("projects", ({data}) => !data.draft))
-  .sort((a,b) => (b.data.year ?? 0) - (a.data.year ?? 0) || a.data.title.localeCompare(b.data.title));
+  .sort((a,b) => (b.data.date ?? "").localeCompare(a.data.date ?? "") || a.data.title.localeCompare(b.data.title));
 ---
 <MainGridLayout title="项目" description="研究与项目">
   <header class="px-2 py-2 mb-5 onload-animation">
@@ -21,8 +21,8 @@ const projects = (await getCollection("projects", ({data}) => !data.draft))
           )}
           <div class="px-5 py-5 md:px-7">
             <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium tracking-wide text-[var(--primary)] mb-2">
-              {project.data.year && <span>{project.data.year} 年</span>}
-              {project.data.year && project.data.venue && <span aria-hidden="true">·</span>}
+              {project.data.date && <time datetime={project.data.date}>{project.data.date}</time>}
+              {project.data.date && project.data.venue && <span aria-hidden="true">·</span>}
               {project.data.venue && <span>{project.data.venue}</span>}
             </div>
             <h2 class="font-bold text-lg md:text-xl text-90 group-hover:text-[var(--primary)] transition leading-snug">{project.data.title}</h2>

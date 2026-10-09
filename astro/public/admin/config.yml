@@ -5,8 +5,8 @@ backend:
   branch: master
 # Local editor uses localhost-only decap-server. Production OAuth is NOT provisioned.
 publish: false
-media_folder: astro/public/assets/img/uploads
-public_folder: /assets/img/uploads
+media_folder: assets/img
+public_folder: /assets/img
 site_url: https://Tiany1Yu.github.io
 display_url: https://Tiany1Yu.github.io
 locale: zh_Hans

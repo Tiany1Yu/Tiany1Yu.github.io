@@ -21,7 +21,7 @@ const folder = resolve(base.folder);
 const filename = join(folder,slug+".md");
 mkdirSync(folder,{recursive:true});
 const frontmatter = kind==="projects"
-  ? `---\ntitle: "请填写项目标题"\ndescription: ""\nvenue: ""\nyear: ${new Date().getFullYear()}\nimage: ""\ngithub: ""\ndraft: true\n---\n\n在这里写项目介绍。\n`
+  ? `---\ntitle: "请填写项目标题"\ndescription: ""\nvenue: ""\ndate: "${today}"\nimage: ""\ngithub: ""\ndraft: true\n---\n\n在这里写项目介绍。\n`
   : `---\ntitle: "请填写标题"\npublished: "${today}"\ndescription: ""\ntags: []\ncategory: "${base.category}"\ndraft: true\nlang: zh_CN\n---\n\n从这里开始写 Markdown。\n`;
 try {
   // Exclusive creation: never silently replace a real article.
