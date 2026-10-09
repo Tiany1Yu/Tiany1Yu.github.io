@@ -37,7 +37,7 @@ for(const mode of ["light","dark"]){
     const card=document.querySelector("main .card-base");
     return {h1:getComputedStyle(h).color,person:getComputedStyle(person).color,bg:bg.backgroundImage,attachment:bg.backgroundAttachment,card:getComputedStyle(card).backgroundColor,blur:getComputedStyle(card).backdropFilter,scroll:document.documentElement.scrollWidth-innerWidth};
    });
-   assert.ok(mode==="light"?cssColor(themeData.h1)<125:cssColor(themeData.h1)>205,JSON.stringify(themeData));
+   assert.ok(cssColor(themeData.h1)>205,"Standalone collection headings are over the dark wallpaper and must remain bright: "+JSON.stringify(themeData));
    assert.ok(mode==="light"?cssColor(themeData.person)<125:cssColor(themeData.person)>205,JSON.stringify(themeData));
    assert.match(themeData.bg,/user-night-desk\.avif/);
    assert.match(themeData.blur,/blur/);

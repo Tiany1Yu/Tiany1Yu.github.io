@@ -1,0 +1,433 @@
+/*
+ * Moonlit Quartz — clear glass over the user's night-desk illustration.
+ *
+ * A deliberately quiet alternative to rainbow glass: silver / warm pearl
+ * in light mode, graphite / smoke in dark mode, with a restrained teal
+ * interaction color. Inspired by optical rim-light and acrylic principles,
+ * not copied from or dependent on a third-party component/library.
+ *
+ * This sheet loads after local-glass.css. V1 / V2 remain in local Git history.
+ */
+
+/* Material: clear center, almost colorless rim, one consistent light direction. */
+:root {
+  color-scheme: light;
+  --primary: #356775;
+  --btn-content: #285968;
+  --deep-text: #1c303a;
+  --card-bg: rgba(245, 246, 246, .29);
+  --float-panel-bg: rgba(246, 246, 244, .34);
+  --btn-regular-bg: rgba(251, 250, 247, .28);
+  --btn-regular-bg-hover: rgba(255, 255, 252, .43);
+  --btn-plain-bg-hover: rgba(244, 246, 243, .20);
+  --btn-card-bg-hover: rgba(245, 246, 243, .34);
+  --line-color: rgba(49, 65, 72, .16);
+  --glass-ink: #23333e;
+  --glass-muted: #465760;
+  --glass-depth: rgba(20, 24, 27, .16);
+  --glass-focus: #2b6477;
+
+  /* Alphas stay at V2 translucency levels; no colored paint on the surface. */
+  --glass-surface: linear-gradient(162deg,
+    rgba(255, 255, 252, .33) 0%,
+    rgba(245, 247, 246, .27) 40%,
+    rgba(242, 241, 236, .23) 73%,
+    rgba(248, 247, 243, .28) 100%);
+  --glass-reflection: linear-gradient(147deg,
+    rgba(255, 255, 255, .15) 0%,
+    rgba(255, 255, 255, .045) 28%,
+    rgba(255, 255, 255, .00) 66%,
+    rgba(255, 249, 238, .035) 100%);
+  /* The 1px bezel is directional: the top-left catches light,
+     the opposite edge is mostly invisible against the photo. */
+  --glass-spectrum: linear-gradient(138deg,
+    rgba(255, 255, 253, .78) 0%,
+    rgba(255, 255, 255, .47) 28%,
+    rgba(233, 228, 216, .27) 59%,
+    rgba(108, 111, 109, .19) 79%,
+    rgba(255, 255, 255, .46) 100%);
+  --glass-shadow:
+    0 13px 37px rgba(17, 24, 30, .17),
+    0 2px 8px rgba(29, 37, 41, .075),
+    inset 0 1px 0 rgba(255, 255, 255, .52),
+    inset 0 -1px 0 rgba(255, 255, 255, .09);
+  --glass-blur: blur(12px) saturate(122%);
+}
+
+:root.dark {
+  color-scheme: dark;
+  --primary: #a8d0d5;
+  --btn-content: #c4e6e7;
+  --deep-text: #f0f4f5;
+  --card-bg: rgba(20, 24, 27, .24);
+  --float-panel-bg: rgba(19, 23, 27, .37);
+  --btn-regular-bg: rgba(200, 210, 211, .105);
+  --btn-regular-bg-hover: rgba(207, 224, 223, .16);
+  --btn-plain-bg-hover: rgba(235, 236, 227, .075);
+  --btn-card-bg-hover: rgba(213, 218, 215, .11);
+  --line-color: rgba(222, 225, 220, .17);
+  --glass-ink: #eff2f2;
+  --glass-muted: #c3ced0;
+  --glass-depth: rgba(0, 0, 0, .45);
+  --glass-focus: #b9dde1;
+
+  --glass-surface: linear-gradient(164deg,
+    rgba(24, 29, 32, .30) 0%,
+    rgba(22, 27, 29, .25) 38%,
+    rgba(24, 25, 27, .23) 72%,
+    rgba(17, 21, 24, .28) 100%);
+  --glass-reflection: linear-gradient(142deg,
+    rgba(237, 243, 241, .085) 0%,
+    rgba(218, 230, 233, .025) 30%,
+    rgba(255, 255, 255, .00) 71%,
+    rgba(241, 213, 182, .028) 100%);
+  --glass-spectrum: linear-gradient(138deg,
+    rgba(245, 240, 226, .43) 0%,
+    rgba(218, 232, 231, .24) 28%,
+    rgba(161, 166, 165, .12) 63%,
+    rgba(44, 51, 55, .17) 81%,
+    rgba(202, 206, 201, .24) 100%);
+  --glass-shadow:
+    0 18px 43px rgba(0, 0, 0, .36),
+    0 3px 9px rgba(0, 0, 0, .19),
+    inset 0 1px 0 rgba(255, 255, 255, .14),
+    inset 0 -1px 0 rgba(255, 255, 255, .02);
+  --glass-blur: blur(14px) saturate(113%);
+}
+
+/* Preserve the submitted wallpaper. A neutral vignette adds depth but never
+   invents colorful pools on top of the image. */
+html {
+  background-image:
+    linear-gradient(112deg, rgba(16, 19, 21, .08), rgba(28, 25, 21, .055)),
+    url("/wallpapers/user-night-desk.avif") !important;
+  background-color: #51473f !important;
+}
+html.dark {
+  background-image:
+    linear-gradient(112deg, rgba(8, 10, 13, .24), rgba(12, 11, 12, .31)),
+    url("/wallpapers/user-night-desk.avif") !important;
+  background-color: #131518 !important;
+}
+/* Remove V2's four artificial rainbow spotlights. */
+body::after { display: none !important; }
+
+/* Actual pane: glass is primarily background and precise rim light, not a
+   multicolored background gradient or a bright synthetic glow. */
+.card-base, .float-panel {
+  background:
+    var(--glass-reflection) padding-box,
+    var(--glass-surface) padding-box,
+    var(--glass-spectrum) border-box !important;
+  border: 1px solid transparent !important;
+  box-shadow: var(--glass-shadow) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  position: relative;
+}
+.card-base {
+  outline: 1px solid rgba(255, 255, 255, .025);
+  outline-offset: -2px;
+}
+html.dark .card-base { outline-color: rgba(255, 255, 255, .017); }
+.card-base:hover {
+  box-shadow:
+    0 17px 42px rgba(13, 19, 24, .20),
+    0 3px 10px rgba(20, 27, 29, .09),
+    inset 0 1px 0 rgba(255, 255, 255, .58) !important;
+}
+html.dark .card-base:hover {
+  box-shadow:
+    0 19px 47px rgba(0, 0, 0, .43),
+    0 3px 12px rgba(0, 0, 0, .20),
+    inset 0 1px 0 rgba(255, 255, 255, .17) !important;
+}
+
+/* Header retains a lighter, finer rim. Cards and popovers keep one material
+   instead of independently colored panels. */
+#navbar-wrapper .card-base {
+  box-shadow:
+    0 10px 29px var(--glass-depth),
+    inset 0 1px 0 rgba(255, 255, 255, .45) !important;
+}
+html.dark #navbar-wrapper .card-base {
+  box-shadow:
+    0 13px 32px rgba(0, 0, 0, .40),
+    inset 0 1px 0 rgba(255, 255, 255, .13) !important;
+}
+#navbar .absolute.-top-8 { background: transparent !important; }
+.float-panel {
+  background:
+    var(--glass-reflection) padding-box,
+    var(--glass-surface) padding-box,
+    var(--glass-spectrum) border-box !important;
+}
+#sidebar .card-base {
+  -webkit-backdrop-filter: blur(11px) saturate(120%) !important;
+  backdrop-filter: blur(11px) saturate(120%) !important;
+}
+
+/* Non-frosted controls inside already-frosted cards: glass nested in glass
+   is visually muddy and wastes compositing work. */
+.btn-regular, .btn-card {
+  border: 1px solid rgba(255, 255, 255, .22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .13);
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html.dark .btn-regular, html.dark .btn-card {
+  border-color: rgba(228, 230, 222, .13);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .055);
+}
+#navbar .btn-plain, #nav-menu-panel a {
+  border: 1px solid transparent;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+#navbar .btn-plain:hover, #nav-menu-panel a:hover {
+  background: rgba(246, 247, 243, .19);
+  border-color: rgba(255, 255, 255, .23);
+}
+html.dark #navbar .btn-plain:hover,
+html.dark #nav-menu-panel a:hover {
+  background: rgba(235, 237, 230, .085);
+  border-color: rgba(255, 255, 255, .12);
+}
+#sidebar .card-base a, #content-wrapper .card-base a {
+  text-underline-offset: 3px;
+}
+
+/* Quiet ink hierarchy. Keep the accents for controls and links, not large
+   colored panels. Use clear opaque text on the complex image beneath. */
+body { color: var(--glass-ink) !important; }
+#sidebar .text-75, #content-wrapper .text-75 { color: #30444d !important; }
+#sidebar .text-50, #content-wrapper .text-50 { color: #425660 !important; }
+/* Fine white ink reflection improves smaller text where clear glass overlaps the
+   dark half of the illustration, without making the whole surface opaque. */
+html:not(.dark) #content-wrapper .card-base .text-75,
+html:not(.dark) #content-wrapper .card-base .text-50,
+html:not(.dark) #sidebar .card-base .text-75,
+html:not(.dark) #sidebar .card-base .text-50 {
+  text-shadow: 0 1px 1px rgba(255, 255, 253, .54);
+}
+html.dark #sidebar .text-75, html.dark #content-wrapper .text-75 { color: #d0dadd !important; }
+html.dark #sidebar .text-50, html.dark #content-wrapper .text-50 { color: #adbdc1 !important; }
+#sidebar .card-base .font-bold,
+#content-wrapper .card-base .font-bold { color: #1e323c !important; }
+html.dark #sidebar .card-base .font-bold,
+html.dark #content-wrapper .card-base .font-bold { color: #f1f5f4 !important; }
+.custom-md, .custom-md p, .custom-md li { color: #263943 !important; }
+html.dark .custom-md, html.dark .custom-md p, html.dark .custom-md li { color: #e9efef !important; }
+.custom-md .katex { color: inherit !important; }
+#content-wrapper main h1, #content-wrapper h1,
+#content-wrapper h2, #content-wrapper h3 { color: var(--glass-ink) !important; }
+#content-wrapper .text-black\/30 { color: #52616a !important; }
+html.dark #content-wrapper .text-white\/30 { color: #b3c1c4 !important; }
+
+/* Collection headings sit outside cards directly on the dark photo. */
+#content-wrapper > header h1 {
+  color: #fafbfa !important;
+  text-shadow: 0 2px 7px rgba(0, 0, 0, .81), 0 0 18px rgba(0, 0, 0, .42);
+  letter-spacing: .01em;
+}
+html.dark #content-wrapper > header h1 { color: #f6f9f8 !important; }
+
+/* Respect accessibility preferences and preserve the intentionally unboxed footer. */
+a:focus-visible, button:focus-visible, input:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--glass-focus) !important;
+  outline-offset: 3px;
+}
+input, textarea, select {
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+}
+::selection { background: rgba(99, 146, 152, .30); color: #122b33; }
+html.dark ::selection { background: rgba(151, 184, 182, .34); color: #fff; }
+#site-footer, #site-footer .site-footer-copy {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+#site-footer .site-footer-copy {
+  color: #f7f8f6 !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .89), 0 0 15px rgba(0, 0, 0, .56);
+}
+@supports not ((-webkit-backdrop-filter: blur(2px)) or (backdrop-filter: blur(2px))) {
+  :root { --glass-surface: linear-gradient(#f0f2f1, #f6f6f4); }
+  :root.dark { --glass-surface: linear-gradient(#22292b, #1b2022); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  :root { --glass-surface: linear-gradient(#f1f4f2, #f7f6f4); }
+  :root.dark { --glass-surface: linear-gradient(#20272a, #222629); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-base, .float-panel, .btn-regular { transition-duration: .01ms !important; }
+}
+@media (max-width: 768px) {
+  body::before {
+    background:
+      linear-gradient(105deg, rgba(23, 24, 22, .065), rgba(33, 30, 25, .045)),
+      url("/wallpapers/user-night-desk.avif") center / cover no-repeat !important;
+  }
+  html.dark body::before {
+    background:
+      linear-gradient(105deg, rgba(7, 10, 13, .23), rgba(17, 15, 14, .29)),
+      url("/wallpapers/user-night-desk.avif") center / cover no-repeat !important;
+  }
+  .card-base, .float-panel {
+    -webkit-backdrop-filter: blur(8px) saturate(118%) !important;
+    backdrop-filter: blur(8px) saturate(118%) !important;
+  }
+}
+
+/* V4 / Optical finishing: restraint in details, not an extra color layer.
+   Persistent panes retain V3 clarity; transient menus intentionally gain
+   more separation so text doesn't merge with the wallpaper behind them. */
+:root {
+  --glass-popover: linear-gradient(150deg,
+    rgba(247, 248, 246, .67), rgba(241, 244, 243, .61));
+  --glass-quiet-ink: #344a52;
+  --glass-quiet-well: rgba(248, 248, 244, .27);
+  --glass-quiet-border: rgba(255, 255, 252, .39);
+  --glass-image-well: rgba(246, 247, 245, .83);
+  --glass-figure-border: rgba(44, 57, 58, .11);
+}
+:root.dark {
+  --glass-popover: linear-gradient(150deg,
+    rgba(28, 33, 36, .77), rgba(23, 29, 31, .71));
+  --glass-quiet-ink: #d5e2e0;
+  --glass-quiet-well: rgba(220, 231, 226, .085);
+  --glass-quiet-border: rgba(242, 245, 238, .12);
+  --glass-image-well: rgba(229, 232, 224, .11);
+  --glass-figure-border: rgba(225, 235, 228, .11);
+}
+
+/* Only clickable story previews lift; no motion on articles, widgets, nav
+   or full-height mathematics reading surfaces. */
+.glass-story {
+  transition: translate .22s ease, box-shadow .22s ease !important;
+}
+@media (hover: hover) and (pointer: fine) {
+  .glass-story:hover {
+    translate: 0 -2px;
+    box-shadow:
+      0 18px 45px rgba(15, 22, 27, .21),
+      0 3px 9px rgba(27, 37, 37, .09),
+      inset 0 1px 0 rgba(255, 255, 255, .53) !important;
+  }
+  html.dark .glass-story:hover {
+    box-shadow:
+      0 21px 47px rgba(0, 0, 0, .47),
+      0 3px 9px rgba(0, 0, 0, .16),
+      inset 0 1px 0 rgba(255, 255, 255, .18) !important;
+  }
+}
+.glass-story:focus-within {
+  outline: 2px solid var(--glass-focus);
+  outline-offset: 2px;
+}
+
+/* Scientific figure is a printed page inside glass, rather than a huge
+   edge-to-edge white bar. Keep the figure itself opaque for tiny captions. */
+.glass-project-media {
+  background: var(--glass-image-well);
+  padding-bottom: 1rem;
+}
+.glass-project-figure {
+  background: #fff;
+  border-radius: .75rem;
+  border: 1px solid var(--glass-figure-border);
+  box-shadow: 0 2px 11px rgba(13, 25, 26, .075);
+}
+html.dark .glass-project-figure {
+  box-shadow: 0 3px 16px rgba(0, 0, 0, .22);
+}
+
+/* Harmonize tag chips and category counts with the same quiet mineral
+   surface. The old bright cyan category counters looked like a different UI. */
+#sidebar widget-layout[data-id="categories"] button .flex.items-center.justify-between > div:last-child {
+  background: var(--glass-quiet-well) !important;
+  color: var(--glass-quiet-ink) !important;
+  border: 1px solid var(--glass-quiet-border);
+  min-width: 1.8rem;
+  height: 1.6rem;
+  font-variant-numeric: tabular-nums;
+}
+#sidebar widget-layout[data-id="tags"] .btn-regular {
+  background: var(--glass-quiet-well) !important;
+  border-color: var(--glass-quiet-border) !important;
+  color: var(--glass-quiet-ink) !important;
+}
+#sidebar widget-layout[data-id="tags"] .btn-regular:hover {
+  background: var(--btn-regular-bg-hover) !important;
+  color: var(--primary) !important;
+}
+#sidebar widget-layout[data-id="categories"] button,
+#sidebar widget-layout[data-id="tags"] .btn-regular {
+  transition: background-color .16s ease, border-color .16s ease, color .16s ease;
+}
+
+/* Metadata icon wells are small and matte; the icon itself still carries
+   the site's only cool accent. */
+.meta-icon {
+  background: var(--glass-quiet-well) !important;
+  border: 1px solid var(--glass-quiet-border);
+  color: var(--primary) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .10);
+}
+html.dark .meta-icon { box-shadow: none; }
+
+/* Search and mobile menu are temporary floating surfaces: unlike reading
+   cards, they need a deliberate contrast layer and stronger focus affordance. */
+#search-panel, #nav-menu-panel {
+  background:
+    var(--glass-reflection) padding-box,
+    var(--glass-popover) padding-box,
+    var(--glass-spectrum) border-box !important;
+  -webkit-backdrop-filter: blur(22px) saturate(113%) !important;
+  backdrop-filter: blur(22px) saturate(113%) !important;
+  box-shadow: 0 23px 58px rgba(14, 21, 26, .24),
+    inset 0 1px 0 rgba(255, 255, 255, .28) !important;
+}
+html.dark #search-panel, html.dark #nav-menu-panel {
+  box-shadow: 0 26px 62px rgba(0, 0, 0, .45),
+    inset 0 1px 0 rgba(255, 255, 255, .09) !important;
+}
+#search-bar, #search-bar-inside {
+  border: 1px solid var(--glass-quiet-border);
+  background: var(--glass-quiet-well) !important;
+  box-shadow: inset 0 1px 2px rgba(14, 22, 25, .045);
+}
+#search-bar:focus-within, #search-bar-inside:focus-within {
+  border-color: var(--glass-focus);
+  box-shadow: 0 0 0 2px rgba(49, 104, 113, .16);
+}
+#search-bar input, #search-bar-inside input {
+  color: var(--glass-ink) !important;
+  opacity: 1 !important;
+}
+#search-bar input::placeholder, #search-bar-inside input::placeholder {
+  color: var(--glass-quiet-ink) !important;
+  opacity: .82;
+}
+#search-panel a:hover, #nav-menu-panel a:hover {
+  background: var(--glass-quiet-well) !important;
+}
+#search-panel .text-50, #nav-menu-panel .text-50 { color: var(--glass-quiet-ink) !important; }
+#search-panel mark { color: var(--primary) !important; }
+
+/* Keep the intentionally unboxed footer and original screenshot's atmosphere.
+   Motion reduction also applies to the newly marked interactive previews. */
+@media (prefers-reduced-motion: reduce) {
+  .glass-story { transition: none !important; }
+  .glass-story:hover { translate: 0 !important; }
+}
+@media (max-width: 768px) {
+  .glass-story:hover { translate: 0; }
+  #search-panel, #nav-menu-panel {
+    -webkit-backdrop-filter: blur(14px) saturate(110%) !important;
+    backdrop-filter: blur(14px) saturate(110%) !important;
+  }
+}

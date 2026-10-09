@@ -10,13 +10,13 @@ const projects = (await getCollection("projects", ({data}) => !data.draft))
   </header>
   <div class="flex flex-col gap-4">
     {projects.map(project => (
-      <article class="card-base rounded-[var(--radius-large)] overflow-hidden onload-animation">
+      <article class="card-base glass-story rounded-[var(--radius-large)] overflow-hidden onload-animation">
         <a class="group block" href={`/projects/${project.slug}/`} aria-label={project.data.title}>
           {project.data.image && (
-            <div class="bg-white/95 p-4 md:p-7">
+            <div class="glass-project-media p-4 md:p-7">
               <img src={project.data.image} alt={`${project.data.title} 综述框架图`}
                    width="1502" height="624" loading="lazy" decoding="async"
-                   class="w-full h-auto object-contain transition duration-300 group-hover:scale-[1.01]" />
+                   class="glass-project-figure w-full h-auto object-contain transition duration-300 group-hover:scale-[1.005]" />
             </div>
           )}
           <div class="px-5 py-5 md:px-7">

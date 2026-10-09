@@ -148,6 +148,7 @@ const bannerOffset =
 		<link rel="alternate" type="application/rss+xml" title={profileConfig.name} href={`${Astro.site}rss.xml`}/>
 		<!-- Native CSS override: keep independent of Tailwind @apply compilation. -->
 		<link rel="stylesheet" href={url("/styles/local-glass.css")} />
+		<link rel="stylesheet" href={url("/styles/prismatic-glass.css")} />
 
 	</head>
 	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner}]}
