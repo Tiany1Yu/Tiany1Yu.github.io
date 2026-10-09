@@ -1,0 +1,31 @@
+---
+const isLocalEditor = import.meta.env.DEV;
+---
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <title>Uke's Blog · 内容管理</title>
+  <style>
+    body{margin:0;min-height:100dvh;display:grid;place-items:center;background:#161b26;color:#eaf0f7;font:16px/1.6 system-ui,sans-serif}
+    main{padding:36px 28px;max-width:460px;text-align:center}
+    h1{font-size:24px;font-weight:600}
+    a{display:inline-block;margin-top:16px;color:#fff;border:1px solid #7e90a8;padding:10px 22px;border-radius:9px;text-decoration:none}
+    a:focus-visible,a:hover{background:#2d3749}
+    p{color:#c4ccd7}
+  </style>
+</head>
+<body>
+  {isLocalEditor ? (
+    <script is:inline src="https://unpkg.com/decap-cms@3.6.4/dist/decap-cms.js"></script>
+  ) : (
+    <main>
+      <h1>博客内容管理</h1>
+      <p>文章、笔记和项目的在线编辑使用 Pages CMS。使用 GitHub 账号登录并选择本博客仓库。</p>
+      <a href="https://app.pagescms.org/" target="_blank" rel="noopener noreferrer">打开 Pages CMS ↗</a>
+    </main>
+  )}
+</body>
+</html>

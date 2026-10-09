@@ -1,0 +1,120 @@
+/*
+ * Uke's Blog visual refinements on the native Fuwari theme.
+ * Palette restored from the old MVM palette.svg / palette-dark.svg.
+ * Photo: user-provided night-desk illustration; see wallpapers/ATTRIBUTION.md.
+ * Translucency is deliberately paired with opaque-enough surfaces and theme-aware text.
+ */
+:root {
+  color-scheme: light;
+  --primary: #326273;
+  --btn-content: #326273;
+  --deep-text: #142b38;
+  --card-bg: rgba(249, 251, 253, 0.83);
+  --float-panel-bg: rgba(250, 252, 255, 0.94);
+  --btn-regular-bg: rgba(219, 234, 239, 0.78);
+  --btn-regular-bg-hover: rgba(202, 226, 232, 0.93);
+  --btn-plain-bg-hover: rgba(74, 126, 150, 0.1);
+  --btn-card-bg-hover: rgba(247, 252, 255, 0.92);
+  --line-color: rgba(38, 87, 105, 0.16);
+}
+:root.dark {
+  color-scheme: dark;
+  --primary: #9ccbd0;
+  --btn-content: #b1d7da;
+  --deep-text: #edf5fa;
+  --card-bg: rgba(22, 36, 53, 0.79);
+  --float-panel-bg: rgba(24, 38, 57, 0.94);
+  --btn-regular-bg: rgba(73, 110, 132, 0.38);
+  --btn-regular-bg-hover: rgba(85, 130, 154, 0.54);
+  --btn-plain-bg-hover: rgba(192, 231, 245, 0.12);
+  --btn-card-bg-hover: rgba(49, 71, 93, 0.91);
+  --line-color: rgba(226, 244, 251, 0.17);
+}
+/* Fixed viewport background: never runs out at the bottom of a long article. */
+html {
+  min-height: 100%;
+  background-color: #544942 !important;
+  background-image: linear-gradient(115deg, rgba(246, 238, 221, 0.08), rgba(233, 224, 209, 0.10)), url("/wallpapers/user-night-desk.avif") !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-size: cover !important;
+  background-attachment: fixed !important;
+}
+html.dark {
+  background-color: #191817 !important;
+  background-image: linear-gradient(115deg, rgba(15, 16, 21, 0.32), rgba(14, 14, 18, 0.43)), url("/wallpapers/user-night-desk.avif") !important;
+}
+body {
+  min-height: 100vh;
+  background: transparent !important;
+  color: #1d2d3b !important;
+}
+html.dark body { color: #edf4fa !important; }
+/* Theme-dependent headings and intro copy, including those without explicit text classes. */
+main h1, main h2, main h3, .card-base h1, .card-base h2, .card-base h3 {
+  color: #172c3b;
+}
+html.dark main h1, html.dark main h2, html.dark main h3,
+html.dark .card-base h1, html.dark .card-base h2, html.dark .card-base h3 {
+  color: #f1f6fc;
+}
+.card-base, .float-panel {
+  background: var(--card-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.47);
+  box-shadow: 0 12px 38px rgba(16, 39, 61, 0.12), inset 0 1px 0 rgba(255,255,255,.35);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(140%);
+}
+.float-panel { background: var(--float-panel-bg) !important; }
+html.dark .card-base, html.dark .float-panel {
+  border-color: rgba(206, 230, 251, 0.19);
+  box-shadow: 0 14px 42px rgba(0, 8, 23, 0.3), inset 0 1px 0 rgba(228,245,255,.12);
+}
+#navbar { border-top: 0; }
+#navbar-wrapper .card-base { box-shadow: 0 10px 32px rgba(10,31,48,.14); }
+#sidebar .card-base { overflow: hidden; }
+/* Explicitly reset legacy Fuwari dark-only defaults in profile and headings. */
+#sidebar .card-base .font-bold, #content-wrapper .card-base .font-bold {
+  color: #193144;
+}
+html.dark #sidebar .card-base .font-bold, html.dark #content-wrapper .card-base .font-bold {
+  color: #f1f6fb;
+}
+#sidebar .text-75, #content-wrapper .text-75 { color: rgba(24, 42, 58, 0.78); }
+html.dark #sidebar .text-75, html.dark #content-wrapper .text-75 { color: rgba(239, 246, 251, 0.79); }
+#sidebar .text-50, #content-wrapper .text-50 { color: rgba(23, 45, 59, 0.67); }
+html.dark #sidebar .text-50, html.dark #content-wrapper .text-50 { color: rgba(232, 246, 255, 0.68); }
+.custom-md, .custom-md p, .custom-md li { color: #243849; }
+html.dark .custom-md, html.dark .custom-md p, html.dark .custom-md li { color: #e4eef7; }
+.custom-md .katex { color: inherit; }
+.katex-display-container { max-width: 100%; }
+/* A quiet copyright line on the backdrop, not another glass card. */
+#site-footer .site-footer-copy {
+  color: #f8f7f5 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .92), 0 0 16px rgba(0, 0, 0, .65);
+}
+#site-footer a { color: inherit !important; text-underline-offset: 3px; }
+#site-footer a:hover { text-decoration: underline; }
+/* Browsers without backdrop blur still get a readable translucent-to-solid surface. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root { --card-bg: #f7fafc; --float-panel-bg: #fbfcfd; }
+  :root.dark { --card-bg: #192b3f; --float-panel-bg: #192b3f; }
+}
+@media (max-width: 768px) {
+  html { background-attachment: scroll !important; }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(115deg, rgba(246,238,221,.08), rgba(233,224,209,.12)), url("/wallpapers/user-night-desk.avif") center / cover no-repeat;
+    pointer-events: none;
+  }
+  html.dark body::before {
+    background: linear-gradient(115deg, rgba(15,16,21,.33), rgba(14,14,18,.43)), url("/wallpapers/user-night-desk.avif") center / cover no-repeat;
+  }
+  .card-base { -webkit-backdrop-filter: blur(15px); backdrop-filter: blur(15px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-base, .float-panel { transition: none; }
+}

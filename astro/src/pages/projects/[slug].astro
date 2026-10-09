@@ -1,0 +1,40 @@
+---
+import { getCollection, render } from "astro:content";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import Markdown from "@components/misc/Markdown.astro";
+export async function getStaticPaths() {
+  const projects = await getCollection("projects", ({ data }) => !data.draft);
+  return projects.map(project => ({ params: { slug: project.slug }, props: { project } }));
+}
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+<MainGridLayout title={project.data.title} description={project.data.description}>
+  <article class="card-base rounded-[var(--radius-large)] overflow-hidden">
+    <div class="px-5 pt-7 pb-5 md:px-9 md:pt-9">
+      <a href="/projects/" class="text-sm text-75 hover:text-[var(--primary)] transition">← 项目</a>
+      <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold text-[var(--primary)] mt-5">
+        {project.data.year && <span>{project.data.year} 年</span>}
+        {project.data.year && project.data.venue && <span aria-hidden="true">·</span>}
+        {project.data.venue && <span>{project.data.venue}</span>}
+      </div>
+      <h1 class="mt-3 font-bold text-2xl md:text-3xl leading-snug text-90">{project.data.title}</h1>
+      {project.data.description && <p class="text-75 mt-3">{project.data.description}</p>}
+    </div>
+    {project.data.image && (
+      <figure class="bg-white/95 p-3 md:p-7">
+        <img src={project.data.image} width="1502" height="624" loading="eager" decoding="async"
+             class="block w-full h-auto object-contain" alt={`${project.data.title}：L0–L5 医疗多智能体系统演进示意图`}/>
+      </figure>
+    )}
+    <div class="px-5 pb-8 pt-6 md:px-9">
+      <Markdown class="markdown-content text-75"><Content /></Markdown>
+      <div class="flex flex-wrap items-center gap-3 mt-6">
+        {project.data.github && <a href={project.data.github} target="_blank" rel="noopener noreferrer"
+          class="btn-regular rounded-lg px-4 py-2 font-medium text-sm hover:text-[var(--primary)] transition">GitHub ↗</a>}
+        {project.data.paper && <a href={project.data.paper} target="_blank" rel="noopener noreferrer"
+          class="btn-regular rounded-lg px-4 py-2 font-medium text-sm hover:text-[var(--primary)] transition">论文 ↗</a>}
+      </div>
+    </div>
+  </article>
+</MainGridLayout>

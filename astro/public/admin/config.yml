@@ -1,0 +1,69 @@
+local_backend: true
+backend:
+  name: github
+  repo: Tiany1Yu/Tiany1Yu.github.io
+  branch: master
+# Local editor uses localhost-only decap-server. Production OAuth is NOT provisioned.
+publish: false
+media_folder: astro/public/assets/img/uploads
+public_folder: /assets/img/uploads
+site_url: https://Tiany1Yu.github.io
+display_url: https://Tiany1Yu.github.io
+locale: zh_Hans
+collections:
+  - name: writing
+    label: 文章
+    label_singular: 文章
+    folder: astro/src/content/posts/writing
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    fields:
+      - { label: 标题, name: title, widget: string }
+      - { label: 发布日期, name: published, widget: datetime }
+      - { label: 更新日期, name: updated, widget: datetime, required: false }
+      - { label: 描述, name: description, widget: text, required: false }
+      - { label: 分类, name: category, widget: string, default: "AI · 技术" }
+      - { label: 标签, name: tags, widget: list, default: [] }
+      - { label: 封面, name: image, widget: image, required: false }
+      - { label: 语言, name: lang, widget: hidden, default: zh_CN }
+      - { label: 草稿, name: draft, widget: boolean, default: false }
+      - { label: 正文, name: body, widget: markdown }
+  - name: projects
+    label: 项目
+    label_singular: 项目
+    folder: astro/src/content/projects
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    fields:
+      - { label: 标题, name: title, widget: string }
+      - { label: 简介, name: description, widget: text, required: false }
+      - { label: 会议/期刊, name: venue, widget: string, required: false }
+      - { label: 年份, name: year, widget: number, value_type: int, required: false }
+      - { label: 主图, name: image, widget: image, required: false }
+      - { label: GitHub, name: github, widget: string, required: false }
+      - { label: 论文链接, name: paper, widget: string, required: false }
+      - { label: 草稿, name: draft, widget: boolean, default: true }
+      - { label: 正文, name: body, widget: markdown }
+  - name: notes
+    label: 笔记花园
+    label_singular: 笔记
+    folder: astro/src/content/posts/notes
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    fields:
+      - { label: 标题, name: title, widget: string }
+      - { label: 发布日期, name: published, widget: datetime }
+      - { label: 更新日期, name: updated, widget: datetime, required: false }
+      - { label: 描述, name: description, widget: text, required: false }
+      - { label: 分类, name: category, widget: hidden, default: 笔记花园 }
+      - { label: 标签, name: tags, widget: list, default: [] }
+      - { label: 封面, name: image, widget: image, required: false }
+      - { label: 语言, name: lang, widget: hidden, default: zh_CN }
+      - { label: 草稿, name: draft, widget: boolean, default: false }
+      - { label: 正文, name: body, widget: markdown }

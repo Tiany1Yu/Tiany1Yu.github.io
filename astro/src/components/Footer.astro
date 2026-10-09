@@ -1,0 +1,12 @@
+---
+import { profileConfig } from "../config";
+import { url } from "../utils/url-utils";
+const currentYear = new Date().getFullYear();
+---
+<div class="site-footer-copy text-center text-xs md:text-sm tracking-wide py-6 px-4">
+  <span>&copy; {currentYear} {profileConfig.name}</span>
+  <span aria-hidden="true" class="mx-2">·</span>
+  <a href={url("rss.xml")} target="_blank" rel="noopener noreferrer">RSS</a>
+  <span aria-hidden="true" class="mx-2">·</span>
+  <a href={url("sitemap-index.xml")} target="_blank" rel="noopener noreferrer">Sitemap</a>
+</div>

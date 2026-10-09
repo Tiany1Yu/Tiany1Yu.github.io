@@ -1,0 +1,8 @@
+---
+import aliases from "../../data/legacy-aliases.json";
+export const getStaticPaths = () => Object.entries(aliases)
+  .filter(([path]) => /^\/writing\/[^/]+\/$/.test(path))
+  .map(([path, target]) => ({params:{slug:path.split("/")[2]}, props:{target}}));
+const {target} = Astro.props;
+---
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"/><meta name="robots" content="noindex,follow"/><meta http-equiv="refresh" content={`0;url=${target}`}/><link rel="canonical" href={target}/><title>文章已迁移</title></head><body><a href={target}>前往新版文章</a></body></html>

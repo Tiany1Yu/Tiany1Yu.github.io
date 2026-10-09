@@ -1,0 +1,12 @@
+---
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import PostPage from "@components/PostPage.astro";
+import { getSortedPosts } from "@utils/content-utils";
+const notes = (await getSortedPosts()).filter(entry => entry.slug.startsWith("notes/"));
+---
+<MainGridLayout title="笔记花园" description="学习笔记与推导">
+  <header class="px-2 py-2 mb-5 onload-animation">
+    <h1 class="text-2xl md:text-3xl font-bold text-90">笔记花园</h1>
+  </header>
+  <PostPage page={{data: notes}} />
+</MainGridLayout>

@@ -1,0 +1,237 @@
+# Pages CMS / GitHub-backed authoring for Tiany1Yu.github.io
+# https://pagescms.org/docs/configuration/
+# Read on the master branch after the repository owner installs the Pages CMS GitHub App.
+media:
+  - name: images
+    label: 图片素材
+    input: astro/public/assets/img/uploads
+    output: /assets/img/uploads
+    rename: safe
+    extensions: [png, jpg, jpeg, webp, gif, avif, svg]
+
+settings:
+  content:
+    # Existing migrated posts contain a legacy slug and other frontmatter keys.
+    # Keep all keys not explicitly edited in the CMS.
+    merge: true
+  commit:
+    identity: app
+    templates:
+      create: "content: publish {path}"
+      update: "content: update {path}"
+      delete: "content: delete {path}"
+      rename: "content: rename {oldPath} to {newPath}"
+
+content:
+  - name: writing
+    label: 文章
+    type: collection
+    path: astro/src/content/posts/writing
+    format: yaml-frontmatter
+    filename:
+      template: "{primary}.md"
+      field: create
+    operations:
+      create: true
+      rename: false
+      delete: false
+    view:
+      primary: title
+      fields: [title, published, draft, category]
+      sort: [published, title]
+      default:
+        sort: published
+        order: desc
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: published
+        label: 发布日期
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: updated
+        label: 更新日期（选填）
+        type: date
+        required: false
+        default: ""
+        options:
+          format: yyyy-MM-dd
+      - name: description
+        label: 摘要
+        type: text
+        required: false
+      - name: category
+        label: 分类
+        type: string
+        default: 文章
+        required: false
+      - name: tags
+        label: 标签
+        type: string
+        list: true
+        default: []
+      - name: image
+        label: 封面图片
+        type: image
+        required: false
+        options:
+          media: images
+      - name: lang
+        label: 语言
+        type: string
+        default: zh_CN
+        hidden: true
+      - name: draft
+        label: 草稿（关闭后发布）
+        type: boolean
+        default: true
+        description: "新建内容默认不会出现在网站；写好后关闭草稿并保存。"
+      - name: body
+        label: Markdown 正文
+        type: code
+        required: true
+        options:
+          format: markdown
+
+  - name: notes
+    label: 笔记花园
+    type: collection
+    path: astro/src/content/posts/notes
+    format: yaml-frontmatter
+    filename:
+      template: "{primary}.md"
+      field: create
+    operations:
+      create: true
+      rename: false
+      delete: false
+    view:
+      primary: title
+      fields: [title, published, draft]
+      sort: [published, title]
+      default:
+        sort: published
+        order: desc
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: published
+        label: 记录日期
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: updated
+        label: 更新日期（选填）
+        type: date
+        required: false
+        default: ""
+        options:
+          format: yyyy-MM-dd
+      - name: description
+        label: 摘要
+        type: text
+        required: false
+      - name: category
+        label: 分类
+        type: string
+        default: 笔记花园
+        hidden: true
+      - name: tags
+        label: 标签
+        type: string
+        list: true
+        default: []
+      - name: image
+        label: 配图
+        type: image
+        required: false
+        options:
+          media: images
+      - name: lang
+        label: 语言
+        type: string
+        default: zh_CN
+        hidden: true
+      - name: draft
+        label: 草稿（关闭后发布）
+        type: boolean
+        default: true
+      - name: body
+        label: Markdown / LaTeX 正文
+        type: code
+        required: true
+        options:
+          format: markdown
+
+  - name: projects
+    label: 项目
+    type: collection
+    path: astro/src/content/projects
+    format: yaml-frontmatter
+    filename:
+      template: "{primary}.md"
+      field: create
+    operations:
+      create: true
+      rename: false
+      delete: false
+    view:
+      primary: title
+      fields: [title, year, venue, draft]
+      sort: [year, title]
+      default:
+        sort: year
+        order: desc
+    fields:
+      - name: title
+        label: 项目名称
+        type: string
+        required: true
+      - name: description
+        label: 一句话介绍
+        type: text
+        required: false
+      - name: year
+        label: 年份
+        type: number
+        required: false
+        options:
+          min: 2000
+          max: 2100
+      - name: venue
+        label: 会议 / 期刊
+        type: string
+        required: false
+      - name: image
+        label: 项目主图
+        type: image
+        required: false
+        options:
+          media: images
+      - name: github
+        label: GitHub 仓库网址
+        type: string
+        required: false
+      - name: paper
+        label: 论文网址
+        type: string
+        required: false
+      - name: draft
+        label: 草稿（关闭后发布）
+        type: boolean
+        default: true
+      - name: body
+        label: 项目介绍
+        type: rich-text
+        required: false
+        options:
+          format: markdown
+          switcher: true
+          media: images

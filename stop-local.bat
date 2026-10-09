@@ -1,19 +1,11 @@
 @echo off
 setlocal
-
-set "PORT=4000"
-set "FOUND=0"
-
-for /f "tokens=5" %%p in ('netstat -ano ^| findstr /R /C:":%PORT% .*LISTENING"') do (
-  set "FOUND=1"
-  echo Stopping process %%p on port %PORT%...
-  taskkill /PID %%p /F >nul 2>nul
+cd /d "%~dp0"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\local-preview.ps1" -Action stop
+if errorlevel 1 (
+  echo.
+  echo Failed to stop the local preview. See the error above.
+  pause
+  exit /b 1
 )
-
-if "%FOUND%"=="0" (
-  echo No listening process found on port %PORT%.
-) else (
-  echo Done.
-)
-
 endlocal

@@ -11,3 +11,9 @@
 /.vscode/
 /.idea/
 .liquidrc
+
+# Local MCP runtime state: includes session metadata, logs, temporary files
+.local-shell-mcp/
+
+# Legacy generated static output
+_site/
