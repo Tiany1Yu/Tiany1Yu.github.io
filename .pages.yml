@@ -71,15 +71,20 @@ content:
         required: false
       - name: tags
         label: 标签（可多选）
-        type: reference
+        type: select
         required: false
-        description: 选择或搜索已有标签；新标签请先在「标签库」中新建并保存，再返回本文选择。
+        description: 可搜索并多选标签库已有标签；新建标签后，自动同步会更新列表。
         options:
-          collection: tag_library
           multiple: true
-          search: name
-          value: "{primary}"
-          label: "{primary}"
+          # BEGIN SYNCED TAG OPTIONS
+          values:
+            - "大作业"
+            - "机器学习"
+            - "讲稿"
+            - "强化学习"
+            - "特征工程"
+            - "自我思索"
+          # END SYNCED TAG OPTIONS
       - name: image
         label: 封面图片
         type: image
@@ -151,15 +156,20 @@ content:
         hidden: true
       - name: tags
         label: 标签（可多选）
-        type: reference
+        type: select
         required: false
-        description: 选择或搜索已有标签；新标签请先在「标签库」中新建并保存，再返回本文选择。
+        description: 可搜索并多选标签库已有标签；新建标签后，自动同步会更新列表。
         options:
-          collection: tag_library
           multiple: true
-          search: name
-          value: "{primary}"
-          label: "{primary}"
+          # BEGIN SYNCED TAG OPTIONS
+          values:
+            - "大作业"
+            - "机器学习"
+            - "讲稿"
+            - "强化学习"
+            - "特征工程"
+            - "自我思索"
+          # END SYNCED TAG OPTIONS
       - name: image
         label: 配图
         type: image

@@ -1,0 +1,42 @@
+name: Sync Pages CMS tag choices
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "cms/tags/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-pages-cms-tags
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Generate searchable tag options
+        run: node astro/scripts/sync-pages-tags.mjs
+      - name: Commit generated options if changed
+        shell: bash
+        run: |
+          if git diff --quiet -- .pages.yml; then
+            echo "Tags already up to date"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .pages.yml
+          git commit -m "chore: sync Pages CMS tag choices"
+          git pull --rebase origin master
+          git push origin HEAD:master

@@ -18,7 +18,7 @@
 - **新建文章**：选择「文章」→ **New** → 标题、日期、分类 → 在「标签（可多选）」里搜索、选择已有标签（可以选多个）→ 编辑 Markdown 正文 → 保存草稿或关闭草稿公开。
 - **新建笔记**：选择「笔记花园」→ **New** → 填标题、日期 → 从「标签（可多选）」选择标签 → Markdown 源码模式写数学公式、Obsidian 链接等 → 保存。
 - **新建项目**：选择「项目」→ **New** → 填日期（YYYY-MM-DD）、标题、会议期刊、主图、GitHub / 论文链接 → 保存。
-- **管理标签**：在侧栏打开「标签库」，可以看到全部已登记的标签。新增标签时点击 **New**，填写「标签名称」并保存，然后返回文章或笔记，刷新后从「标签（可多选）」搜索、选择新标签。无需在原来的文本列表中点「Add an item」。已有六种标签已经导入；文章保存时 `tags` 仍是 YAML 字符串数组，并没有变成标签文件路径。为避免断开旧引用，建好的标签不要随意改名。
+- **管理标签**：在侧栏的「标签库」中新建标签并保存。仓库的 **Sync Pages CMS tag choices** GitHub Actions 工作流会自动把标签库生成文章、笔记共用的可搜索多选选项。等待该工作流变绿后，在 Pages CMS 重新打开或刷新文章／笔记，便能搜索到新标签；已有六种标签已预置。文章保存后的 `tags` 仍是 YAML 字符串数组，不会变成标签文件路径。已使用的标签不要随意改名。
 - **插入图片**：从「图片素材」上传，媒体库现在直接对应 `assets/img/`，可浏览原有文章封面、笔记图片和新项目图。新上传的图片默认保存在 `assets/img/` 并对应 `/assets/img/图片名.png`；项目主图统一放在 `assets/img/projects/`，对应 `/assets/img/projects/图片名.png`，文章与笔记的配图则分别使用 `posts/` 和 `notes/`。主图使用图片选择控件（可选历史封面或新上传素材），Markdown 源码中可复制素材的公开 URL。
 - **更新现有内容**：打开条目修改并保存；有需要可修改「更新日期」。不会要求你手动执行 `git add / commit / push`。
 - **查看发布状态**：前往 <https://github.com/Tiany1Yu/Tiany1Yu.github.io/actions>，等最新 `Deploy Astro blog to GitHub Pages` 完成，再访问 <https://tiany1yu.github.io/>。
@@ -29,7 +29,7 @@
 
 - 每个新条目的 `draft` 默认是 `true`，需要手动关闭才会公开。
 - Pages CMS 启用了 `settings.content.merge: true`，旧 Markdown 没展示的 `slug` 等字段会保留，不会因为 CMS 字段表较短就丢失。
-- 标签库放在仓库的 `cms/tags/*.yml`，**不会改变博客 Markdown 里的 `tags: [标签1, 标签2]` 存储方式**。新增标签先到标签库创建，再返回文章/笔记选择；原有标签可搜索与复用。
+- 标签库放在仓库的 `cms/tags/*.yml`，**不会改变 Markdown `tags: [标签1, 标签2]` 的存储方式**。因为 Pages CMS 的动态 reference 下拉曾出现空选项，现在改为官方 `select + multiple`：`astro/scripts/sync-pages-tags.mjs` 从标签库生成固定选项；新增标签后 GitHub Actions 自动更新 `.pages.yml`，等待工作流完成并刷新编辑器即可搜索和复用。
 - 为保护既有链接，编辑器禁止直接重命名或删除文章、笔记和项目文件。若确实需要删除，请通过 GitHub 仓库操作。
 - 文章和笔记正文使用 Markdown **源码编辑器**，避免可视化富文本重排复杂 LaTeX、内链、HTML 与自定义指令；项目介绍提供可切换的富文本/源码编辑器。
 - 在 GitHub App 授权时仅选择本仓库；不需要配置新服务器、数据库、永久访问令牌或自建 OAuth Proxy。
