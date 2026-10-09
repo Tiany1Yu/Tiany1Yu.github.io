@@ -37,7 +37,7 @@ content:
       delete: false
     view:
       primary: title
-      fields: [title, published, draft, category]
+      fields: [title, published, tags, draft, category]
       sort: [published, title]
       default:
         sort: published
@@ -70,10 +70,16 @@ content:
         default: 文章
         required: false
       - name: tags
-        label: 标签
-        type: string
-        list: true
-        default: []
+        label: 标签（可多选）
+        type: reference
+        required: false
+        description: 选择或搜索已有标签；新标签请先在「标签库」中新建并保存，再返回本文选择。
+        options:
+          collection: tag_library
+          multiple: true
+          search: name
+          value: "{primary}"
+          label: "{primary}"
       - name: image
         label: 封面图片
         type: image
@@ -111,7 +117,7 @@ content:
       delete: false
     view:
       primary: title
-      fields: [title, published, draft]
+      fields: [title, published, tags, draft]
       sort: [published, title]
       default:
         sort: published
@@ -144,10 +150,16 @@ content:
         default: 笔记花园
         hidden: true
       - name: tags
-        label: 标签
-        type: string
-        list: true
-        default: []
+        label: 标签（可多选）
+        type: reference
+        required: false
+        description: 选择或搜索已有标签；新标签请先在「标签库」中新建并保存，再返回本文选择。
+        options:
+          collection: tag_library
+          multiple: true
+          search: name
+          value: "{primary}"
+          label: "{primary}"
       - name: image
         label: 配图
         type: image
@@ -234,3 +246,37 @@ content:
           format: markdown
           switcher: true
           media: images
+
+  # Editable global tag vocabulary. Pages CMS reference fields in writing/notes
+  # read these entries dynamically and still save tags: ["tag", "tag2"].
+  # Kept outside astro/src/content to avoid creating a new Astro content collection.
+  - name: tag_library
+    label: 标签库
+    type: collection
+    path: cms/tags
+    format: yaml
+    filename:
+      template: "{primary}.yml"
+      field: create
+    operations:
+      create: true
+      rename: false
+      delete: false
+    view:
+      primary: name
+      fields: [name, description]
+      search: [name]
+      sort: [name]
+      default:
+        sort: name
+        order: asc
+    fields:
+      - name: name
+        label: 标签名称
+        type: string
+        required: true
+        description: 标签名称将存入文章的 tags 数组；创建后不要直接改名，旧文章不会自动重命名。
+      - name: description
+        label: 标签说明（选填）
+        type: text
+        required: false
